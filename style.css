@@ -127,11 +127,12 @@ h1, h2, h3 {
   font-weight: 500;
   letter-spacing: .04em;
   text-transform: uppercase;
-  line-height: .95;
-  margin: .35rem 0 .6rem;
+  line-height: 1.1;
+  margin: .6rem 0 .8rem;
 }
 h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); max-width: 18ch; }
 h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
 .lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 42rem; }
 .hero { margin-bottom: 1.2rem; }
 .hero-cover { margin: 1.2rem 0; }
@@ -159,7 +160,7 @@ h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
   font-size: 2.2rem;
   font-weight: 500;
   letter-spacing: .04em;
-  line-height: 1;
+  line-height: 1.05;
 }
 .facts span { color: var(--muted); font-size: .92rem; }
 
@@ -360,12 +361,13 @@ body.lb-open { overflow: hidden; }
 }
 .portrait strong {
   display: block;
-  margin-top: .2rem;
+  margin-top: .25rem;
   font-family: var(--display);
   font-weight: 500;
   letter-spacing: .03em;
   text-transform: uppercase;
   font-size: 1.05rem;
+  line-height: 1.15;
 }
 .crew {
   list-style: none;
@@ -394,4 +396,29 @@ body.lb-open { overflow: hidden; }
 .retired img { filter: grayscale(.45); }
 @media (max-width: 720px) {
   .vehicle { grid-template-columns: 1fr; }
+}
+
+.roles {
+  margin: .4rem 0 1rem;
+  padding: 0;
+}
+.roles div {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: .4rem;
+  padding: .35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.roles div:last-child { border-bottom: 0; }
+.roles dt {
+  margin: 0;
+  font-family: var(--display);
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.roles dd {
+  margin: 0;
+  font-weight: 500;
 }
