@@ -475,3 +475,6 @@ body.lb-open { overflow: hidden; }
   margin: 0;
   font-weight: 500;
 }
+
+.pdf-frame { margin: 1.2rem 0 1.6rem; border: 1px solid var(--line); background: var(--sheet); }
+.pdf-frame iframe { width: 100%; height: min(80vh, 52rem); border: 0; display: block; }
