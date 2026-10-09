@@ -313,3 +313,15 @@ body.lb-open { overflow: hidden; }
 }
 .lb-prev { left: .3rem; }
 .lb-next { right: .3rem; }
+
+.back { margin: 1.4rem 0 0; }
+.back button {
+  border: 1px solid var(--line);
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: var(--display);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .55rem .9rem;
+  cursor: pointer;
+}
