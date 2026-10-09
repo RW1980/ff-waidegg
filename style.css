@@ -503,6 +503,101 @@ body.lb-open { overflow: hidden; }
 }
 .years a:hover { border-color: var(--ember); color: var(--ember); }
 
+/* Einsatzstatistik */
+.stat-jahr { margin: 0 0 2.4rem; scroll-margin-top: 9rem; }
+.stat-facts { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); margin: 1rem 0 1.6rem; }
+.stat-block {
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  padding: 1rem;
+  margin: 0 0 1rem;
+}
+.stat-block h3 { margin-top: 0; }
+.stat-monate {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: .35rem;
+  align-items: end;
+  height: 12rem;
+  border-bottom: 2px solid var(--ink);
+}
+.stat-monate li {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+.stat-monate .stat-balken {
+  display: block;
+  width: 100%;
+  max-width: 2.6rem;
+  height: calc(var(--wert) * .8);
+  background: var(--ember);
+}
+.stat-monate .stat-wert {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+.stat-monate .stat-monat {
+  position: absolute;
+  top: 100%;
+  padding-top: .3rem;
+  font-family: var(--display);
+  font-size: .78rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.stat-monate abbr { text-decoration: none; }
+.stat-tabelle { margin-top: 2.4rem; }
+.stat-tabelle summary {
+  cursor: pointer;
+  font-family: var(--display);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: .85rem;
+  color: var(--ember-deep);
+}
+.stat-tabelle table { border-collapse: collapse; margin-top: .6rem; min-width: 14rem; font-variant-numeric: tabular-nums; }
+.stat-tabelle caption { text-align: left; color: var(--muted); font-size: .92rem; }
+.stat-tabelle th, .stat-tabelle td { text-align: left; padding: .25rem .8rem .25rem 0; border-bottom: 1px solid var(--line); }
+.stat-tabelle td { text-align: right; }
+.stat-arten { list-style: none; margin: 0; padding: 0; }
+.stat-arten li {
+  display: grid;
+  grid-template-columns: minmax(9rem, 16rem) 1fr;
+  gap: .3rem .8rem;
+  align-items: center;
+  padding: .35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.stat-arten li:last-child { border-bottom: 0; }
+.stat-spur { display: flex; align-items: center; gap: .5rem; }
+.stat-arten .stat-balken {
+  display: block;
+  width: calc(var(--wert) * .85);
+  height: 1.1rem;
+  background: var(--ember);
+}
+.stat-arten .stat-wert { font-family: var(--display); font-size: 1.05rem; }
+.stat-hinweis { color: var(--muted); margin: .6rem 0 0; }
+.stat-gemeinde { border-left: 4px solid var(--brass); }
+.stat-gemeinde .stat-hinweis { margin: 0 0 .4rem; }
+.stat-gemeinde .stat-facts { margin: 0; }
+.stat-quelle { color: var(--muted); font-size: .92rem; }
+.stat-teaser { display: block; max-width: 28rem; margin: 0 0 1.4rem; border-left: 4px solid var(--ember); }
+.stat-teaser h2 { font-size: 1.25rem; margin: .45rem 0; }
+@media (max-width: 640px) {
+  .stat-monate { gap: .15rem; height: 10rem; }
+  .stat-monate .stat-monat { font-size: .66rem; letter-spacing: 0; }
+  .stat-arten li { grid-template-columns: 1fr; }
+}
 .block { margin: 2.2rem 0; }
 .block > p { max-width: 42rem; }
 .nummern {
