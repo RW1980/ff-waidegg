@@ -5,30 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Impressum – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <link rel="icon" href="/favicon.svg">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="/">Freiwillige Feuerwehr Waidegg</a>
+  <div class="ember-bar"></div>
+  <header class="site-head">
+    <div class="brand-row">
+      <a class="brand" href="/">
+        <img src="/flamme.png" alt="">
+        <span>
+          <small>Freiwillige Feuerwehr</small>
+          <strong>Waidegg</strong>
+        </span>
+      </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
     </div>
+    <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/" aria-current="page">Impressum</a></nav>
   </header>
-  <nav>
-    <div class="nav-inner"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/" aria-current="page">Impressum</a></div>
-  </nav>
   <main id="inhalt">
     <p class="kicker">Recht</p><h1>Impressum</h1><div class="body"><p>Informationspflicht nach § 5 E-Commerce-Gesetz und Offenlegung nach § 25 Mediengesetz.</p><p>Medieninhaber und Herausgeber: Freiwillige Feuerwehr Waidegg<br>Anschrift: Waidegg 6, 9631 Jenig, Österreich<br>E-Mail: <a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a><br>Notruf: <a href="tel:122">122</a></p><p>Die Freiwillige Feuerwehr Waidegg ist die Ortswehr der Marktgemeinde Kirchbach, Bezirk Hermagor, Kärnten. Grundlegende Richtung: Berichte über die Wehr, Übungen, Bewerbe, Einsätze ohne Personendaten und das Dorfleben. Kein kommerzielles Angebot.</p><h2>Haftung für Inhalte</h2><p>Die Inhalte wurden mit Sorgfalt erstellt. Für Richtigkeit, Vollständigkeit und Aktualität übernehmen wir keine Gewähr. Als Diensteanbieter sind wir für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.</p><h2>Haftung für Links</h2><p>Diese Website verweist auf externe Seiten. Für deren Inhalte ist der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden Links entfernt.</p><h2>Urheberrecht</h2><p>Texte stammen aus den öffentlichen Berichten der Wehr. Die Vervielfältigung braucht die Zustimmung der Wehr, soweit nicht Zitatrecht gilt.</p><h2>Datenschutz</h2><p>Diese Seite setzt keine Analyse-Cookies. Der Hoster verarbeitet Verbindungsdaten nur, soweit das zum Ausliefern der Seite nötig ist. Kontakt per E-Mail bleibt bei euch, bis die Anfrage erledigt ist.</p></div>
   </main>
-  <footer>
-    <div class="inner">
-      <strong>Freiwillige Feuerwehr Waidegg</strong>
-      <span>Waidegg 6 · 9631 Jenig · Österreich</span>
-      <span><a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a> · <a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></span>
-      <span><a href="https://www.facebook.com/FF.Waidegg">Facebook</a> · <a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a> · <a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></span>
-      <span>Seit 1895 für das Dorf. Ortswehr der Marktgemeinde Kirchbach.</span>
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div>
+        <h2>Freiwillige Feuerwehr Waidegg</h2>
+        <p>Waidegg 6<br>9631 Jenig<br><a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></p>
+      </div>
+      <div>
+        <h2>Seiten</h2>
+        <ul>
+          <li><a href="/aktuelles/">Aktuelles</a></li>
+          <li><a href="/archiv/">Archiv</a></li>
+          <li><a href="/wehr/">Unsere Wehr</a></li>
+          <li><a href="/bewerbe/">Bewerbe</a></li>
+          <li><a href="/notfall/">Im Notfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Erreichbar</h2>
+        <ul>
+          <li><a href="tel:122">Notruf 122</a></li>
+          <li><a href="https://www.facebook.com/FF.Waidegg">Facebook</a></li>
+          <li><a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+        </ul>
+      </div>
     </div>
+    <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
+  <script>
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-row");
+    if (toggle && nav) toggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  </script>
 </body>
 </html>

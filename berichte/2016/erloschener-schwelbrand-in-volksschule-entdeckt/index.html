@@ -5,30 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Erloschener Schwelbrand in Volksschule entdeckt – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <link rel="icon" href="/favicon.svg">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="/">Freiwillige Feuerwehr Waidegg</a>
+  <div class="ember-bar"></div>
+  <header class="site-head">
+    <div class="brand-row">
+      <a class="brand" href="/">
+        <img src="/flamme.png" alt="">
+        <span>
+          <small>Freiwillige Feuerwehr</small>
+          <strong>Waidegg</strong>
+        </span>
+      </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
     </div>
+    <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
-  <nav>
-    <div class="nav-inner"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></div>
-  </nav>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2016-11-24">24. November 2016</time><h1>Erloschener Schwelbrand in Volksschule entdeckt</h1><div class="body"><p>Brandeinsatz</p><p>Am 24.11.2016 um 07:30 Uhr stieß eine Lehrerin beim Aufsperren eines Klassenraumes in der</p><p>Volksschule Tröpolach in der Stadtgemeinde Hermagor – Pressegger See auf einen völlig verrauchten Raum. Die über Notruf 122 verständigte LAWZ Kärnten löste sofort Alarmstufe 2 für die Feuerwehr</p><p>aus.</p><p>Während fünf Feuerwehren mit zehn Fahrzeugen und 70 Einsatzkräften zum Einsatzort ausrückten, verließen die 26 Kinder und vier Lehrerinnen das Schulgebäude. Ein Atemschutztrupp der Feuerwehr</p><p>drang in weiterer Folge in den verrauchten Klassenraum vor und konnte dabei feststellen, dass der Brand im Bereich eines Elektroheizkörpers bereits erloschen war. Die Feuerwehrmänner öffneten</p><p>die Fenster und belüfteten den Raum mit Hilfe eines Druckbelüfters. Bei dem Vorfall wurde niemand verletzt. Die Volksschulkinder wurden während des Einsatzes ins benachbarte Falkensteiner</p><p>Hotel Carinzia gebracht. Die Höhe des Sachschadens in dem betroffenen Klassenraum ist derzeit nicht bekannt. Er ist aufgrund der Verrußung zur Zeit nicht verwendbar. Zur Feststellung der</p><p>Brandursache war ein Brandermittler der Polizei vor Ort. Im Einsatz standen die Feuerwehren Tröpolach, Rattendorf, Watschig, Hermagor und Wa</p></div><p><a href="/archiv/#2016">Zurück ins Archiv 2016</a></p></article>
   </main>
-  <footer>
-    <div class="inner">
-      <strong>Freiwillige Feuerwehr Waidegg</strong>
-      <span>Waidegg 6 · 9631 Jenig · Österreich</span>
-      <span><a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a> · <a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></span>
-      <span><a href="https://www.facebook.com/FF.Waidegg">Facebook</a> · <a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a> · <a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></span>
-      <span>Seit 1895 für das Dorf. Ortswehr der Marktgemeinde Kirchbach.</span>
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div>
+        <h2>Freiwillige Feuerwehr Waidegg</h2>
+        <p>Waidegg 6<br>9631 Jenig<br><a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></p>
+      </div>
+      <div>
+        <h2>Seiten</h2>
+        <ul>
+          <li><a href="/aktuelles/">Aktuelles</a></li>
+          <li><a href="/archiv/">Archiv</a></li>
+          <li><a href="/wehr/">Unsere Wehr</a></li>
+          <li><a href="/bewerbe/">Bewerbe</a></li>
+          <li><a href="/notfall/">Im Notfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Erreichbar</h2>
+        <ul>
+          <li><a href="tel:122">Notruf 122</a></li>
+          <li><a href="https://www.facebook.com/FF.Waidegg">Facebook</a></li>
+          <li><a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+        </ul>
+      </div>
     </div>
+    <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
+  <script>
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-row");
+    if (toggle && nav) toggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  </script>
 </body>
 </html>

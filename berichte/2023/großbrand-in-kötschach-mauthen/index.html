@@ -5,30 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Großbrand in Kötschach-Mauthen – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <link rel="icon" href="/favicon.svg">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="/">Freiwillige Feuerwehr Waidegg</a>
+  <div class="ember-bar"></div>
+  <header class="site-head">
+    <div class="brand-row">
+      <a class="brand" href="/">
+        <img src="/flamme.png" alt="">
+        <span>
+          <small>Freiwillige Feuerwehr</small>
+          <strong>Waidegg</strong>
+        </span>
+      </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
     </div>
+    <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
-  <nav>
-    <div class="nav-inner"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></div>
-  </nav>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2023-07-26">26. Juli 2023</time><h1>Großbrand in Kötschach-Mauthen</h1><div class="body"><p>BFKdo Hermagor</p><p>navigation</p><p>Großbrand in Kötschach</p><p>/</p><p>Einsätze</p><p>/</p><p>Großbrand in Kötschach</p><p>Großbrand in Kötschach</p><p>Am 25.07.2023, gegen 14 Uhr, brach im Betriebsgebäude eines Landmaschinen-Händlers in Kötschach in der Marktgemeinde Kötschach-Mauthen ein Brand aus, welcher sich schnell ausbreitete.</p><p>Für die umfangreichen Löscharbeiten wurden insgesamt 21 Feuerwehren mit rund 230 Einsatzkräften aus den Bezirken Hermagor, Spittal/Drau, Villach-Stadt und Lienz alarmiert, darunter sieben</p><p>Tanklöschfahrzeuge, zwei Drehleitern, zwei Atemschutzfahrzeuge und ein Hubsteiger. Alle Personen konnten das Gebäude rechtzeitig und unverletzt verlassen. Eine Ausbreitung auf Nachbargebäude</p><p>konnte durch den raschen Feuerwehreinsatz verhindert werden.</p><p>Die Löscharbeiten gestalteten sich aufgrund der Bauweise des Gebäudes jedoch schwierig. Um an die Glutnester zwischen den Wänden und unter dem Dach zu gelangen, mussten Gebäudeteile mit Kränen</p><p>abgetragen werden. Insgesamt standen 16 Atemschutztrupps im Einsatz. Die Plöckenpassstraße (B110) wurde aufgrund des Einsatzes zwischen dem Kötschacher Hauptplatz und dem Ortsteil Kötschach-Aue</p><p>komplett gesperrt. Der Verkehr musste großräumig über den Kr</p></div><p><a href="/archiv/#2023">Zurück ins Archiv 2023</a></p></article>
   </main>
-  <footer>
-    <div class="inner">
-      <strong>Freiwillige Feuerwehr Waidegg</strong>
-      <span>Waidegg 6 · 9631 Jenig · Österreich</span>
-      <span><a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a> · <a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></span>
-      <span><a href="https://www.facebook.com/FF.Waidegg">Facebook</a> · <a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a> · <a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></span>
-      <span>Seit 1895 für das Dorf. Ortswehr der Marktgemeinde Kirchbach.</span>
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div>
+        <h2>Freiwillige Feuerwehr Waidegg</h2>
+        <p>Waidegg 6<br>9631 Jenig<br><a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></p>
+      </div>
+      <div>
+        <h2>Seiten</h2>
+        <ul>
+          <li><a href="/aktuelles/">Aktuelles</a></li>
+          <li><a href="/archiv/">Archiv</a></li>
+          <li><a href="/wehr/">Unsere Wehr</a></li>
+          <li><a href="/bewerbe/">Bewerbe</a></li>
+          <li><a href="/notfall/">Im Notfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Erreichbar</h2>
+        <ul>
+          <li><a href="tel:122">Notruf 122</a></li>
+          <li><a href="https://www.facebook.com/FF.Waidegg">Facebook</a></li>
+          <li><a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+        </ul>
+      </div>
     </div>
+    <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
+  <script>
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-row");
+    if (toggle && nav) toggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  </script>
 </body>
 </html>

@@ -5,31 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wettkampfrückblick 2016 – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <link rel="icon" href="/favicon.svg">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="/">Freiwillige Feuerwehr Waidegg</a>
+  <div class="ember-bar"></div>
+  <header class="site-head">
+    <div class="brand-row">
+      <a class="brand" href="/">
+        <img src="/flamme.png" alt="">
+        <span>
+          <small>Freiwillige Feuerwehr</small>
+          <strong>Waidegg</strong>
+        </span>
+      </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
     </div>
+    <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
-  <nav>
-    <div class="nav-inner"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></div>
-  </nav>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2016-11-01">1. November 2016</time><h1>Wettkampfrückblick 2016</h1><div class="gallery" aria-label="Fotos"><a href="/fotos/wettkampfr%C3%BCckblick-2016/2016-11-01_Wettkampfrueckblick-2016_01.avif"><img src="/fotos/wettkampfr%C3%BCckblick-2016/2016-11-01_Wettkampfrueckblick-2016_01.avif" alt="Wettkampfrückblick 2016, Bild 1" loading="lazy"></a></div>
 <div class="body"><p>In diesem Film präsentiert euch die FF-Waidegg den Wettkampf-Jahresrückblick 2016</p><p>Viel Spaß und Danke an alle Kameraden der FF-Waidegg</p><p>Termine 2017</p><p>Inhalte von Dailymotion werden aufgrund deiner Cookie-Einstellungen nicht angezeigt. Akzeptiere</p><p>die funktionellen Cookies im Cookie-Banner</p><p>, um den Cookie-Richtlinien von Dailymotion zuzustimmen und den Inhalt anzusehen.</p><p>Inhalte von YouTube werden aufgrund deiner Cookie-Einstellungen nicht angezeigt. Akzeptiere die</p><p>funktionellen Cookies im Cookie-Banner</p><p>, um den Cookie-Richtlinien von YouTube zuzustimmen und den Inhalt anzusehen.</p></div><p><a href="/archiv/#2016">Zurück ins Archiv 2016</a></p></article>
   </main>
-  <footer>
-    <div class="inner">
-      <strong>Freiwillige Feuerwehr Waidegg</strong>
-      <span>Waidegg 6 · 9631 Jenig · Österreich</span>
-      <span><a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a> · <a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></span>
-      <span><a href="https://www.facebook.com/FF.Waidegg">Facebook</a> · <a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a> · <a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></span>
-      <span>Seit 1895 für das Dorf. Ortswehr der Marktgemeinde Kirchbach.</span>
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div>
+        <h2>Freiwillige Feuerwehr Waidegg</h2>
+        <p>Waidegg 6<br>9631 Jenig<br><a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></p>
+      </div>
+      <div>
+        <h2>Seiten</h2>
+        <ul>
+          <li><a href="/aktuelles/">Aktuelles</a></li>
+          <li><a href="/archiv/">Archiv</a></li>
+          <li><a href="/wehr/">Unsere Wehr</a></li>
+          <li><a href="/bewerbe/">Bewerbe</a></li>
+          <li><a href="/notfall/">Im Notfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Erreichbar</h2>
+        <ul>
+          <li><a href="tel:122">Notruf 122</a></li>
+          <li><a href="https://www.facebook.com/FF.Waidegg">Facebook</a></li>
+          <li><a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+        </ul>
+      </div>
     </div>
+    <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
+  <script>
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-row");
+    if (toggle && nav) toggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  </script>
 </body>
 </html>

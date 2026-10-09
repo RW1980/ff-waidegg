@@ -5,31 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ALB Görtschach – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <link rel="icon" href="/favicon.svg">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="/">Freiwillige Feuerwehr Waidegg</a>
+  <div class="ember-bar"></div>
+  <header class="site-head">
+    <div class="brand-row">
+      <a class="brand" href="/">
+        <img src="/flamme.png" alt="">
+        <span>
+          <small>Freiwillige Feuerwehr</small>
+          <strong>Waidegg</strong>
+        </span>
+      </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
     </div>
+    <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
-  <nav>
-    <div class="nav-inner"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></div>
-  </nav>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2013-07-20">20. Juli 2013</time><h1>ALB Görtschach</h1><div class="gallery" aria-label="Fotos"><a href="/fotos/alb-g%C3%B6rtschach/2013-07-20_ALB-Goertschach_01.avif"><img src="/fotos/alb-g%C3%B6rtschach/2013-07-20_ALB-Goertschach_01.avif" alt="ALB Görtschach, Bild 1" loading="lazy"></a></div>
 <div class="body"><p>3 und 4 Platz der FF-Waidegg</p><p>Die FF-Waidegg konnte am Samstag den 20.Juli in Görtschach wieder beachtliche Leistungen zeigen.</p><p>Die Gruppe3 erziehlte mit einer Treffzeit von 54,13 den 3.Platz und die Gruppe2 mit einer Treffzeit von 55,05 den 4.Platz.</p><p>Geschlagen wurde die FF-Waidegg nur von der FF-Köstendorf (1.Platz) und der FF-Birnbaum (2.Platz)</p><p>Zwischenstand im Cup:</p><p>1. FF-Birnbaum</p><p>2. FF-Waidegg (Gruppe3)</p><p>3. FF-Waidegg (Gruppe2)</p><p>4. FF-Kühweg</p><p>5. FF-Mitschig</p><p>Der nächste ALB wird von der FF-Leifling am 10.August ausgetragen</p><p>Die Videos der beiden Gruppen findet ihr</p><p>Ergebnisliste-Görtschach und Cupwertung findet ihr</p></div><p><a href="/archiv/#2013">Zurück ins Archiv 2013</a></p></article>
   </main>
-  <footer>
-    <div class="inner">
-      <strong>Freiwillige Feuerwehr Waidegg</strong>
-      <span>Waidegg 6 · 9631 Jenig · Österreich</span>
-      <span><a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a> · <a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></span>
-      <span><a href="https://www.facebook.com/FF.Waidegg">Facebook</a> · <a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a> · <a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></span>
-      <span>Seit 1895 für das Dorf. Ortswehr der Marktgemeinde Kirchbach.</span>
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div>
+        <h2>Freiwillige Feuerwehr Waidegg</h2>
+        <p>Waidegg 6<br>9631 Jenig<br><a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></p>
+      </div>
+      <div>
+        <h2>Seiten</h2>
+        <ul>
+          <li><a href="/aktuelles/">Aktuelles</a></li>
+          <li><a href="/archiv/">Archiv</a></li>
+          <li><a href="/wehr/">Unsere Wehr</a></li>
+          <li><a href="/bewerbe/">Bewerbe</a></li>
+          <li><a href="/notfall/">Im Notfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Erreichbar</h2>
+        <ul>
+          <li><a href="tel:122">Notruf 122</a></li>
+          <li><a href="https://www.facebook.com/FF.Waidegg">Facebook</a></li>
+          <li><a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+        </ul>
+      </div>
     </div>
+    <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
+  <script>
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-row");
+    if (toggle && nav) toggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  </script>
 </body>
 </html>
