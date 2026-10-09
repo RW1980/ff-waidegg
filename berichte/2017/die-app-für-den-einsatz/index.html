@@ -6,6 +6,7 @@
   <title>Die App für den Einsatz – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
   <link rel="icon" href="/favicon.svg">
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,20 +15,20 @@
   <header class="site-head">
     <div class="brand-row">
       <a class="brand" href="/">
-        <img src="/flamme.png" alt="" loading="lazy">
+        <img src="/flamme.png" alt="" width="250" height="250">
         <span>
           <small>Freiwillige Feuerwehr</small>
           <strong>Waidegg</strong>
         </span>
       </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue"><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menü</span></button>
     </div>
     <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><div class="nav-group"><a href="/wehr/">Unsere Wehr</a><ul class="nav-sub"><li><a href="/mannschaft/">Mannschaft</a></li><li><a href="/fahrzeug/">Fahrzeug und Geräte</a></li></ul></div><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2017-03-19">19. März 2017</time><h1>Die App für den Einsatz</h1>
-<figure class="hero-cover"><a href="/fotos/die-app-f%C3%BCr-den-einsatz/2017-03-19_Die-App-fuer-den-Einsatz_01.avif"><img src="/fotos/die-app-f%C3%BCr-den-einsatz/2017-03-19_Die-App-fuer-den-Einsatz_01.avif" alt="Die App für den Einsatz, Bild 1"></a></figure>
+<figure class="hero-cover"><a href="/fotos/die-app-f%C3%BCr-den-einsatz/2017-03-19_Die-App-fuer-den-Einsatz_01.avif"><img src="/fotos/die-app-f%C3%BCr-den-einsatz/2017-03-19_Die-App-fuer-den-Einsatz_01.avif" srcset="/fotos/die-app-f%C3%BCr-den-einsatz/2017-03-19_Die-App-fuer-den-Einsatz_01-640.avif 640w, /fotos/die-app-f%C3%BCr-den-einsatz/2017-03-19_Die-App-fuer-den-Einsatz_01.avif 1154w" sizes="(min-width: 1200px) 1112px, 100vw" alt="Die App für den Einsatz, Bild 1" width="1154" height="649" fetchpriority="high"></a></figure>
 <div class="body"><p>+++ Einsatzinformationen in Echtzeit: http://feuerwehr.einsatz.or.at/ +++</p><p>Das Einsatzinformationssystem steht nunmehr den Kärntner Feuerwehren als Einsatzunterstützung ergänzend zur Verfügung. Gemeinsam mit dem engagierten Team Feuerwehreinsatz Kärnten aus dem Bezirk</p><p>Spittal (FWEI-Kärnten) wollen wir das Projekt unterstützen und ausbauen.</p><p>Den Download der App findet ihr hier</p></div>
 </article>
   <p class="back"><button type="button" onclick="history.back()">Zurück</button></p>
@@ -64,12 +65,22 @@
     <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
   <script>
-    const toggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".nav-row");
-    if (toggle && nav) toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    (function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.getElementById("hauptmenue");
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+    })();
   </script>
   <script src="/lightbox.js"></script>
 </body>

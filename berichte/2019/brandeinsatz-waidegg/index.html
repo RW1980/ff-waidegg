@@ -6,6 +6,7 @@
   <title>Brandeinsatz Waidegg – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
   <link rel="icon" href="/favicon.svg">
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,22 +15,22 @@
   <header class="site-head">
     <div class="brand-row">
       <a class="brand" href="/">
-        <img src="/flamme.png" alt="" loading="lazy">
+        <img src="/flamme.png" alt="" width="250" height="250">
         <span>
           <small>Freiwillige Feuerwehr</small>
           <strong>Waidegg</strong>
         </span>
       </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue"><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menü</span></button>
     </div>
     <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><div class="nav-group"><a href="/wehr/">Unsere Wehr</a><ul class="nav-sub"><li><a href="/mannschaft/">Mannschaft</a></li><li><a href="/fahrzeug/">Fahrzeug und Geräte</a></li></ul></div><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2019-04-17">17. April 2019</time><h1>Brandeinsatz Waidegg</h1>
-<figure class="hero-cover"><a href="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_01.avif"><img src="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_01.avif" alt="Brandeinsatz Waidegg"></a></figure>
+<figure class="hero-cover"><a href="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_01.avif"><img src="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_01.avif" alt="Brandeinsatz Waidegg" width="800" height="600" fetchpriority="high"></a></figure>
 <div class="body"><p>Am Mittwoch den 17.4.2019 wurde die FF-Waidegg, FF-Rattendorf und die FF-Kirchbach zu einem Brandeinsatz alarmiert.</p><p>Alarmierungsgrund war ein vermuteter Strommastenbrand.</p><p>Bei der Anfahrt zum Einsatzort wurde große Rauchentwiklung festgestellt, daraufhin kam es zur Auslösung der Alarmstufe 2. Nachalarmiert wurden die FF-Treßdorf, FF-Reisach, FF-Stranig,</p><p>FF-Goderschach und die FF-Grafendorf/Gundersheim.</p><p>Zusätzlich wurde der Polizeihubschrauber &quot;Libelle&quot; alarmiert, dieser konnt aber nach einem Erkundungsflug wieder abdrehen. Nach Absprache mit dem Einsatzleiter und GFK-Stv. rücken die übrigen</p><p>Feuerwehren wieder ab.</p><p>Die FF-Waidegg und die FF-Reisach hielten bis 18:30 Brandwache.</p><p>Im Einsatz standen:</p><p>KLF Waidegg</p><p>TLF Rattendorf</p><p>TLF Reisach</p><p>LFAW Kirchbach</p><p>MZF Kirchbach</p><p>KRF Kirchbach</p><p>KLF Treßdorf</p><p>KLF Stranig</p><p>KLF Goderschach</p><p>LF Grafendorf/Gundersheim</p><p>BFK Herbert Zimmermann</p><p>GFK Stv. Ralf Neuwirth</p><p>Polizei (eine Streife)</p><p>Polizei Hubschrauber &quot;Libelle&quot;</p><p>Die FF-Waidegg dankt allen Einsatzkräften !!!</p></div>
-<div class="gallery" aria-label="Fotos"><a href="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_02.avif"><img src="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_02.avif" alt="Brandeinsatz Waidegg, Bild 2" loading="lazy"></a><a href="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_03.avif"><img src="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_03.avif" alt="Brandeinsatz Waidegg, Bild 3" loading="lazy"></a></div></article>
+<div class="gallery" aria-label="Fotos"><a href="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_02.avif"><img src="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_02.avif" alt="Brandeinsatz Waidegg, Bild 2" width="800" height="600" loading="lazy" decoding="async"></a><a href="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_03.avif"><img src="/fotos/brandeinsatz-waidegg/2019-04-17_Brandeinsatz-Waidegg_03.avif" alt="Brandeinsatz Waidegg, Bild 3" width="800" height="600" loading="lazy" decoding="async"></a></div></article>
   <p class="back"><button type="button" onclick="history.back()">Zurück</button></p>
 </main>
   <footer class="site-foot">
@@ -64,12 +65,22 @@
     <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
   <script>
-    const toggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".nav-row");
-    if (toggle && nav) toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    (function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.getElementById("hauptmenue");
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+    })();
   </script>
   <script src="/lightbox.js"></script>
 </body>

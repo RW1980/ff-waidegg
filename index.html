@@ -6,6 +6,7 @@
   <title>Freiwillige Feuerwehr Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
   <link rel="icon" href="/favicon.svg">
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,19 +15,19 @@
   <header class="site-head">
     <div class="brand-row">
       <a class="brand" href="/" aria-current="page">
-        <img src="/flamme.png" alt="">
+        <img src="/flamme.png" alt="" width="250" height="250">
         <span>
           <small>Freiwillige Feuerwehr</small>
           <strong>Waidegg</strong>
         </span>
       </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue"><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menü</span></button>
     </div>
     <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><div class="nav-group"><a href="/wehr/">Unsere Wehr</a><ul class="nav-sub"><li><a href="/mannschaft/">Mannschaft</a></li><li><a href="/fahrzeug/">Fahrzeug und Geräte</a></li></ul></div><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
   <main id="inhalt">
-<figure class="cover hero-cover"><img src="/image.jpg" alt="FF-Waidegg, seit 1895. Retten, löschen, bergen, schützen."></figure>
+<figure class="cover hero-cover"><picture><source type="image/webp" srcset="/image-640.webp 640w, /image.webp 1280w" sizes="(min-width: 1200px) 1112px, 100vw"><img src="/image.jpg" alt="FF-Waidegg, seit 1895. Retten, löschen, bergen, schützen." width="1280" height="720" fetchpriority="high"></picture></figure>
 <section class="hero">
   <p class="kicker">Oberes Gailtal · Kärnten</p>
   <h1>Seit 1895 für die Heimat.</h1>
@@ -118,12 +119,22 @@
     <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
   <script>
-    const toggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".nav-row");
-    if (toggle && nav) toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    (function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.getElementById("hauptmenue");
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+    })();
   </script>
   <script src="/lightbox.js"></script>
 </body>
