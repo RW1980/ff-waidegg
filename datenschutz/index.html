@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freiwillige Feuerwehr Waidegg</title>
+  <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <a class="skip" href="#inhalt">Zum Inhalt</a>
+  <div class="ember-bar"></div>
+  <header class="site-head">
+    <div class="brand-row">
+      <a class="brand" href="/">
+        <img src="/flamme.png" alt="">
+        <span>
+          <small>Freiwillige Feuerwehr</small>
+          <strong>Waidegg</strong>
+        </span>
+      </a>
+      <a class="notruf" href="tel:122">Notruf 122</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+    </div>
+    <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/mannschaft/">Mannschaft</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/datenschutz/" aria-current="page">Impressum</a></nav>
+  </header>
+  <main id="inhalt">
+<p class="kicker">Recht</p>
+<h1>Datenschutz</h1>
+<div class="body">
+<p>Verantwortlich: Freiwillige Feuerwehr Waidegg, Waidegg 6, 9631 Jenig, Österreich, <a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a>.</p>
+<h2>Hosting</h2>
+<p>Diese Website liegt bei statichost.eu, einem Hosting-Anbieter in der EU. Beim Aufruf verarbeitet der Hoster die üblichen Verbindungsdaten, also IP-Adresse, Zeitpunkt, aufgerufene Adresse und Browsertyp, soweit das zum Ausliefern der Seite nötig ist. Es werden keine Analyse-Cookies und kein Tracking gesetzt.</p>
+<h2>Schriften und Inhalte</h2>
+<p>Die Schriften werden von diesem Server ausgeliefert, nicht von Google oder einem anderen Dritten. Bilder und Texte stammen von der Wehr. Externe Links, etwa zu Facebook, Instagram oder YouTube, gelten erst, wenn du sie anklickst. Dann gilt die Datenschutzregel des jeweiligen Anbieters.</p>
+<h2>Kontakt</h2>
+<p>Eine Mail an die Wehr bleibt gespeichert, bis die Anfrage erledigt ist. Eine Weitergabe an Dritte erfolgt nicht.</p>
+<p>Auskunft, Berichtigung oder Löschung schreibst du an die oben genannte Adresse.</p>
+</div>
+</main>
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div>
+        <h2>Freiwillige Feuerwehr Waidegg</h2>
+        <p>Waidegg 6<br>9631 Jenig<br><a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a></p>
+      </div>
+      <div>
+        <h2>Seiten</h2>
+        <ul>
+          <li><a href="/aktuelles/">Aktuelles</a></li>
+          <li><a href="/archiv/">Archiv</a></li>
+          <li><a href="/wehr/">Unsere Wehr</a></li>
+          <li><a href="/bewerbe/">Bewerbe</a></li>
+          <li><a href="/notfall/">Im Notfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Erreichbar</h2>
+        <ul>
+          <li><a href="tel:122">Notruf 122</a></li>
+          <li><a href="https://www.facebook.com/FF.Waidegg">Facebook</a></li>
+          <li><a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+          <li><a href="/datenschutz/">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
+  </footer>
+  <script>
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-row");
+    if (toggle && nav) toggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  </script>
+</body>
+</html>
