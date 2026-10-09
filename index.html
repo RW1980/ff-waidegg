@@ -34,6 +34,26 @@
   <p class="lead">Ortswehr der Marktgemeinde Kirchbach. Im Dienst für Waidegg und den Bezirk Hermagor.</p>
   <p class="motto">Dem Nächsten zur Wehr.</p>
 </section>
+<!-- TERMINBANNER START: Bezirksfeuerwehrtag 31.10.2026 – nach dem 31.10.2026 entfernen oder Inhalt austauschen (data-bis = erster Tag, an dem der Banner automatisch ausgeblendet wird) -->
+<aside class="terminbanner" aria-label="Termin" data-bis="2026-11-01">
+  <div class="terminbanner-datum" aria-hidden="true"><span class="terminbanner-monat">Okt</span><span class="terminbanner-tag">31</span><span class="terminbanner-wochentag">Sa</span></div>
+  <div class="terminbanner-text">
+    <p class="kicker">Termin</p>
+    <h2>Bezirks&shy;feuerwehr&shy;tag</h2>
+    <p class="terminbanner-veranstalter">des Bezirks&shy;feuerwehr&shy;kommandos Hermagor</p>
+    <p class="terminbanner-info"><time datetime="2026-10-31T18:00">Samstag, 31. Oktober 2026, 18:00 Uhr</time><br>Rathaussaal Kötschach-Mauthen</p>
+  </div>
+</aside>
+<script>
+  (function () {
+    var heute = new Date();
+    document.querySelectorAll(".terminbanner[data-bis]").forEach(function (el) {
+      var t = el.getAttribute("data-bis").split("-");
+      if (heute >= new Date(t[0], t[1] - 1, t[2])) el.hidden = true;
+    });
+  })();
+</script>
+<!-- TERMINBANNER ENDE -->
 <ul class="facts">
   <li><strong>1895</strong><span>gegründet</span></li>
   <li><strong>63</strong><span>Mitglieder</span></li>
