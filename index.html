@@ -8,6 +8,7 @@
   <link rel="icon" href="/favicon.svg">
   <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/termin/termin.css">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -34,26 +35,69 @@
   <p class="lead">Ortswehr der Marktgemeinde Kirchbach. Im Dienst für Waidegg und den Bezirk Hermagor.</p>
   <p class="motto">Dem Nächsten zur Wehr.</p>
 </section>
-<!-- TERMINBANNER START: Bezirksfeuerwehrtag 31.10.2026 – nach dem 31.10.2026 entfernen oder Inhalt austauschen (data-bis = erster Tag, an dem der Banner automatisch ausgeblendet wird) -->
-<aside class="terminbanner" aria-label="Termin" data-bis="2026-11-01">
-  <div class="terminbanner-datum" aria-hidden="true"><span class="terminbanner-monat">Okt</span><span class="terminbanner-tag">31</span><span class="terminbanner-wochentag">Sa</span></div>
-  <div class="terminbanner-text">
+<!-- TERMINHINWEIS START (Einsatz-Pager, Skript /termin/termin.js, Stil /termin/termin.css)
+  Neuen Termin einrichten:
+  1. Nur die data-Attribute am <aside> unten ändern:
+     data-titel, data-zusatz (Veranstalter), data-stichwort (Pager-Zeile, GROSS), data-ort,
+     data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (Winterzeit) bzw. +02:00 (Sommerzeit),
+     data-bis = erster Tag, an dem der Hinweis automatisch verschwindet (z. B. Tag nach dem Termin),
+     data-uid = eindeutig je Termin (z. B. name-jahr@ff-waidegg.at) – ein neuer Wert lässt den Hinweis
+     auch bei allen wieder erscheinen, die den alten ausgeblendet haben.
+  2. Kalenderdatei unter /termine/ ablegen (Vorlage: bft-hermagor-2026.ics; DTSTART/DTEND/SUMMARY/LOCATION/UID
+     anpassen) und in data-ics sowie im Ersatzkasten verlinken. Ohne data-ics erzeugt das Skript die .ics selbst.
+  3. Den Ersatzkasten (.termin-fallback, für Besuch ohne JavaScript) mit denselben Angaben füllen.
+  Nach dem Termin: Block ruhig stehen lassen (blendet sich ab data-bis aus) oder durch den nächsten Termin ersetzen. -->
+<aside class="termin" aria-label="Termin" data-termin
+  data-titel="Bezirksfeuerwehrtag"
+  data-zusatz="des Bezirksfeuerwehrkommandos Hermagor"
+  data-stichwort="TERMIN – BFT HERMAGOR"
+  data-ort="Rathaussaal Kötschach-Mauthen"
+  data-start="2026-10-31T18:00+01:00"
+  data-ende="2026-10-31T22:00+01:00"
+  data-bis="2026-11-01"
+  data-uid="bft-hermagor-2026@ff-waidegg.at"
+  data-ics="/termine/bft-hermagor-2026.ics"
+  data-datei="bezirksfeuerwehrtag-2026.ics">
+  <div class="termin-fallback">
     <p class="kicker">Termin</p>
-    <h2>Bezirks&shy;feuerwehr&shy;tag</h2>
-    <p class="terminbanner-veranstalter">des Bezirks&shy;feuerwehr&shy;kommandos Hermagor</p>
-    <p class="terminbanner-info"><time datetime="2026-10-31T18:00">Samstag, 31. Oktober 2026, 18:00 Uhr</time><br>Rathaussaal Kötschach-Mauthen</p>
+    <p><strong>Bezirksfeuerwehrtag</strong> des Bezirksfeuerwehrkommandos Hermagor<br>
+    <time datetime="2026-10-31T18:00+01:00">Samstag, 31. Oktober 2026, 18:00 Uhr</time>, Rathaussaal Kötschach-Mauthen<br>
+    <a href="/termine/bft-hermagor-2026.ics">Termin in den Kalender (.ics)</a></p>
+  </div>
+  <div class="termin-ui tb">
+    <div class="tb-depesche" id="tb-depesche" role="group" aria-labelledby="tb-titel">
+      <div class="tb-papier">
+        <p class="tb-kopfzeile" aria-hidden="true"><span>ALARMDEPESCHE</span><span>FF WAIDEGG</span></p>
+        <h2 class="tb-titel" id="tb-titel" tabindex="-1" data-termin-fokus><span class="tb-label">Stichwort</span> <span data-feld="stichwort"></span></h2>
+        <dl class="tb-zeilen">
+          <div><dt>Anlass</dt><dd><span data-feld="titel"></span> <span data-feld="zusatz"></span></dd></div>
+          <div><dt>Zeit</dt><dd><span data-zeit="start"></span></dd></div>
+          <div><dt>Ort</dt><dd data-feld="ort"></dd></div>
+          <div><dt>Status</dt><dd data-cd="text"></dd></div>
+        </dl>
+        <p class="termin-aktionen">
+          <a class="termin-btn" data-aktion="ics" href="/termine/bft-hermagor-2026.ics"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5M12 13v5M9.5 15.5h5"/></svg>Kalender</a>
+          <a class="termin-btn termin-btn--ruhig" data-aktion="teilen" href="https://wa.me/" hidden target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path fill="currentColor" d="M9 8.5c0 3.5 3 6.5 6.5 6.5l.9-1.6-2-.9-.8.8a4 4 0 0 1-2.5-2.5l.8-.8-.9-2z"/></svg>WhatsApp</a>
+        </p>
+        <p class="tb-fuss"><button class="tb-weg-text" type="button" data-termin-weg>Hinweis nicht mehr anzeigen</button></p>
+      </div>
+    </div>
+    <div class="tb-pager">
+      <button class="tb-geraet" type="button" data-termin-toggle aria-expanded="false" aria-controls="tb-depesche">
+        <span class="tb-led" aria-hidden="true"></span>
+        <span class="tb-lcd">
+          <span class="tb-lcd-1" data-feld="stichwort"></span>
+          <span class="tb-lcd-2" aria-hidden="true"><span data-feld="kurz-num"></span></span>
+          <span class="tb-lcd-3" aria-hidden="true" data-cd="kurz"></span>
+        </span>
+        <span class="tb-pfeil" aria-hidden="true"></span>
+        <span class="visually-hidden">, Termin-Details anzeigen</span>
+      </button>
+      <button class="tb-weg" type="button" data-termin-weg><span aria-hidden="true">×</span><span class="visually-hidden">Termin-Hinweis ausblenden</span></button>
+    </div>
   </div>
 </aside>
-<script>
-  (function () {
-    var heute = new Date();
-    document.querySelectorAll(".terminbanner[data-bis]").forEach(function (el) {
-      var t = el.getAttribute("data-bis").split("-");
-      if (heute >= new Date(t[0], t[1] - 1, t[2])) el.hidden = true;
-    });
-  })();
-</script>
-<!-- TERMINBANNER ENDE -->
+<!-- TERMINHINWEIS ENDE -->
 <ul class="facts">
   <li><strong>1895</strong><span>gegründet</span></li>
   <li><strong>63</strong><span>Mitglieder</span></li>
@@ -156,6 +200,7 @@
       });
     })();
   </script>
+  <script src="/termin/termin.js" defer></script>
   <script src="/lightbox.js"></script>
 </body>
 </html>
