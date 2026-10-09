@@ -325,3 +325,57 @@ body.lb-open { overflow: hidden; }
   padding: .55rem .9rem;
   cursor: pointer;
 }
+
+.portraits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0;
+  margin: .4rem 0 2rem;
+  border-top: 1px solid var(--line);
+}
+.portrait {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr;
+  gap: .8rem;
+  align-items: center;
+  padding: .7rem 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+}
+.portrait img {
+  width: 4.6rem;
+  height: 5.6rem;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(.35) contrast(1.02);
+  border: 1px solid var(--line);
+}
+.portrait span {
+  display: block;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--display);
+}
+.portrait strong {
+  display: block;
+  margin-top: .2rem;
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  font-size: 1.05rem;
+}
+.crew {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.6rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  border-top: 1px solid var(--line);
+}
+.crew li {
+  border-bottom: 1px solid var(--line);
+  padding: .45rem 0;
+}
