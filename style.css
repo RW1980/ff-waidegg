@@ -299,3 +299,27 @@ article .body p { margin: 0 0 .8rem; }
   .nav-row.open { display: flex; flex-direction: column; }
   h1 { max-width: none; }
 }
+
+.identity {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 1.4rem;
+  align-items: center;
+  margin-bottom: 1.4rem;
+}
+.wappen {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  background: var(--sheet);
+}
+.motto {
+  font-family: var(--display);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 720px) {
+  .identity { grid-template-columns: 1fr; }
+  .wappen { max-width: 9rem; }
+}
