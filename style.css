@@ -110,3 +110,7 @@ footer a { color: var(--ink); }
   .post-list a { grid-template-columns: 1fr; gap: .15rem; }
   .topbar-inner { align-items: flex-start; flex-direction: column; }
 }
+
+.cover { margin: 0 0 1rem; }
+.cover img { width: 100%; max-height: 28rem; object-fit: cover; border: 1px solid var(--line); background: #ddd; }
+.hero-cover { margin-top: 1rem; }
