@@ -299,12 +299,12 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   object-fit: cover;
   display: block;
 }
-.gallery a:first-child { grid-column: 1 / -1; }
-.gallery a:first-child img { height: min(36rem, 72vw); }
+.gallery a:first-child { grid-column: auto; }
+.gallery a:first-child img { height: 14rem; }
 @media (max-width: 720px) {
   .gallery { grid-template-columns: 1fr 1fr; }
   .gallery img { height: 8.5rem; }
-  .gallery a:first-child img { height: 16rem; }
+  .gallery a:first-child img { height: 8.5rem; }
 }
 
 body.lb-open { overflow: hidden; }
