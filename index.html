@@ -4,88 +4,77 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Freiwillige Feuerwehr Waidegg</title>
-  <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895 für das Dorf.">
-  <style>
-    :root {
-      --red: #9b1b1b;
-      --red-dark: #6e1212;
-      --ink: #1c1917;
-      --muted: #57534e;
-      --paper: #f7f3ee;
-      --card: #fffdf9;
-      --line: #e7e0d6;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: var(--ink);
-      background: var(--paper);
-      line-height: 1.5;
-    }
-    a { color: var(--red-dark); }
-    header {
-      background: var(--red-dark);
-      color: #fff;
-      padding: 1rem 1.25rem;
-    }
-    header p { margin: 0.2rem 0 0; letter-spacing: 0.04em; font-size: 0.95rem; }
-    main { max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
-    h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 0.5rem; }
-    h2 { font-size: 1.25rem; margin: 2rem 0 0.5rem; }
-    .lead { font-size: 1.15rem; margin-top: 0; }
-    .notruf {
-      display: inline-block;
-      margin: 1rem 0;
-      background: var(--red);
-      color: #fff;
-      text-decoration: none;
-      padding: 0.7rem 1rem;
-      border-radius: 4px;
-      font-weight: 700;
-    }
-    .facts { display: flex; gap: 0.75rem; flex-wrap: wrap; padding: 0; list-style: none; }
-    .facts li {
-      background: var(--card);
-      border: 1px solid var(--line);
-      padding: 0.7rem 0.9rem;
-      min-width: 7rem;
-    }
-    .facts strong { display: block; font-size: 1.2rem; }
-    section { border-top: 1px solid var(--line); }
-    footer { color: var(--muted); font-size: 0.95rem; }
-  </style>
+  <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <header>
-    <strong>Freiwillige Feuerwehr Waidegg</strong>
-    <p>Oberes Gailtal · Kärnten · Notruf 122</p>
+  <a class="skip" href="#inhalt">Zum Inhalt</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">Freiwillige Feuerwehr Waidegg</a>
+      <a class="notruf" href="tel:122">Notruf 122</a>
+    </div>
   </header>
-  <main>
-    <h1>Seit 1895 für das Dorf.</h1>
-    <p class="lead">Ortswehr der Marktgemeinde Kirchbach. Für die Waideggerinnen und Waidegger.</p>
-    <a class="notruf" href="tel:122">Notruf Feuerwehr 122</a>
-    <ul class="facts">
-      <li><strong>1895</strong> gegründet</li>
-      <li><strong>122</strong> Notruf</li>
-      <li><strong>ff-waidegg.at</strong> diese Seite</li>
-    </ul>
-    <section>
-      <h2>Aktuelles</h2>
-      <p>Hier kommen Übungen, Lehrgänge und das Dorfleben hin. Die erste Fassung steht, die Berichte folgen.</p>
-    </section>
-    <section>
-      <h2>Kontakt</h2>
-      <p>
-        Freiwillige Feuerwehr Waidegg<br>
-        Waidegg 6<br>
-        9631 Jenig<br>
-        <a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a>
-      </p>
-    </section>
-    <footer>
-      <p>Impressum folgt. Diese Seite ist der erste Stand für ff-waidegg.at.</p>
-    </footer>
+  <nav>
+    <div class="nav-inner"><a href="/" aria-current="page">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><a href="/wehr/">Unsere Wehr</a><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></div>
+  </nav>
+  <main id="inhalt">
+    
+<p class="kicker">Oberes Gailtal · Kärnten</p>
+<section class="hero">
+  <h1>Seit 1895 für das Dorf.</h1>
+  <p class="lead">Ortswehr der Marktgemeinde Kirchbach. Für die Waideggerinnen und Waidegger, im Dienst für den Bezirk Hermagor.</p>
+  <p>Dem Nächsten zur Wehr.</p>
+</section>
+<ul class="facts">
+  <li><strong>1895</strong><span>gegründet</span></li>
+  <li><strong>63</strong><span>Mitglieder</span></li>
+  <li><strong>122</strong><span>Notruf</span></li>
+  <li><strong>2021</strong><span>KLFA im Dienst</span></li>
+</ul>
+<div class="section-head"><h2>Aktuelles</h2><a href="/aktuelles/">Alle Berichte</a></div>
+<div class="grid cards"><a class="card" href="/berichte/2026/neueröffnung-gailbrücke-waidegg/">
+      <time datetime="2026-09-26">26. September 2026</time>
+      <h3>Neueröffnung Gailbrücke Waidegg</h3>
+      <p>Neueröffnung der Waidegger Gailbrücke 🎉 Ein besonderer Tag für unsere Gemeinde: Die neu errichtete Waidegger Gailbrücke ist offiziell eröffnet! Ein herzliches D</p>
+    </a><a class="card" href="/berichte/2026/maschinistenlehrgang/">
+      <time datetime="2026-09-26">26. September 2026</time>
+      <h3>Maschinistenlehrgang</h3>
+      <p>Drei neue Maschinisten in der FF-Waidegg🚒 Am 19. &amp; 20. September 2026 fand der diesjährige Maschinistenkurs in Kötschach-Mauthen statt. Auch drei Kammeraden der</p>
+    </a><a class="card" href="/berichte/2026/cupsaison-2026/">
+      <time datetime="2026-09-26">26. September 2026</time>
+      <h3>Cupsaison 2026</h3>
+      <p>Bewerbssaison 2026 erfolgreich abgeschlossen! 🚒🏆 Unsere neu zusammengestellte Gruppe 3 der FF Waidegg kann stolz auf ihre erste Bewerbssaison zurückblicken. Bei</p>
+    </a><a class="card" href="/berichte/2026/öfast-prüfung/">
+      <time datetime="2026-09-26">26. September 2026</time>
+      <h3>ÖFAST Übung</h3>
+      <p>Freitag, 25. September 2026 Am Freitag, 25. September 2026, haben die Atemschutzgeräteträger der FF Waidegg den ÖFAST (Österreichischer Feuerwehr-Atemschutz-Lei</p>
+    </a><a class="card" href="/berichte/2026/lehrgang-führen-2/">
+      <time datetime="2026-07-16">16. Juli 2026</time>
+      <h3>Lehrgang Führen II</h3>
+      <p>Herzliche Gratulation an unsere beiden Kameraden! 🔥 Gleich 27 neue Einsatzleiter:innen haben in den letzten Tagen den anspruchsvollen Lehrgang „Führen II – Eins</p>
+    </a><a class="card" href="/berichte/2026/silberner-helm/">
+      <time datetime="2026-06-29">29. Juni 2026</time>
+      <h3>Silberner Helm</h3>
+      <p>Landesmeisterschaft 2026 🔥 Am vergangenen Samstag fand die Landesmeisterschaft der Kärntner Feuerwehren in Griffen statt. Früh am Morgen trat die Gruppe 1 der F</p>
+    </a></div>
+<div class="section-head"><h2>Direkt</h2></div>
+<div class="grid cards doors">
+  <a class="door" href="/notfall/"><p class="kicker">Zuerst</p><h2>Im Notfall</h2><p>122 anrufen. Defibrillator beim Landhof zum Waidegger Wirt.</p></a>
+  <a class="door" href="/bewerbe/"><p class="kicker">Leistungsbewerb</p><h2>Bewerbe</h2><p>Saison, Archiv und die Gruppen der Wehr.</p></a>
+  <a class="door" href="/wehr/"><p class="kicker">Ortswehr</p><h2>Unsere Wehr</h2><p>Mannschaft, Fahrzeuge, Chronik und Mitmachen.</p></a>
+  <a class="door" href="/archiv/"><p class="kicker">Seit 2013</p><h2>Archiv</h2><p>170 Berichte, nach Jahren geordnet.</p></a>
+</div>
+
   </main>
+  <footer>
+    <div class="inner">
+      <strong>Freiwillige Feuerwehr Waidegg</strong>
+      <span>Waidegg 6 · 9631 Jenig · Österreich</span>
+      <span><a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a> · <a href="mailto:ff.waidegg@aon.at">ff.waidegg@aon.at</a></span>
+      <span><a href="https://www.facebook.com/FF.Waidegg">Facebook</a> · <a href="https://www.instagram.com/feuerwehrwaidegg/">Instagram</a> · <a href="https://www.youtube.com/c/FeuerwehrWaidegg">YouTube</a></span>
+      <span>Seit 1895 für das Dorf. Ortswehr der Marktgemeinde Kirchbach.</span>
+    </div>
+  </footer>
 </body>
 </html>

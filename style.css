@@ -1,0 +1,112 @@
+
+:root {
+  --red: #9b1c1c;
+  --red-dark: #6f1212;
+  --ink: #1c1917;
+  --muted: #57534e;
+  --paper: #f6f3ee;
+  --card: #fffdfb;
+  --line: #e6dfd4;
+  --max: 68rem;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.55;
+}
+a { color: var(--red-dark); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+img { max-width: 100%; height: auto; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 9; }
+.topbar {
+  background: var(--red-dark);
+  color: #fff;
+}
+.topbar-inner, .nav-inner, main, footer .inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: .55rem;
+  padding-bottom: .55rem;
+  font-size: .92rem;
+}
+.brand { color: #fff; text-decoration: none; font-weight: 700; letter-spacing: .01em; }
+.notruf {
+  background: #fff;
+  color: var(--red-dark);
+  text-decoration: none;
+  font-weight: 800;
+  padding: .35rem .7rem;
+  border-radius: 4px;
+}
+nav {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.nav-inner { display: flex; gap: .4rem; flex-wrap: wrap; padding-top: .55rem; padding-bottom: .55rem; }
+.nav-inner a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: .4rem .65rem;
+  border-radius: 4px;
+}
+.nav-inner a:hover, .nav-inner a[aria-current="page"] { background: var(--paper); }
+main { padding: 1.75rem 1.25rem 3.5rem; }
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.05;
+  margin: .2rem 0 .6rem;
+  letter-spacing: -0.02em;
+}
+.kicker { color: var(--red); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .78rem; margin: 0; }
+.lead { font-size: 1.15rem; max-width: 40rem; margin-top: 0; }
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin: 1.5rem 0 2rem; padding: 0; list-style: none; }
+.facts li { background: var(--card); border: 1px solid var(--line); padding: .9rem; }
+.facts strong { display: block; font-size: 1.45rem; }
+.facts span { color: var(--muted); font-size: .92rem; }
+.grid { display: grid; gap: 1rem; }
+.cards { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.card, .door {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 1rem 1.05rem;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.card:hover, .door:hover { border-color: #cfc6b8; }
+.card time, .meta { color: var(--red); font-size: .82rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.card h2, .card h3, .door h2 { margin: .35rem 0 .4rem; font-size: 1.2rem; line-height: 1.25; }
+.card p, .door p { margin: 0; color: var(--muted); }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 2rem 0 .8rem; }
+.section-head h2 { margin: 0; font-size: 1.45rem; }
+.year { margin-top: 2rem; }
+.year h2 { border-bottom: 2px solid var(--red); display: inline-block; margin-bottom: .6rem; }
+.post-list { list-style: none; padding: 0; margin: 0; }
+.post-list li { border-bottom: 1px solid var(--line); }
+.post-list a { display: grid; grid-template-columns: 8.5rem 1fr; gap: .8rem; padding: .7rem 0; text-decoration: none; color: inherit; }
+.post-list time { color: var(--muted); }
+article h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); line-height: 1.15; margin-bottom: .4rem; }
+article .body p { font-size: 1.05rem; }
+.doors { margin-top: 1.5rem; }
+footer { border-top: 1px solid var(--line); background: #fff; }
+footer .inner { padding: 1.5rem 1.25rem 2rem; color: var(--muted); display: grid; gap: .4rem; }
+footer a { color: var(--ink); }
+@media (max-width: 700px) {
+  .facts { grid-template-columns: 1fr 1fr; }
+  .post-list a { grid-template-columns: 1fr; gap: .15rem; }
+  .topbar-inner { align-items: flex-start; flex-direction: column; }
+}
