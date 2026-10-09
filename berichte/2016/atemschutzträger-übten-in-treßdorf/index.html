@@ -6,6 +6,7 @@
   <title>Atemschutzträger übten in Treßdorf – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
   <link rel="icon" href="/favicon.svg">
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,20 +15,20 @@
   <header class="site-head">
     <div class="brand-row">
       <a class="brand" href="/">
-        <img src="/flamme.png" alt="" loading="lazy">
+        <img src="/flamme.png" alt="" width="250" height="250">
         <span>
           <small>Freiwillige Feuerwehr</small>
           <strong>Waidegg</strong>
         </span>
       </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue"><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menü</span></button>
     </div>
     <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><div class="nav-group"><a href="/wehr/">Unsere Wehr</a><ul class="nav-sub"><li><a href="/mannschaft/">Mannschaft</a></li><li><a href="/fahrzeug/">Fahrzeug und Geräte</a></li></ul></div><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2016-06-04">4. Juni 2016</time><h1>Atemschutzträger übten in Treßdorf</h1>
-<figure class="hero-cover"><a href="/fotos/atemschutztr%C3%A4ger-%C3%BCbten-in-tre%C3%9Fdorf/2016-06-04_Atemschutztraeger-uebten-in-Tressdorf_01.avif"><img src="/fotos/atemschutztr%C3%A4ger-%C3%BCbten-in-tre%C3%9Fdorf/2016-06-04_Atemschutztraeger-uebten-in-Tressdorf_01.avif" alt="Atemschutzträger übten in Treßdorf, Bild 1"></a></figure>
+<figure class="hero-cover"><a href="/fotos/atemschutztr%C3%A4ger-%C3%BCbten-in-tre%C3%9Fdorf/2016-06-04_Atemschutztraeger-uebten-in-Tressdorf_01.avif"><img src="/fotos/atemschutztr%C3%A4ger-%C3%BCbten-in-tre%C3%9Fdorf/2016-06-04_Atemschutztraeger-uebten-in-Tressdorf_01.avif" alt="Atemschutzträger übten in Treßdorf, Bild 1" width="448" height="252" fetchpriority="high"></a></figure>
 <div class="body"><p>Am Samstag, dem 4. Juni 2016, trafen sich die Atemschutzträger der Marktgemeinde Kirchbach in Treßdorf zu einer gemeinsamen Atemschutzübung. Als Übungsobjekt wurde die Dreschhütte</p><p>(Veranstaltungszentrum) ausgewählt.</p><p>Zu Beginn wurde das richtige Aufnehmen der Atemschutzgeräte beübt. Im Anschluss erfolgte eine praktische Übung mit dem Thema „Rauchgaskühlung“. Weiter ging es mit der Rettung von verletzten</p><p>Personen aus verrauchten Räumlichkeiten. Zum Abschluss mussten die Atemschutzträger ihre Geräte wieder aufrüsten und einsatzbereit machen.</p><p>Als Übungsbeobachter fungierte der Abschnittsatemschutzbeauftragte BM Günther Martin von der FF Kötschach-Mauthen. Ein großes Dankeschön seitens des Gemeindefeuerwehrkommandos geht an den</p><p>Gemeindeatemschutzbeauftragten HFM Reinhard Janesch von der FF Kirchbach und an BI Günther Jost von der FF Treßdorf für die perfekte Vorbereitung und Durchführung der Übung.</p><p>Im Übungseinsatz standen:</p><p>Feuerwehr Grafendorf-Gundersheim</p><p>Feuerwehr Reisach</p><p>Feuerwehr Kirchbach</p><p>Feuerwehr Waidegg</p><p>Text: GFK OBI Christian Zerza</p><p>Fotos: LM Roman Wastl</p><p>© BFKdo Hermagor – Bei Quellenangabe Abdruck honorarfrei.</p></div>
 </article>
   <p class="back"><button type="button" onclick="history.back()">Zurück</button></p>
@@ -64,12 +65,22 @@
     <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
   <script>
-    const toggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".nav-row");
-    if (toggle && nav) toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    (function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.getElementById("hauptmenue");
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+    })();
   </script>
   <script src="/lightbox.js"></script>
 </body>

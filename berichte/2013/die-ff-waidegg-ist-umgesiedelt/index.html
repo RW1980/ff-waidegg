@@ -6,6 +6,7 @@
   <title>Die FF-Waidegg ist umgesiedelt – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
   <link rel="icon" href="/favicon.svg">
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,20 +15,20 @@
   <header class="site-head">
     <div class="brand-row">
       <a class="brand" href="/">
-        <img src="/flamme.png" alt="" loading="lazy">
+        <img src="/flamme.png" alt="" width="250" height="250">
         <span>
           <small>Freiwillige Feuerwehr</small>
           <strong>Waidegg</strong>
         </span>
       </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue"><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menü</span></button>
     </div>
     <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><div class="nav-group"><a href="/wehr/">Unsere Wehr</a><ul class="nav-sub"><li><a href="/mannschaft/">Mannschaft</a></li><li><a href="/fahrzeug/">Fahrzeug und Geräte</a></li></ul></div><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2013-11-30">30. November 2013</time><h1>Die FF-Waidegg ist umgesiedelt</h1>
-<figure class="hero-cover"><a href="/fotos/die-ff-waidegg-ist-umgesiedelt/2013-11-30_Die-FF-Waidegg-ist-umgesiedelt_01.avif"><img src="/fotos/die-ff-waidegg-ist-umgesiedelt/2013-11-30_Die-FF-Waidegg-ist-umgesiedelt_01.avif" alt="Die FF-Waidegg ist umgesiedelt"></a></figure>
+<figure class="hero-cover"><a href="/fotos/die-ff-waidegg-ist-umgesiedelt/2013-11-30_Die-FF-Waidegg-ist-umgesiedelt_01.avif"><img src="/fotos/die-ff-waidegg-ist-umgesiedelt/2013-11-30_Die-FF-Waidegg-ist-umgesiedelt_01.avif" alt="Die FF-Waidegg ist umgesiedelt" width="720" height="960" fetchpriority="high"></a></figure>
 <div class="body"><p>Das Haus hat Geschichte geschrieben</p><p>Am Samstag war es soweit, die FF-Waidegg hat ihr neues Zuhause bezogen.</p><p>Ab 8 Uhr wurde begonnen das alte FF-Haus auszuräumen und das Gewand mit dem Feuerwehrauto ins neue Haus zu bringen.</p><p>Die alten Spinde wurden abgebaut und im neuen Haus zu den neu angeschafften Spinde dazugebaut.</p><p>In der selben Zeit wurde auch das Geländer und das Pokalregal montiert.</p><p>Zwischenzeitlich bekamen wir Besuch vom Bürgermeister: Herman Jantschgi, Vizebürgermeister: Ernst Tapeiner und Peter Plunger von der FF-Kirchbach.</p><p>Um ca. 16.00 war es soweit die Spinde waren montiert das Gewand eingeräumt die Geräte verstaut und wir konnten mit drei Böllerschüsse die Umsiedelung mit einer kleinen Feier abschließen.</p><p>&quot;Eine alte Ära endet und eine neue beginnt&quot;</p><p>Gut Heil</p></div>
 </article>
   <p class="back"><button type="button" onclick="history.back()">Zurück</button></p>
@@ -64,12 +65,22 @@
     <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
   <script>
-    const toggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".nav-row");
-    if (toggle && nav) toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    (function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.getElementById("hauptmenue");
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+    })();
   </script>
   <script src="/lightbox.js"></script>
 </body>

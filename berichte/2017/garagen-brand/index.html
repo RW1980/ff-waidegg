@@ -6,6 +6,7 @@
   <title>Garagen-Brand – FF Waidegg</title>
   <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
   <link rel="icon" href="/favicon.svg">
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,22 +15,22 @@
   <header class="site-head">
     <div class="brand-row">
       <a class="brand" href="/">
-        <img src="/flamme.png" alt="" loading="lazy">
+        <img src="/flamme.png" alt="" width="250" height="250">
         <span>
           <small>Freiwillige Feuerwehr</small>
           <strong>Waidegg</strong>
         </span>
       </a>
       <a class="notruf" href="tel:122">Notruf 122</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="hauptmenue"><span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menü</span></button>
     </div>
     <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><a href="/archiv/">Archiv</a><div class="nav-group"><a href="/wehr/">Unsere Wehr</a><ul class="nav-sub"><li><a href="/mannschaft/">Mannschaft</a></li><li><a href="/fahrzeug/">Fahrzeug und Geräte</a></li></ul></div><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/impressum/">Impressum</a></nav>
   </header>
   <main id="inhalt">
     <p class="kicker">Bericht</p><article><time class="meta" datetime="2017-08-08">8. August 2017</time><h1>Garagen-Brand</h1>
-<figure class="hero-cover"><a href="/fotos/garagen-brand/2017-08-08_Garagen-Brand_01.avif"><img src="/fotos/garagen-brand/2017-08-08_Garagen-Brand_01.avif" alt="Garagen-Brand"></a></figure>
+<figure class="hero-cover"><a href="/fotos/garagen-brand/2017-08-08_Garagen-Brand_01.avif"><img src="/fotos/garagen-brand/2017-08-08_Garagen-Brand_01.avif" srcset="/fotos/garagen-brand/2017-08-08_Garagen-Brand_01-640.avif 640w, /fotos/garagen-brand/2017-08-08_Garagen-Brand_01.avif 1024w" sizes="(min-width: 1200px) 1112px, 100vw" alt="Garagen-Brand" width="1024" height="768" fetchpriority="high"></a></figure>
 <div class="body"><p>Garagenbrand in Grafendorf</p><p>Am Dienstag, dem 8. August 2017, brach kurz vor 11 Uhr aus bisher unbekannter Ursache in der Garage eines Wohnhauses in Grafendorf ein Feuer aus.</p><p>Neun Feuerwehren wurden von der LAWZ Kärnten mittels Sirene alarmiert und rückten kurze Zeit später unter der Einsatzleitung von Dietmar Frank von der FF Grafendorf-Gundersheim aus. Beim</p><p>Eintreffen am Einsatzort wurde bereits von mehreren Nachbarn versucht, den Brand zu löschen. Unter schwerem Atemschutz k</p><p>onnte der Brand dann in kurzer Zeit</p><p>gelöscht und das angrenzende Wohnhaus gerettet werden. Im Anschluss wurden noch Nachlöscharbeiten im Bereich des Dachstuhles vorgenommen. Durch den Brand wurde niemand verletzt.</p><p>Im Einsatz standen:</p><p>FF Grafendorf-Gundersheim mit LFA-B</p><p>Freiwillige Feuerwehr Dellach/Gail</p><p>mit TLFA</p><p>FF Reisach mit TLFA 2000</p><p>Freiwillige Feuerwehr Kirchbach</p><p>mit LFA-W</p><p>FF Leifling mit KLF</p><p>FF Goderschach mit KLF</p><p>FF Stranig mit KLF</p><p>FF Treßdorf mit KLF</p><p>FF-Waidegg</p><p>GFK OBI Christian Zerza</p><p>GFK-Stv. OBI Heimo Ramsbacher-Ranner</p><p>Bürgermeister Hermann Jantschgi</p><p>Polizei mit 1 Streife</p><p>Text und Fotos: BI Fabian Buchacher</p></div>
-<div class="gallery" aria-label="Fotos"><a href="/fotos/garagen-brand/2017-08-08_Garagen-Brand_02.avif"><img src="/fotos/garagen-brand/2017-08-08_Garagen-Brand_02.avif" alt="Garagen-Brand, Bild 2" loading="lazy"></a></div></article>
+<div class="gallery" aria-label="Fotos"><a href="/fotos/garagen-brand/2017-08-08_Garagen-Brand_02.avif"><img src="/fotos/garagen-brand/2017-08-08_Garagen-Brand_02.avif" srcset="/fotos/garagen-brand/2017-08-08_Garagen-Brand_02-640.avif 640w, /fotos/garagen-brand/2017-08-08_Garagen-Brand_02.avif 1024w" sizes="(min-width: 1200px) 370px, (min-width: 900px) 33vw, 50vw" alt="Garagen-Brand, Bild 2" width="1024" height="768" loading="lazy" decoding="async"></a></div></article>
   <p class="back"><button type="button" onclick="history.back()">Zurück</button></p>
 </main>
   <footer class="site-foot">
@@ -64,12 +65,22 @@
     <p class="legal">Seit 1895 für die Heimat. Ortswehr der Marktgemeinde Kirchbach, im Dienst für den Bezirk Hermagor.</p>
   </footer>
   <script>
-    const toggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".nav-row");
-    if (toggle && nav) toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    (function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.getElementById("hauptmenue");
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+    })();
   </script>
   <script src="/lightbox.js"></script>
 </body>
