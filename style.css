@@ -326,3 +326,11 @@ article .body p { margin: 0 0 .8rem; }
   .identity { grid-template-columns: 1fr; }
   .wappen { max-width: 9rem; }
 }
+
+.roles { margin: 0 0 1.6rem; }
+.roles div { display: grid; grid-template-columns: 16rem 1fr; gap: .4rem 1rem; border-bottom: 1px solid var(--line); padding: .55rem 0; }
+.roles dt { font-family: var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.roles dd { margin: 0; }
+.crew { list-style: none; padding: 0; margin: 0 0 1.6rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: .25rem .8rem; }
+.crew li { border-bottom: 1px solid var(--line); padding: .35rem 0; }
+@media (max-width: 720px) { .roles div { grid-template-columns: 1fr; } }
