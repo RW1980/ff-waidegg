@@ -302,17 +302,20 @@ article .body p { margin: 0 0 .8rem; }
 
 .identity {
   display: grid;
-  grid-template-columns: 11rem 1fr;
+  grid-template-columns: 16rem 1fr;
   gap: 1.4rem;
   align-items: center;
   margin-bottom: 1.4rem;
 }
+.marks { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; align-items: center; }
 .wappen {
   width: 100%;
   height: auto;
   border: 1px solid var(--line);
   background: var(--sheet);
 }
+.wappen.gemeinde { background: #fff; object-fit: contain; }
+
 .motto {
   font-family: var(--display);
   letter-spacing: .14em;
