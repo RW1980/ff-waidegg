@@ -379,3 +379,19 @@ body.lb-open { overflow: hidden; }
   border-bottom: 1px solid var(--line);
   padding: .45rem 0;
 }
+
+.vehicle {
+  display: grid;
+  grid-template-columns: minmax(14rem, 22rem) 1fr;
+  gap: 1.2rem;
+  align-items: start;
+  margin: 0 0 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+.vehicle .cover { margin: 0; }
+.vehicle img { width: 100%; height: auto; filter: none; }
+.retired img { filter: grayscale(.45); }
+@media (max-width: 720px) {
+  .vehicle { grid-template-columns: 1fr; }
+}
