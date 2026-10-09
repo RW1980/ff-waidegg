@@ -598,3 +598,45 @@ body.lb-open { overflow: hidden; }
   .stat-monate .stat-monat { font-size: .66rem; letter-spacing: 0; }
   .stat-arten li { grid-template-columns: 1fr; }
 }
+.block { margin: 2.2rem 0; }
+.block > p { max-width: 42rem; }
+.nummern {
+  list-style: none;
+  margin: 1rem 0 1.2rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: .6rem;
+}
+.nummer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 4.4rem;
+  height: 100%;
+  padding: .7rem 1rem;
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ember);
+  color: var(--ink);
+  text-decoration: none;
+}
+.nummer:hover { border-color: var(--ember); }
+.nummer strong {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1.9rem;
+  letter-spacing: .04em;
+  line-height: 1.05;
+  color: var(--ember-deep);
+}
+.nummer span { color: var(--ink-soft); font-size: .95rem; line-height: 1.3; }
+.nummer-main { background: var(--ember); border-color: var(--ember-deep); }
+.nummer-main strong, .nummer-main span { color: var(--sheet); }
+.nummer-main:hover { background: var(--ember-deep); }
+.wfragen { max-width: 42rem; padding-left: 1.4rem; margin: 1rem 0 1.4rem; }
+.wfragen li { margin-bottom: .5rem; }
+.wfragen strong { font-family: var(--display); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: var(--ember-deep); }
+.block .door h3 { font-size: 1.3rem; margin-top: 0; }
+.block .door ul { padding-left: 1.2rem; }
+.quellen ul { font-size: .92rem; color: var(--muted); }
