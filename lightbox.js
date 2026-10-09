@@ -6,7 +6,7 @@
   box.className = "lightbox";
   box.hidden = true;
   box.innerHTML = `
-    <button class="lb-close" type="button" aria-label="Schließen">×</button>
+    <button class="lb-close" type="button" aria-label="Schließen">Schließen</button>
     <button class="lb-prev" type="button" aria-label="Vorheriges Bild">‹</button>
     <figure>
       <img alt="">
@@ -19,6 +19,7 @@
   const img = box.querySelector("img");
   const cap = box.querySelector("figcaption");
   let index = 0;
+  let startX = 0;
 
   function show(i) {
     index = (i + links.length) % links.length;
@@ -26,14 +27,14 @@
     const source = link.querySelector("img");
     img.src = link.getAttribute("href");
     img.alt = source ? source.alt : "";
-    cap.textContent = links.length > 1 ? `${index + 1} / ${links.length}` : "";
+    cap.textContent = links.length > 1 ? (index + 1) + " / " + links.length : "";
     box.hidden = false;
     document.body.classList.add("lb-open");
   }
 
   function close() {
     box.hidden = true;
-    img.src = "";
+    img.removeAttribute("src");
     document.body.classList.remove("lb-open");
   }
 
@@ -45,10 +46,24 @@
   });
 
   box.querySelector(".lb-close").addEventListener("click", close);
-  box.querySelector(".lb-prev").addEventListener("click", () => show(index - 1));
-  box.querySelector(".lb-next").addEventListener("click", () => show(index + 1));
+  box.querySelector(".lb-prev").addEventListener("click", (event) => {
+    event.stopPropagation();
+    show(index - 1);
+  });
+  box.querySelector(".lb-next").addEventListener("click", (event) => {
+    event.stopPropagation();
+    show(index + 1);
+  });
   box.addEventListener("click", (event) => {
-    if (event.target === box) close();
+    if (event.target === box || event.target === box.querySelector("figure")) close();
+  });
+  box.addEventListener("touchstart", (event) => {
+    startX = event.changedTouches[0].clientX;
+  }, { passive: true });
+  box.addEventListener("touchend", (event) => {
+    const delta = event.changedTouches[0].clientX - startX;
+    if (Math.abs(delta) < 40) return;
+    show(delta < 0 ? index + 1 : index - 1);
   });
   document.addEventListener("keydown", (event) => {
     if (box.hidden) return;
