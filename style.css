@@ -893,3 +893,54 @@ body.lb-open { overflow: hidden; }
   .hero { margin-bottom: .8rem; }
   .section-head { margin-top: 1rem; }
 }
+
+/* === Alle Geräte, beide Ausrichtungen === */
+
+/* Smartphone Querformat: wenig Höhe, Navigation kompakt */
+@media (max-height: 500px) and (orientation: landscape) {
+  .brand-row { padding-top: .35rem; padding-bottom: .3rem; }
+  .brand img { width: 2.2rem; height: 2.2rem; }
+  .brand strong { font-size: 1.15rem; }
+  .notruf { min-height: 2.2rem; padding: .35rem .6rem; font-size: .85rem; }
+  .nav-row a { min-height: 2.2rem; padding-top: .4rem; padding-bottom: .4rem; }
+  .hero-cover img, .cover img { max-height: 12rem; }
+  main { padding-top: .8rem; padding-bottom: 1.5rem; }
+  h1 { font-size: 1.6rem; }
+  .facts strong { font-size: 1.5rem; }
+  .facts li { padding-top: .6rem; padding-bottom: .6rem; }
+  :root { --head-h: 3.8rem; }
+  .years { top: 3.8rem; }
+}
+
+/* Tablet hoch: ausgewogene Spalten */
+@media (min-width: 600px) and (max-width: 899px) and (orientation: portrait) {
+  .grid.cards { grid-template-columns: repeat(2, 1fr); }
+  .doors { grid-template-columns: repeat(2, 1fr); }
+  .hero-cover img { max-height: 20rem; }
+  .facts { grid-template-columns: repeat(4, 1fr); }
+  .facts strong { font-size: 1.7rem; }
+}
+
+/* Tablet quer: bereits oben, hier Feinschliff */
+@media (min-width: 900px) and (max-width: 1199px) and (orientation: landscape) {
+  .grid.cards { grid-template-columns: repeat(3, 1fr); }
+  .gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Desktop ab 1200px */
+@media (min-width: 1200px) {
+  .hero-cover img, .cover img { max-height: 32rem; }
+  .grid.cards { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+  .gallery img { height: 15rem; }
+}
+
+/* Sehr kleine Handys */
+@media (max-width: 380px) {
+  .facts strong { font-size: 1.6rem; }
+  .card h3 { font-size: 1.1rem; }
+  .door strong { font-size: 1.1rem; }
+}
+
+/* Kein horizontaler Scroll auf keinem Gerät */
+html, body { overflow-x: hidden; }
+img, video, iframe { max-width: 100%; }
