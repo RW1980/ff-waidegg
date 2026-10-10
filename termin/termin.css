@@ -1,11 +1,15 @@
-/* FF Waidegg – Terminhinweis „Einsatz-Pager / Alarmdepesche“ (nur Startseite)
-   Farben und Schriften aus style.css. Bewegung nur bei prefers-reduced-motion: no-preference. */
+/* FF Waidegg – Terminhinweis „Kalenderblatt-Lasche“ (nur Startseite)
+   Farben und Schriften aus style.css. Bewegung nur bei prefers-reduced-motion: no-preference.
+   Telefon (< 600px): schmale Leiste direkt unter dem Kopf, klappt im Seitenfluss auf.
+   Tablet/Desktop: Blatt hängt an der Unterkante des klebenden Kopfes, rechts an der Inhaltskante –
+   flach, damit es über dem Titelbild endet; ab 85rem als ganzes Kalenderblatt im freien Rand daneben. */
 
 [data-termin][hidden] { display: none !important; }
 
-/* Ohne JavaScript (oder bei Fehler): schlichter Hinweiskasten im Inhalt */
+/* Ohne JavaScript (oder bei Fehler): schlichter Hinweiskasten */
 .termin-fallback {
-  margin: 1.2rem 0 1.4rem;
+  width: min(calc(100% - 2rem), calc(var(--max) - 2.5rem));
+  margin: 1rem auto 0;
   padding: .9rem 1rem;
   background: var(--sheet);
   border: 1px solid var(--line);
@@ -17,129 +21,147 @@
 .termin.is-bereit .termin-fallback { display: none; }
 .termin:not(.is-bereit) .termin-ui { display: none; }
 
-/* Schaltflächen */
-.termin-aktionen { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; }
-.termin-btn {
+/* Inhalt des Detailblatts */
+.tl-inhalt { padding: .9rem 1.1rem 1rem; }
+.tl-titel { margin: .15rem 0 0; font-size: 1.7rem; }
+.tl-titel:focus { outline: none; }
+.tl-titel:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+.tl-zusatz { margin: .1rem 0 .6rem; color: var(--ink-soft); }
+.tl-wann { margin: 0 0 .5rem; font-weight: 600; }
+.tl-wann time { color: var(--ember-deep); }
+.tl-countdown { margin: 0 0 .9rem; font-family: var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--ember); }
+.tl-aktionen { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; }
+.tl-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .5rem; flex: 1 1 auto;
   min-height: 2.75rem; padding: .5rem .85rem;
-  font-family: var(--display); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase;
-  text-decoration: none; white-space: nowrap; cursor: pointer;
+  font-family: var(--display); font-size: .92rem; letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none; white-space: nowrap;
   background: var(--ember); color: var(--sheet); border: 1px solid var(--ember-deep);
 }
-.termin-btn:hover { background: var(--ember-deep); color: var(--sheet); }
-.termin-btn--ruhig { background: var(--sheet); color: var(--ink); border-color: var(--ink-soft); }
-.termin-btn--ruhig:hover { background: var(--paper); color: var(--ember-deep); border-color: var(--ember); }
-.termin-btn svg { width: 1.15rem; height: 1.15rem; flex: 0 0 auto; }
-.termin-btn[hidden] { display: none; }
-.termin [data-termin-fokus]:focus { outline: none; }
-.termin [data-termin-fokus]:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+.tl-btn:hover { background: var(--ember-deep); color: var(--sheet); }
+.tl-btn--ruhig { background: var(--sheet); color: var(--ink); border-color: var(--ink-soft); }
+.tl-btn--ruhig:hover { background: var(--paper); color: var(--ember-deep); border-color: var(--ember); }
+.tl-btn[hidden] { display: none; }
+.tl-btn svg { width: 1.15rem; height: 1.15rem; flex: 0 0 auto; }
+.tl-zuklappen {
+  display: block; margin: .6rem auto 0; min-height: 2.75rem; padding: .3rem .8rem;
+  background: none; border: 0; cursor: pointer; color: var(--muted);
+  font-family: var(--display); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase;
+}
+.tl-zuklappen:hover { color: var(--ember-deep); }
 
-/* Pager (am Rand unten links angedockt) */
-.tb {
-  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
-  --lcd: #c4cda8;
-  position: fixed; z-index: 19; /* unter dem klebenden Kopf (20) samt Handy-Menü, unter der Lightbox (90) */
-  left: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom));
-  width: 24rem;
-}
-body:has(.nav-row.open) .tb, body.lb-open .tb { display: none; }
-.tb-pager {
-  position: relative; display: flex; align-items: stretch;
-  background: var(--coal); border-radius: .7rem; padding: .45rem;
-  box-shadow: 0 6px 18px rgba(28, 27, 25, .3), inset 0 1px 0 rgba(255, 255, 255, .08);
-}
-.tb-pager::before { /* Druckerschlitz */
-  content: ""; position: absolute; left: 1.2rem; right: 1.2rem; top: -1px; height: 3px; border-radius: 2px; background: #0d0c0b;
-}
-.tb-geraet {
-  flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: .55rem;
-  padding: .25rem .3rem .25rem .35rem; background: transparent; border: 0; color: var(--sheet); cursor: pointer; text-align: left;
-}
-.tb-geraet:focus-visible, .tb-weg:focus-visible { outline: 3px solid #e9c46a; outline-offset: 2px; border-radius: .4rem; }
-.tb-led { flex: 0 0 auto; width: .6rem; height: .6rem; border-radius: 50%; background: #e5383b; box-shadow: 0 0 6px #e5383b; }
-.termin.is-offen .tb-led { background: #6b6560; box-shadow: none; }
-.tb-lcd {
-  flex: 1 1 auto; min-width: 0; display: grid; gap: .05rem;
-  padding: .4rem .55rem; border-radius: .3rem;
-  background: var(--lcd); color: #15170f;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .35);
-  font-family: var(--mono); font-size: .78rem; line-height: 1.3; text-transform: uppercase; letter-spacing: .02em;
-}
-.tb-lcd > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tb-lcd-1 { font-weight: 700; }
-.tb-pfeil { flex: 0 0 auto; width: .55rem; height: .55rem; border-left: 2px solid currentColor; border-top: 2px solid currentColor; transform: translateY(2px) rotate(45deg); }
-.termin.is-offen .tb-pfeil { transform: translateY(-2px) rotate(225deg); }
-.tb-weg {
-  flex: 0 0 auto; align-self: center; width: 2.75rem; height: 2.75rem; margin-left: .1rem;
-  background: transparent; border: 0; color: #d9d1c3; font-size: 1.45rem; line-height: 1; cursor: pointer; border-radius: .4rem;
-}
-.tb-weg:hover { color: #fff; background: rgba(255, 255, 255, .08); }
+/* Pfeil im Blatt */
+.tl-pfeil { flex: 0 0 auto; width: .5rem; height: .5rem; border-right: 2px solid var(--ember); border-bottom: 2px solid var(--ember); transform: translateY(-2px) rotate(45deg); }
+.termin.is-offen .tl-pfeil { transform: translateY(2px) rotate(225deg); }
 
-/* Ausdruck „Alarmdepesche“ über dem Pager */
-.tb-depesche {
-  position: absolute; left: .45rem; right: .45rem; bottom: calc(100% - 2px);
-  max-height: calc(100vh - var(--head-h, 7.2rem) - 6.5rem);
-  max-height: calc(100dvh - var(--head-h, 7.2rem) - 6.5rem);
-  overflow-y: auto; overscroll-behavior: contain;
-  visibility: hidden; clip-path: inset(100% 0 0 0);
-  filter: drop-shadow(0 -4px 10px rgba(28, 27, 25, .18));
-}
-.termin.is-offen .tb-depesche { visibility: visible; clip-path: inset(0 0 0 0); }
-.tb-papier {
-  position: relative;
-  padding: 1.1rem .95rem .6rem;
-  background: linear-gradient(#fffdf8, #fffdf8) 0 6px / 100% 100% no-repeat; /* oberste 6px frei für die Abreißkante */
-  color: var(--ink);
-  font-family: var(--mono); font-size: .86rem; line-height: 1.45;
-}
-.tb-papier::before { /* Abreißkante (Zickzack) */
-  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 6px;
-  background:
-    linear-gradient(45deg, #fffdf8 50%, transparent 50%) 0 0 / 12px 12px repeat-x,
-    linear-gradient(-45deg, #fffdf8 50%, transparent 50%) 0 0 / 12px 12px repeat-x;
-}
-.tb-kopfzeile {
-  display: flex; justify-content: space-between; margin: 0 0 .5rem; padding-bottom: .35rem;
-  border-bottom: 1px dashed var(--muted); font-size: .72rem; letter-spacing: .14em; color: var(--muted);
-}
-.tb-titel {
-  margin: 0 0 .5rem; font-family: var(--mono); font-size: 1rem; font-weight: 700; letter-spacing: .02em; line-height: 1.3;
-  text-transform: uppercase; color: var(--ember-deep); hyphens: manual; -webkit-hyphens: manual;
-}
-.tb-label { display: block; font-size: .72rem; font-weight: 400; letter-spacing: .14em; color: var(--muted); }
-.tb-zeilen { margin: 0 0 .8rem; padding: .35rem 0; border-top: 1px dashed var(--muted); border-bottom: 1px dashed var(--muted); }
-.tb-zeilen div { display: grid; grid-template-columns: 4.4rem 1fr; gap: .5rem; padding: .12rem 0; }
-.tb-zeilen dt { text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-.tb-zeilen dt::after { content: ":"; }
-.tb-zeilen dd { margin: 0; min-width: 0; hyphens: auto; -webkit-hyphens: auto; }
-.tb-zeilen time { font-weight: 700; }
-.termin[data-status="bald"] [data-cd="text"] { font-weight: 700; }
-.tb-fuss { margin: .55rem 0 0; text-align: center; }
-.tb-weg-text {
-  min-height: 2.75rem; padding: .3rem .5rem; background: none; border: 0; cursor: pointer;
-  font-family: var(--mono); font-size: .76rem; color: var(--muted); text-decoration: underline; text-underline-offset: .2em;
-}
-.tb-weg-text:hover { color: var(--ember-deep); }
-
-/* Platz am Seitenende, damit der Pager die Fußzeile nicht verdeckt */
-body:has(.termin.is-bereit:not([hidden])) .site-foot { padding-bottom: 6.5rem; }
-
+/* ---------- Telefon: Leiste unter dem Kopf ---------- */
 @media (max-width: 599px) {
-  .tb { left: .75rem; right: .75rem; bottom: calc(.75rem + env(safe-area-inset-bottom)); width: auto; }
-  .tb-pager { border-radius: 999px; padding: .35rem .35rem .35rem .8rem; }
-  .tb-lcd { font-size: .74rem; padding: .3rem .6rem; border-radius: 999px; }
-  .tb-lcd-2 { display: none !important; }
-  .tb-depesche { left: .5rem; right: .5rem; }
+  .tl { background: var(--sheet); border-bottom: 1px solid var(--line); }
+  .tl-blatt {
+    display: flex; align-items: center; gap: .7rem; width: 100%; min-height: 3rem;
+    padding: .35rem 1rem; background: transparent; border: 0; color: var(--ink); text-align: left; cursor: pointer;
+    font: inherit;
+  }
+  .tl-blatt:focus-visible { outline: 3px solid var(--ember); outline-offset: -3px; }
+  .tl-datum {
+    flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; width: 2.6rem;
+    border: 1px solid var(--line); background: var(--paper);
+    font-family: var(--display); text-transform: uppercase; line-height: 1;
+  }
+  .tl-monat { align-self: stretch; text-align: center; padding: .15rem 0; background: var(--ember); color: var(--sheet); font-size: .66rem; letter-spacing: .1em; }
+  .tl-tag { font-size: 1.15rem; font-weight: 500; padding: .12rem 0 .1rem; }
+  .tl-wtag { display: none; }
+  .tl-leiste { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
+  .tl-leiste-titel { font-family: var(--display); font-weight: 500; letter-spacing: .05em; text-transform: uppercase; font-size: 1rem; }
+  .tl-leiste-info { font-size: .88rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tl-pfeil { width: .6rem; height: .6rem; margin-right: .3rem; }
+  .tl-details { display: grid; grid-template-rows: 0fr; visibility: hidden; }
+  .termin.is-offen .tl-details { grid-template-rows: 1fr; visibility: visible; }
+  .tl-innen { overflow: hidden; min-height: 0; }
+  .tl-inhalt { padding: .2rem 1rem 1rem; border-top: 2px dashed var(--line); }
+}
+
+/* ---------- Tablet/Desktop: am Kopf hängendes Blatt ---------- */
+@media (min-width: 600px) {
+  .tl {
+    position: fixed; z-index: 19; /* knapp unter dem Kopf (20): das Blatt kommt unter dessen Kante hervor */
+    top: var(--termin-kopf, 7.4rem);
+    right: calc(max(0px, (100vw - var(--max)) / 2) + 1.25rem);
+    display: flex; flex-direction: column; align-items: flex-end;
+    perspective: 900px;
+  }
+  .tl-blatt {
+    position: relative; display: flex; align-items: stretch; height: 2.4rem; padding: 0;
+    background: var(--sheet); color: var(--ink); border: 1px solid var(--line); border-top: 0;
+    border-radius: 0 0 .25rem .25rem;
+    box-shadow: 0 5px 12px rgba(28, 27, 25, .18);
+    font-family: var(--display); text-transform: uppercase; line-height: 1; cursor: pointer;
+    transform-origin: 50% 0;
+  }
+  .tl-blatt:focus-visible { outline: 3px solid var(--ember); outline-offset: 3px; }
+  .tl-blatt::before { /* Ringbindung: zwei Ösen an der Oberkante */
+    content: ""; position: absolute; z-index: 1; left: .3rem; right: .3rem; top: .15rem; height: .5rem;
+    background:
+      radial-gradient(circle, var(--paper) 0 .09rem, var(--coal) .1rem .17rem, transparent .19rem) 0 50% / .5rem .5rem no-repeat,
+      radial-gradient(circle, var(--paper) 0 .09rem, var(--coal) .1rem .17rem, transparent .19rem) 100% 50% / .5rem .5rem no-repeat;
+  }
+  .tl-blatt::after { /* Eselsohr, hebt sich beim Überfahren */
+    content: ""; position: absolute; right: -1px; bottom: -1px; width: .7rem; height: .7rem;
+    background: linear-gradient(135deg, var(--sheet) 50%, #e6dccb 50%);
+    box-shadow: -1px -1px 2px rgba(28, 27, 25, .15);
+  }
+  .tl-blatt:hover::after, .tl-blatt:focus-visible::after { width: 1.1rem; height: 1.1rem; }
+  .tl-datum { display: flex; align-items: stretch; }
+  .tl-monat { display: flex; align-items: center; padding: .55rem .5rem 0; background: var(--ember); color: var(--sheet); font-size: .8rem; letter-spacing: .12em; }
+  .tl-tag { display: flex; align-items: center; padding: .15rem .35rem 0 .5rem; font-size: 1.55rem; font-weight: 500; }
+  .tl-wtag { display: flex; align-items: center; padding-top: .15rem; font-size: .75rem; letter-spacing: .12em; color: var(--muted); }
+  .tl-leiste { display: none; }
+  .tl-pfeil { align-self: center; margin: 0 .7rem 0 .55rem; }
+
+  .tl-details {
+    width: min(22rem, calc(100vw - 2rem)); margin-top: .35rem;
+    max-height: calc(100vh - var(--termin-kopf, 7.4rem) - 4rem); overflow-y: auto; overscroll-behavior: contain;
+    background: var(--sheet); border: 1px solid var(--line); border-top: 3px solid var(--ember);
+    box-shadow: 0 14px 30px rgba(28, 27, 25, .22);
+    transform-origin: 50% 0; transform: rotateX(-88deg); opacity: 0; visibility: hidden;
+  }
+  .termin.is-offen .tl-details { transform: none; opacity: 1; visibility: visible; }
+}
+
+/* Breite Bildschirme: ganzes Kalenderblatt im freien Rand neben dem Inhalt, verdeckt nichts */
+@media (min-width: 85rem) {
+  .tl { right: calc(((100vw - var(--max)) / 2 - 5.4rem) / 2); }
+  .tl-blatt { flex-direction: column; align-items: center; width: 5.4rem; height: auto; padding-bottom: .3rem; }
+  .tl-blatt::before { top: .2rem; left: .9rem; right: .9rem; }
+  .tl-datum { flex-direction: column; align-self: stretch; text-align: center; }
+  .tl-monat { justify-content: center; padding: .7rem 0 .3rem; font-size: .85rem; letter-spacing: .14em; }
+  .tl-tag { justify-content: center; padding: .3rem 0 .05rem; font-size: 2.6rem; }
+  .tl-wtag { justify-content: center; padding: 0 0 .3rem; font-size: .78rem; letter-spacing: .14em; }
+  .tl-datum::after { content: "Termin"; padding: .3rem 0 .1rem; border-top: 1px dashed var(--line); font-size: .72rem; letter-spacing: .18em; color: var(--ember); }
+  .tl-pfeil { margin: .2rem auto .15rem; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .tb-depesche { transition: clip-path .5s steps(14, end), visibility 0s linear .5s; }
-  .termin.is-offen .tb-depesche { transition: clip-path .55s steps(14, end), visibility 0s; } /* „druckt“ zeilenweise heraus */
-  .tb-led { animation: tb-blink 1.6s ease-in-out 6; } /* nur wenige Male, kein Dauerblinken */
-  .tb-geraet:hover .tb-led, .tb-geraet:focus-visible .tb-led { animation: tb-blink 1.6s ease-in-out infinite; }
-  .termin.is-offen .tb-led { animation: none; }
-  .tb-pfeil { transition: transform .2s; }
+  .tl-pfeil { transition: transform .2s; }
+  @media (max-width: 599px) {
+    .tl-details { transition: grid-template-rows .3s ease, visibility 0s linear .3s; }
+    .termin.is-offen .tl-details { transition: grid-template-rows .3s ease, visibility 0s; }
+  }
+  @media (min-width: 600px) {
+    .tl-blatt { animation: tl-schwingen 2.6s ease-in-out .6s 1; transition: transform .25s; } /* einmal kurz schwingen, dann Ruhe */
+    .tl-blatt:hover { transform: rotate(-2.5deg); }
+    .tl-blatt::after { transition: width .2s, height .2s; }
+    .termin.is-offen .tl-blatt { animation: none; transform: none; }
+    .tl-details { transition: transform .45s cubic-bezier(.2, .9, .3, 1.15), opacity .2s, visibility 0s linear .45s; }
+    .termin.is-offen .tl-details { transition: transform .45s cubic-bezier(.2, .9, .3, 1.15), opacity .2s, visibility 0s; }
+  }
 }
-@keyframes tb-blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+@keyframes tl-schwingen {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-5deg); }
+  45% { transform: rotate(3.5deg); }
+  65% { transform: rotate(-2deg); }
+  85% { transform: rotate(1deg); }
+}
 
 @media print { .termin-ui { display: none !important; } }

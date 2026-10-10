@@ -1,7 +1,10 @@
-/* FF Waidegg – Terminhinweis „Einsatz-Pager“ (Startseite)
-   Keine externen Ressourcen, kein Tracking, keine Cookies. Einziger Speicher: localStorage-Eintrag
-   „ff-termin-weg:<uid>“, wenn jemand den Hinweis ausblendet (neuer Termin = neue uid = wieder sichtbar).
-   Konfiguration ausschließlich über data-Attribute am Element [data-termin] in index.html. */
+/* FF Waidegg – Terminhinweis „Kalenderblatt-Lasche“ (Startseite)
+   Keine externen Ressourcen, kein Tracking, keine Cookies, kein Speicher im Browser.
+   Konfiguration ausschließlich über data-Attribute am Element [data-termin] in index.html:
+     data-titel, data-zusatz, data-ort,
+     data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (ohne data-ende: data-dauer Stunden, Standard 3),
+     data-bis = JJJJ-MM-TT, erster Tag, an dem der Hinweis automatisch verschwindet,
+     data-uid, data-link, data-ics (statische .ics; fehlt sie, wird die Datei im Browser erzeugt), data-datei. */
 (function (w) {
   "use strict";
   var WTAG = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
@@ -11,7 +14,7 @@
 
   function zwei(n) { return (n < 10 ? "0" : "") + n; }
 
-  /* "2026-10-31T18:00+01:00" -> Wandzeit (für Anzeige und .ics) + absoluter Zeitpunkt (für Countdown) */
+  /* "2026-10-31T18:00+01:00" -> Wandzeit (Anzeige, .ics) + absoluter Zeitpunkt (Countdown, Ausblenden) */
   function zeit(s) {
     var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(Z|[+-]\d{2}:\d{2})?$/.exec(s || "");
     if (!m) return null;
@@ -34,8 +37,7 @@
     var ende = zeit(d.ende) || plusStunden(start, +(d.dauer || 3));
     var bis = /^\d{4}-\d{2}-\d{2}$/.test(d.bis || "") ? Date.parse(d.bis + "T00:00:00" + start.off) : ende.ms;
     return {
-      titel: d.titel || "", zusatz: d.zusatz || "", stichwort: d.stichwort || ("TERMIN – " + (d.titel || "")).toUpperCase(),
-      ort: d.ort || "", start: start, ende: ende, bis: bis,
+      titel: d.titel || "", zusatz: d.zusatz || "", ort: d.ort || "", start: start, ende: ende, bis: bis,
       uid: d.uid || ("termin-" + wand(start) + "@ff-waidegg.at"),
       link: d.link || "https://ff-waidegg.at/", datei: d.datei || "termin.ics", ics: d.ics || ""
     };
@@ -47,7 +49,7 @@
 
   /* ---------- .ics (RFC 5545) ---------- */
   function esc(s) { return String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n"); }
-  function falten(zeile) {
+  function falten(zeile) { /* höchstens 75 Oktette je Zeile */
     var enc = new TextEncoder(), out = [], cur = "", n = 0;
     for (var ch of zeile) {
       var b = enc.encode(ch).length;
@@ -80,54 +82,37 @@
     return "https://wa.me/?text=" + encodeURIComponent(text);
   }
 
-  function rest(c, jetzt) {
+  function restText(c, jetzt) {
     var diff = c.start.ms - jetzt;
-    if (diff <= 0) return { status: jetzt < c.ende.ms ? "laeuft" : "vorbei" };
-    var min = Math.floor(diff / 6e4);
-    return { status: "bald", tage: Math.floor(min / 1440), std: Math.floor((min % 1440) / 60), min: min % 60 };
-  }
-  function restText(r) {
-    if (r.status === "laeuft") return "Läuft gerade";
-    if (r.status === "vorbei") return "Danke fürs Dabeisein";
-    if (r.tage >= 1) return "Noch " + r.tage + (r.tage === 1 ? " Tag" : " Tage") + " und " + r.std + " Std.";
-    return "Noch " + r.std + " Std. und " + r.min + " Min.";
-  }
-  function restKurz(r) {
-    if (r.status !== "bald") return r.status === "laeuft" ? "LÄUFT" : "VORBEI";
-    return "NOCH " + zwei(r.tage) + " T " + zwei(r.std) + " STD";
+    if (diff <= 0) return jetzt < c.ende.ms ? "Läuft gerade" : "Danke fürs Dabeisein";
+    var min = Math.floor(diff / 6e4), tage = Math.floor(min / 1440), std = Math.floor((min % 1440) / 60);
+    if (tage >= 1) return "Noch " + tage + (tage === 1 ? " Tag" : " Tage") + " und " + std + " Std.";
+    return "Noch " + std + " Std. und " + (min % 60) + " Min.";
   }
 
-  var API = { lesen: lesen, ics: ics, whatsapp: whatsapp, rest: rest, restText: restText, datumLang: datumLang, uhr: uhr };
-  w.FFTermin = API;
-  if (!w.document) return; /* z. B. Node: nur reine Funktionen */
+  w.FFTermin = { lesen: lesen, ics: ics, whatsapp: whatsapp, restText: restText };
+  if (!w.document) return; /* z. B. Node: nur die reinen Funktionen (Erzeugen der statischen .ics) */
 
   var d = w.document;
   function alle(root, sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
   function setze(root, feld, txt) { alle(root, '[data-feld="' + feld + '"]').forEach(function (e) { e.textContent = txt; }); }
-  function gespeichert(k) { try { return w.localStorage.getItem(k); } catch (e) { return null; } }
-  function speichern(k) { try { w.localStorage.setItem(k, "1"); } catch (e) { /* privat-modus: egal */ } }
 
   function init(root) {
     var c = lesen(root.dataset);
     if (!c) return;
-    var weg = "ff-termin-weg:" + c.uid;
-    if (Date.now() >= c.bis || gespeichert(weg)) { root.hidden = true; return; }
+    if (Date.now() >= c.bis) { root.hidden = true; return; }
 
     var s = c.start;
     setze(root, "titel", c.titel);
     setze(root, "zusatz", c.zusatz);
-    setze(root, "stichwort", c.stichwort);
     setze(root, "ort", c.ort);
     setze(root, "datum", datumLang(s));
     setze(root, "uhrzeit", uhr(s));
     setze(root, "tag", String(s.t));
     setze(root, "monat", MONAT_K[s.mo - 1]);
-    setze(root, "monat-lang", MONAT[s.mo - 1]);
-    setze(root, "wochentag", WTAG[wtag(s)]);
     setze(root, "wochentag-kurz", WTAG_K[wtag(s)]);
     setze(root, "kurz", WTAG_K[wtag(s)] + " " + zwei(s.t) + "." + zwei(s.mo) + ".");
-    setze(root, "kurz-num", (WTAG_K[wtag(s)] + " " + zwei(s.t) + "." + zwei(s.mo) + "." + s.j + " " + zwei(s.h) + ":" + zwei(s.mi)).toUpperCase());
-    /* <time> wird erst hier erzeugt, damit das HTML ohne Skript gültig bleibt und der Termin nur einmal (in den data-Attributen) steht */
+    /* <time> entsteht erst hier: HTML ohne Skript bleibt gültig, der Termin steht nur in den data-Attributen */
     alle(root, "[data-zeit=start]").forEach(function (e) {
       var t = d.createElement("time");
       t.setAttribute("datetime", iso(s));
@@ -136,64 +121,60 @@
       e.appendChild(t);
     });
 
-    var icsHref = c.ics;
-    if (!icsHref) {
-      icsHref = URL.createObjectURL(new Blob([ics(c, Date.now())], { type: "text/calendar;charset=utf-8" }));
-    }
+    var icsHref = c.ics || URL.createObjectURL(new Blob([ics(c, Date.now())], { type: "text/calendar;charset=utf-8" }));
     alle(root, "[data-aktion=ics]").forEach(function (a) {
       a.href = icsHref;
-      /* statische Datei: normal öffnen (iOS bietet dann „Zum Kalender hinzufügen“); Blob: als Datei speichern */
+      /* statische Datei normal öffnen (iOS: „Zum Kalender hinzufügen“), erzeugte Datei speichern */
       if (c.ics) a.removeAttribute("download"); else a.setAttribute("download", c.datei);
-      a.hidden = false;
     });
     alle(root, "[data-aktion=teilen]").forEach(function (a) { a.href = whatsapp(c); a.hidden = false; });
 
-    /* Countdown: sichtbare Ziffern aria-hidden, Klartext für Screenreader ohne aria-live (kein Dauer-Ansagen) */
+    /* Countdown als Satz, ohne aria-live (keine Dauer-Ansagen); läuft nur bei sichtbarem Tab */
     function tick() {
-      var r = rest(c, Date.now());
-      root.setAttribute("data-status", r.status);
-      alle(root, "[data-cd=text]").forEach(function (e) { e.textContent = restText(r); });
-      alle(root, "[data-cd=kurz]").forEach(function (e) { e.textContent = restKurz(r); });
-      ["tage", "std", "min"].forEach(function (k) {
-        alle(root, "[data-cd=" + k + "]").forEach(function (e) { e.textContent = r.status === "bald" ? String(r[k]) : "–"; });
-      });
-      if (Date.now() >= c.bis) root.hidden = true;
+      if (Date.now() >= c.bis) { root.hidden = true; return; }
+      alle(root, "[data-cd=text]").forEach(function (e) { e.textContent = restText(c, Date.now()); });
     }
     tick();
     var uhrwerk = w.setInterval(tick, 30000);
     d.addEventListener("visibilitychange", function () {
-      if (d.hidden) { w.clearInterval(uhrwerk); } else { tick(); uhrwerk = w.setInterval(tick, 30000); }
+      w.clearInterval(uhrwerk);
+      if (!d.hidden) { tick(); uhrwerk = w.setInterval(tick, 30000); }
     });
 
-    /* Aufklappen: echter <button> mit aria-expanded, Escape schließt, Fokus wird geführt */
+    /* Aufklappen: echter <button> mit aria-expanded, Fokus auf die Überschrift, Escape schließt */
     var btn = root.querySelector("[data-termin-toggle]");
     function offen() { return root.classList.contains("is-offen"); }
     function schalten(auf, fokus) {
       root.classList.toggle("is-offen", auf);
-      if (btn) btn.setAttribute("aria-expanded", auf ? "true" : "false");
-      if (auf) { tick(); }
+      btn.setAttribute("aria-expanded", auf ? "true" : "false");
+      if (auf) tick();
       if (auf && fokus) {
         var f = root.querySelector("[data-termin-fokus]");
         if (f) w.setTimeout(function () { f.focus({ preventScroll: true }); }, 30);
       }
-      if (!auf && fokus && btn) btn.focus({ preventScroll: true });
+      if (!auf && fokus) btn.focus({ preventScroll: true });
     }
-    if (btn) btn.addEventListener("click", function () { schalten(!offen(), true); });
-    alle(root, "[data-termin-zu]").forEach(function (b) { b.addEventListener("click", function () { schalten(false, true); }); });
-    d.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && offen()) { schalten(false, true); }
-    });
-    d.addEventListener("pointerdown", function (e) {
-      if (offen() && !root.contains(e.target)) schalten(false, false);
-    });
-    alle(root, "[data-termin-weg]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        speichern(weg);
-        root.hidden = true;
-        var m = d.querySelector("main");
-        if (m) { m.setAttribute("tabindex", "-1"); m.focus({ preventScroll: true }); }
-      });
-    });
+    if (btn) {
+      btn.addEventListener("click", function () { schalten(!offen(), true); });
+      alle(root, "[data-termin-zu]").forEach(function (b) { b.addEventListener("click", function () { schalten(false, true); }); });
+      d.addEventListener("keydown", function (e) { if (e.key === "Escape" && offen()) schalten(false, true); });
+      d.addEventListener("pointerdown", function (e) { if (offen() && !root.contains(e.target)) schalten(false, false); });
+    }
+
+    /* Unterkante des klebenden Kopfbereichs als CSS-Variable: daran hängt das Blatt (Tablet/Desktop) */
+    var kopf = d.querySelector(".site-head");
+    if (kopf) {
+      var geplant = false;
+      var messen = function () {
+        geplant = false;
+        d.documentElement.style.setProperty("--termin-kopf", Math.max(0, Math.round(kopf.getBoundingClientRect().bottom)) + "px");
+      };
+      var planen = function () { if (!geplant) { geplant = true; w.requestAnimationFrame(messen); } };
+      messen();
+      w.addEventListener("scroll", planen, { passive: true });
+      w.addEventListener("resize", planen);
+      if (w.ResizeObserver) new w.ResizeObserver(planen).observe(kopf);
+    }
 
     root.classList.add("is-bereit");
   }
