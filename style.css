@@ -866,3 +866,30 @@ body.lb-open { overflow: hidden; }
 
 .admin-link { color: transparent; font-size: .55rem; text-decoration: none; margin-left: .3rem; }
 .admin-link:hover, .admin-link:focus { color: var(--muted); }
+
+/* Tablet Querformat (typisch 900–1199px, z. B. iPad landscape) */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .nav-row { gap: .05rem; }
+  .nav-row a {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    letter-spacing: .05em;
+    font-size: .88rem;
+  }
+  .hero-cover img, .cover img { max-height: 22rem; }
+  .facts strong { font-size: 1.85rem; }
+  .grid.cards { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+  .gallery img, .gallery a:first-child img { height: 12rem; }
+  .vehicle { grid-template-columns: minmax(12rem, 18rem) 1fr; gap: 1rem; }
+  .years { top: 6.4rem; }
+  :root { --head-h: 6.4rem; }
+  h1 { font-size: clamp(2rem, 4vw, 2.8rem); }
+  .foot-inner { gap: 1rem 1.5rem; }
+}
+
+/* Tablet hoch und Quer: bessere Abstände */
+@media (min-width: 600px) and (max-width: 1199px) {
+  main { padding-top: 1.2rem; padding-bottom: 2.5rem; }
+  .hero { margin-bottom: .8rem; }
+  .section-head { margin-top: 1rem; }
+}
