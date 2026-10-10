@@ -1008,3 +1008,51 @@ img, video, iframe { max-width: 100%; }
   .nav-row a { padding-left: .28rem; padding-right: .28rem; letter-spacing: .03em; font-size: .84rem; }
   .nav-group > a::after { margin-left: .3rem; }
 }
+
+/* Suche im Berichte-Archiv (Archiv und Aktuelles, Skript /suche.js, Index /pagefind/) – nur mit JavaScript sichtbar */
+.suche { display: none; margin: 1.2rem 0 .4rem; max-width: 42rem; }
+.js .suche { display: block; }
+.suche label {
+  display: block;
+  font-family: var(--display);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ember);
+  font-size: .85rem;
+  margin-bottom: .35rem;
+}
+.suche-zeile { display: flex; gap: .4rem; }
+.suche input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: .5rem .75rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.suche input:focus { border-color: var(--ember); }
+.suche input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.suche button {
+  flex: 0 0 auto;
+  min-height: 2.75rem;
+  padding: .5rem 1rem;
+  font-family: var(--display);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--ember);
+  border: 1px solid var(--ember);
+  cursor: pointer;
+}
+.suche button:hover { background: var(--ember-deep); border-color: var(--ember-deep); }
+.suche-status { margin: .5rem 0 0; color: var(--muted); font-size: .95rem; }
+.suche-status:empty { display: none; }
+.suche-treffer { margin: .8rem 0 1.6rem; }
+.suche-treffer mark { background: #f2dfb0; color: inherit; padding: 0 .1em; }
+@media print { .suche, .suche-treffer { display: none; } }
