@@ -958,8 +958,9 @@ body.lb-open { overflow: hidden; }
   .door strong { font-size: 1.1rem; }
 }
 
-/* Kein horizontaler Scroll auf keinem Gerät */
-html, body { overflow-x: hidden; }
+/* Kein horizontaler Scroll auf keinem Gerät. Body mit "clip" statt "hidden", sonst kleben Kopfzeile und Jahresleisten nicht (hidden macht den Body zum Scroll-Container) */
+html { overflow-x: hidden; }
+body { overflow-x: hidden; overflow-x: clip; }
 img, video, iframe { max-width: 100%; }
 
 /* Startbild (Startseite) und oberstes Bild auf /fahrzeug/: immer vollständig, nie abgeschnitten */
