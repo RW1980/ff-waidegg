@@ -883,8 +883,6 @@ body.lb-open { overflow: hidden; }
   .js .nav-row:not(.open) { display: flex; }
 }
 
-.admin-link { color: transparent; font-size: .55rem; text-decoration: none; margin-left: .3rem; }
-.admin-link:hover, .admin-link:focus { color: var(--muted); }
 
 /* Tablet Querformat (typisch 900–1199px, z. B. iPad landscape) */
 @media (min-width: 900px) and (max-width: 1199px) {
