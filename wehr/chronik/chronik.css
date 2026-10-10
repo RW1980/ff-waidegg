@@ -128,3 +128,4 @@
   .zr-sprung { display: none; }
   .zr-anim .zr-eintrag, .zr-anim .zr-kopf { opacity: 1; transform: none; }
 }
+.zr-bild img.zr-ganz { height: auto; max-height: none; object-fit: contain; }
