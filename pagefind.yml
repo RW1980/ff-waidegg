@@ -1,9 +1,9 @@
-# Suchindex fuer das Berichte-Archiv (Pagefind, laeuft komplett auf diesem Server).
+# Suchindex fuer das Berichte-Archiv und die Chronik (Pagefind, laeuft komplett auf diesem Server).
 # Nach jedem neuen oder geaenderten Bericht neu erzeugen und mit committen:
 #   npx pagefind@1.5.2        (im Repo-Hauptordner ausfuehren)
 site: .
 output_subdir: pagefind
-glob: "berichte/**/*.html"
+glob: "{berichte/**/*.html,wehr/chronik/index.html}"
 root_selector: "article"
 exclude_selectors:
   - ".gallery"
