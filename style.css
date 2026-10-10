@@ -968,7 +968,7 @@ img, video, iframe { max-width: 100%; }
 .hero-cover img {
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: auto;
   max-height: none;
   object-fit: contain;
   background: #000;
