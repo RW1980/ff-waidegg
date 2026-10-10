@@ -986,3 +986,27 @@ img, video, iframe { max-width: 100%; }
   .hero-cover img { max-height: 62vh; }
   .cover-ganz img { max-height: 62vh; }
 }
+
+/* Nützliche Links (/links/) */
+.link-list { list-style: none; margin: 1rem 0 0; padding: 0; }
+.grid.cards.link-list { grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr)); }
+.link-list li { display: flex; min-width: 0; }
+.link-card { flex: 1 1 auto; display: flex; flex-direction: column; }
+.link-card h2 { font-size: 1.25rem; margin: 0 0 .45rem; overflow-wrap: break-word; hyphens: auto; }
+@media (max-width: 380px) { .link-card h2 { font-size: 1.1rem; } }
+.link-card .link-domain {
+  margin-top: auto;
+  padding-top: .6rem;
+  font-family: var(--display);
+  letter-spacing: .06em;
+  color: var(--ember);
+  font-size: .9rem;
+  overflow-wrap: anywhere;
+}
+
+/* Hauptmenü mit 8 Punkten: schmale Tablets (600–767px) etwas kompakter, damit es einzeilig bleibt */
+@media (min-width: 600px) and (max-width: 767px) {
+  .nav-row { gap: .05rem; padding-left: .75rem; padding-right: .75rem; }
+  .nav-row a { padding-left: .28rem; padding-right: .28rem; letter-spacing: .03em; font-size: .84rem; }
+  .nav-group > a::after { margin-left: .3rem; }
+}
