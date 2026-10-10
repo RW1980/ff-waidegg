@@ -253,7 +253,7 @@ h1, h2, h3 {
   margin: .6rem 0 .8rem;
 }
 h1, h2, h3 { hyphens: auto; -webkit-hyphens: auto; }
-h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); max-width: 18ch; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); max-width: 24ch; hyphens: manual; -webkit-hyphens: manual; overflow-wrap: break-word; text-wrap: balance; }
 @media (max-width: 599px) {
   h1 { font-size: clamp(1.85rem, 8.5vw, 2.2rem); }
   .lead { font-size: 1.1rem; }
@@ -600,6 +600,7 @@ body.lb-open { overflow: hidden; }
   .cover { margin-left: 0; margin-right: 0; }
 }
 .vehicle img { width: 100%; height: auto; filter: none; }
+.vehicle .cover img { max-height: none; object-fit: contain; }
 .retired img { filter: grayscale(.45); }
 @media (max-width: 599px) {
   .vehicle { grid-template-columns: 1fr; }
