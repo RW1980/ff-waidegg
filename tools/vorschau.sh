@@ -10,7 +10,7 @@ tar -cf - --exclude=./.git --exclude=./_wartung --exclude=./tools \
   --exclude=./statichost.yml --exclude=./pagefind.yml --exclude=./README.md . | tar -xf - -C "$OUT"
 cd "$OUT"
 find . -name '*.html' -exec sed -i \
-  -e 's#\(href\|src\|srcset\|content\|action\|poster\)="/\([^/]\)#\1="/'"$P"'/\2#g' \
+  -e 's#\(href\|src\|srcset\|content\|action\|poster\|data-[a-z-]*\)="/\([^/]\)#\1="/'"$P"'/\2#g' \
   -e ':a' -e 's#\(srcset="[^"]*\), /\([^/]\)#\1, %%R%%\2#' -e 'ta' \
   -e 's#%%R%%#/'"$P"'/#g' \
   -e 's#<head>#<head><meta name="robots" content="noindex">#' {} +
