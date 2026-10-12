@@ -1,1 +1,5 @@
+# WARTUNG: Wartungsseite (_wartung/) + echte Seite unter geheimem Pfad (tools/vorschau.sh).
+# Livegang: diese Datei wieder auf nur "public: ." setzen und tools/ + _wartung/ loeschen.
+image: alpine:3.20
+command: sh tools/vorschau.sh
 public: _wartung
