@@ -1057,3 +1057,23 @@ img, video, iframe { max-width: 100%; }
 .suche-treffer { margin: .8rem 0 1.6rem; }
 .suche-treffer mark { background: #f2dfb0; color: inherit; padding: 0 .1em; }
 @media print { .suche, .suche-treffer { display: none; } }
+
+/* Teilen-Leiste (Berichte, teilen.js) */
+.teilen { margin: 1.6rem 0 0; padding: 1rem 0 0; border-top: 1px solid var(--line); }
+.teilen h2 { margin: 0 0 .6rem; font-family: var(--display); font-weight: 500; font-size: .95rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.teilen-liste { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.teilen-liste a, .teilen-liste button {
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+  min-height: 2.75rem; padding: .5rem .9rem;
+  border: 1px solid var(--line); background: var(--sheet); color: var(--ink);
+  font-family: var(--display); font-size: .95rem; letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; border-radius: 0;
+}
+.teilen-liste a:hover, .teilen-liste button:hover { border-color: var(--ember); color: var(--ember-deep); }
+.teilen-liste [data-teilen-aktion="nativ"] { background: var(--ember); border-color: var(--ember); color: #fff; }
+.teilen-liste [data-teilen-aktion="nativ"]:hover { background: var(--ember-deep); color: #fff; }
+.teilen-liste svg { width: 1.05em; height: 1.05em; flex: none; fill: currentColor; }
+.teilen-liste [hidden] { display: none; }
+.teilen-status { min-height: 1.4em; margin: .4rem 0 0; font-size: .95rem; color: var(--ember-deep); }
+@media (max-width: 599px) { .teilen-liste a, .teilen-liste button { flex: 1 1 calc(50% - .5rem); } }
+@media print { .teilen { display: none; } }
