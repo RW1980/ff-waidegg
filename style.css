@@ -1077,3 +1077,18 @@ img, video, iframe { max-width: 100%; }
 .teilen-status { min-height: 1.4em; margin: .4rem 0 0; font-size: .95rem; color: var(--ember-deep); }
 @media (max-width: 599px) { .teilen-liste a, .teilen-liste button { flex: 1 1 calc(50% - .5rem); } }
 @media print { .teilen { display: none; } }
+
+/* Berichtskarten mit Vorschaubild (Start, Aktuelles) */
+.card--bild { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+.card--bild .card-bild { display: block; }
+.card--bild .card-bild img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: var(--line); }
+.card--bild time, .card--bild h3, .card--bild p { margin-left: .9rem; margin-right: .9rem; }
+.card--bild time { margin-top: .8rem; }
+.card--bild p:last-child { margin-bottom: .9rem; }
+.mehr { margin: 1.2rem 0 0; text-align: center; }
+.btn-alle {
+  display: inline-flex; align-items: center; min-height: 2.75rem; padding: .55rem 1.2rem;
+  background: var(--ember); color: #fff; text-decoration: none;
+  font-family: var(--display); letter-spacing: .12em; text-transform: uppercase;
+}
+.btn-alle:hover, .btn-alle:focus-visible { background: var(--ember-deep); color: #fff; }
