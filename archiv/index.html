@@ -9,7 +9,7 @@
   <meta http-equiv="refresh" content="0; url=../aktuelles/">
   <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
   <link rel="stylesheet" href="/style.css">
-  <script>location.replace("../aktuelles/" + location.search + location.hash);</script>
+  <script>(function(){var m=location.hash.match(/^#j(20\d\d)$/),z="../aktuelles/";if(m&&m[1]!=="2026")z+=m[1]+"/";else z+=location.search+location.hash;location.replace(z);})();</script>
 </head>
 <body>
   <main id="inhalt">

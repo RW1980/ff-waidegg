@@ -1092,3 +1092,7 @@ img, video, iframe { max-width: 100%; }
   font-family: var(--display); letter-spacing: .12em; text-transform: uppercase;
 }
 .btn-alle:hover, .btn-alle:focus-visible { background: var(--ember-deep); color: #fff; }
+
+/* Jahresauswahl als Links (Aktuelles) */
+.years a[aria-current="page"] { background: var(--ember); border-color: var(--ember); color: #fff; }
+.years a[aria-current="page"]:hover { color: #fff; }
