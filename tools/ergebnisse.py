@@ -19,19 +19,19 @@ for key, titel, kurz in ART:
     for r in rows:
         rg = r["rang"]
         txt = (M.get(rg, "") + rg + ("." if rg.isdigit() else "")) if rg else ""
-        if r["von"]: txt += f" von {e(r['von'])}"
+        # Gruppenzahl (r["von"]) bleibt in der JSON, wird aber nicht angezeigt
         cls = ' class="lm-podest"' if rg in M else ''
         hin = e(r["hinweis"])
         tr.append(f'<tr{cls}><th scope="row" data-label="Jahr">{r["jahr"]}</th>'
                   f'<td data-label="Ort">{e(r["ort"])}</td><td data-label="Bewerb">{e(r["klasse"])}</td>'
-                  f'<td data-label="Gruppe">{e(r["gruppe"])}</td><td data-label="Rang">{txt}</td>'
+                  f'<td data-label="Gruppe">{e(r["gruppe"])}</td><td data-label="Platz">{txt}</td>'
                   f'<td data-label="Zeit">{e(r["zeit"])}</td><td data-label="Hinweis">{hin}</td></tr>')
     out.append(f'''    <section id="{key}" aria-labelledby="{key}-titel">
     <h2 id="{key}-titel">{titel}</h2>
     <p class="lm-hinweis">{len(rows)} Ergebnisse. Die Liste wird laufend ergänzt.</p>
     <div class="lm-wrap"><table class="lm-tab">
     <caption class="visually-hidden">{titel} der FF Waidegg</caption>
-    <thead><tr><th scope="col">Jahr</th><th scope="col">Ort</th><th scope="col">Bewerb</th><th scope="col">Gruppe</th><th scope="col">Rang</th><th scope="col">Zeit</th><th scope="col">Hinweis</th></tr></thead>
+    <thead><tr><th scope="col">Jahr</th><th scope="col">Ort</th><th scope="col">Bewerb</th><th scope="col">Gruppe</th><th scope="col">Platz</th><th scope="col">Zeit</th><th scope="col">Hinweis</th></tr></thead>
     <tbody>
     {chr(10).join(tr)}
     </tbody></table></div>
