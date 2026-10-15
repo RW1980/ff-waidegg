@@ -1,4 +1,4 @@
-.bw-bilanz{margin:1.5rem 0 2rem;padding:1.4rem 1.2rem;background:var(--coal);color:#fbf7f1;border-radius:.9rem;border-top:4px solid var(--ember)}
+.bw-bilanz{margin:1.5rem 0 2rem;padding:1.4rem 1.2rem 1.5rem;background:var(--coal);color:#fbf7f1;border-radius:.9rem;border-top:4px solid var(--ember)}
 .bw-zahlen{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
 .bw-zahlen li{display:flex;flex-direction:column;align-items:center;gap:.2rem}
 .bw-zahlen .bw-ico{font-size:1.8rem;line-height:1}
