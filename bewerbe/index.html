@@ -13,6 +13,7 @@
   <meta name="theme-color" content="#f3eee4">
   <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/bewerbe/bewerbe.css">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -35,6 +36,17 @@
     <p class="kicker">Leistungsbewerb</p>
     <h1>Bewerbe</h1>
     <p class="lead">Ergebnisse der Saison 2026 und weitere Informationen zu den Bewerben.</p>
+
+    <section class="bw-bilanz" aria-labelledby="bw-bilanz-titel">
+      <h2 id="bw-bilanz-titel" class="visually-hidden">Helm-Bilanz</h2>
+      <ul class="bw-zahlen">
+        <li class="bw-gold"><span class="bw-ico" aria-hidden="true">🥇</span><strong data-ziel="4">4</strong> <span class="bw-lbl">goldene Helme</span></li>
+        <li class="bw-silber"><span class="bw-ico" aria-hidden="true">🥈</span><strong data-ziel="8">8</strong> <span class="bw-lbl">silberne Helme</span></li>
+        <li class="bw-bronze"><span class="bw-ico" aria-hidden="true">🥉</span><strong data-ziel="4">4</strong> <span class="bw-lbl">bronzene Helme</span></li>
+        <li class="bw-cup"><span class="bw-ico" aria-hidden="true">🏆</span><strong data-ziel="4">4</strong> <span class="bw-lbl">Cupsiege</span></li>
+      </ul>
+      <p class="bw-fuss">Helme bei der Kärntner Landesmeisterschaft seit 2005, Cupsiege im Bezirkscup Hermagor. <a href="/bewerbe/geschichte/landesmeisterschaften/">Alle Ergebnisse</a></p>
+    </section>
 
     <div class="section-head"><h2>Ergebnisse 2026</h2></div>
     <div class="body">
@@ -60,11 +72,12 @@
     </div>
 
     <div class="section-head"><h2>Weitere</h2></div>
-    <div class="grid cards">
-      <a class="door" href="/bewerbe/hall-of-fame/"><span>Bewerbe</span><strong>Hall of Fame</strong><p>Beste Ergebnisse und Rekorde der Wehr.</p></a>
-      <a class="door" href="/bewerbe/bestimmungen/"><span>Bewerbe</span><strong>Bewerbsbestimmungen</strong><p>Regeln und Infos zu den Leistungsbewerben.</p></a>
-      <a class="door" href="/bewerbe/geschichte/"><span>Bewerbe</span><strong>The NeverEnding Story</strong><p>Die Geschichte unserer Leistungsbewerbe seit 1997.</p></a>
-      <a class="door" href="/bewerbe/archiv/"><span>Bewerbe</span><strong>Archiv</strong><p>Ältere Bewerbsberichte.</p></a>
+    <div class="bw-kacheln">
+      <a class="bw-kachel" href="/bewerbe/geschichte/"><span class="bw-ico" aria-hidden="true">📖</span><strong>The NeverEnding Story</strong><p>Die Geschichte unserer Leistungsbewerbe seit 1997.</p><span class="bw-mehr" aria-hidden="true">Lesen →</span></a>
+      <a class="bw-kachel" href="/bewerbe/geschichte/landesmeisterschaften/"><span class="bw-ico" aria-hidden="true">⛑️</span><strong>LM-Ergebnisse</strong><p>Alle Ergebnisse bei Landesmeisterschaften von 1997 bis 2026.</p><span class="bw-mehr" aria-hidden="true">Zur Tabelle →</span></a>
+      <a class="bw-kachel" href="/bewerbe/hall-of-fame/"><span class="bw-ico" aria-hidden="true">🏅</span><strong>Hall of Fame</strong><p>Beste Ergebnisse und Rekorde der Wehr.</p><span class="bw-mehr" aria-hidden="true">Ansehen →</span></a>
+      <a class="bw-kachel" href="/bewerbe/bestimmungen/"><span class="bw-ico" aria-hidden="true">📋</span><strong>Bewerbsbestimmungen</strong><p>Regeln und Infos zu den Leistungsbewerben.</p><span class="bw-mehr" aria-hidden="true">Nachlesen →</span></a>
+      <a class="bw-kachel" href="/bewerbe/archiv/"><span class="bw-ico" aria-hidden="true">🗂️</span><strong>Archiv</strong><p>Ältere Bewerbsberichte.</p><span class="bw-mehr" aria-hidden="true">Stöbern →</span></a>
     </div>
   </main>
   <footer class="site-foot">
@@ -117,5 +130,6 @@
     })();
   </script>
   <script src="/lightbox.js"></script>
+  <script src="/bewerbe/bewerbe.js" defer></script>
 </body>
 </html>
