@@ -3,7 +3,7 @@
 #   npx pagefind@1.5.2        (im Repo-Hauptordner ausfuehren)
 site: .
 output_subdir: pagefind
-glob: "{berichte/**/*.html,wehr/chronik/index.html}"
+glob: "{berichte/**/*.html,wehr/chronik/index.html,bewerbe/geschichte/index.html}"
 root_selector: "article"
 exclude_selectors:
   - ".gallery"

@@ -1,0 +1,19 @@
+/* The NeverEnding Story: ergänzt chronik.css (Erfolgsbilanz, Meilensteine, Schlusskarte) */
+.ns-bilanz { margin: 1.6rem 0 0; }
+.ns-zahlen { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+.ns-zahlen li { background: var(--sheet); border: 1px solid var(--line); border-top: 4px solid var(--ns-farbe, var(--ember)); padding: .8rem .9rem; display: flex; flex-direction: column; }
+.ns-zahlen strong { font-family: var(--display); font-size: clamp(2rem, 6vw, 2.8rem); line-height: 1; }
+.ns-zahlen span { margin-top: .25rem; }
+.ns-gold { --ns-farbe: #c9a227; }
+.ns-silber { --ns-farbe: #9aa1a8; }
+.ns-bronze { --ns-farbe: #b0703a; }
+.ns-cup { --ns-farbe: var(--ember); }
+.ns-fuss { margin: .7rem 0 0; max-width: 42rem; font-size: .95rem; }
+.ns-fuss .zr-link { min-height: 0; margin-left: .2rem; }
+@media (min-width: 720px) { .ns-zahlen { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.ns-abzeichen { margin: 0 0 .3rem; font-size: .9rem; font-weight: 600; color: var(--ember); }
+.ns-meilenstein .zr-inhalt { background: var(--sheet); border: 1px solid var(--line); border-left: 4px solid var(--ember); padding: .7rem .9rem; }
+.ns-pause .zr-inhalt { font-style: italic; }
+.ns-weiter .zr-inhalt { background: var(--sheet); border: 1px solid var(--line); border-top: 3px solid var(--ember); padding: .9rem 1rem; }
+.ns-weiter h2 { margin: 0 0 .3rem; font-size: clamp(1.3rem, 2.6vw, 1.7rem); }
+.zr-inhalt { min-width: 0; overflow-wrap: anywhere; }
