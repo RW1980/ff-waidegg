@@ -8,7 +8,7 @@ from collections import Counter
 
 HIER = os.path.dirname(os.path.abspath(__file__))
 D = json.load(open(os.path.join(HIER, "karte.json"), encoding="utf-8"))
-ART = {"einsatz": "Einsatz", "bewerb": "Bewerb", "fest": "Fest", "geschichte": "Geschichte", "uebung": "Übung"}
+ART = {"einsatz": "Einsatz", "bewerb": "Bewerb", "geschichte": "Geschichte", "uebung": "Übung"}
 MON = ["Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
        "September", "Oktober", "November", "Dezember"]
 e = lambda s: html.escape(str(s), quote=True)
@@ -60,7 +60,7 @@ t = open(f, encoding="utf-8").read()
 t = re.sub(r"(<!-- LISTE:START -->).*?(<!-- LISTE:ENDE -->)",
            lambda m: m.group(1) + "\n" + "\n".join(out) + "\n" + m.group(2), t, flags=re.S)
 n = Counter(p["art"] for p in D["punkte"])
-zahl = f'{len(D["punkte"])} Punkte: {n["einsatz"]} Einsätze, {n["bewerb"]} Bewerbe, {n["uebung"]} Übungen, {n["fest"]} Feste, {n["geschichte"]} aus der Geschichte'
+zahl = f'{len(D["punkte"])} Punkte: {n["einsatz"]} Einsätze, {n["bewerb"]} Bewerbe, {n["uebung"]} Übungen, {n["geschichte"]} aus der Geschichte'
 t = re.sub(r"(<!-- ZAHL -->).*?(<!-- /ZAHL -->)", lambda m: m.group(1) + zahl + m.group(2), t, flags=re.S)
 open(f, "w", encoding="utf-8").write(t)
 print(zahl)
