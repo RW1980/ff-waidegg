@@ -24,12 +24,32 @@
 .rg-info { position: relative; margin: 0 auto 1rem; max-width: 40rem; padding: .9rem 1rem; background: var(--sheet); border: 1px solid var(--line); border-left: 4px solid var(--ember); }
 .rg-info h3 { margin: 0 0 .3rem; }
 .rg-info p { margin: 0 0 .6rem; }
-.rg-zu, .rg-nav button { font-family: var(--display); font-size: 1rem; padding: .45rem .9rem; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; }
-.rg-zu:hover, .rg-nav button:hover:not(:disabled) { border-color: var(--ember); color: var(--ember); }
+.rg-zu, .rg-steuer button, .rg-stationen button { font-family: var(--display); font-size: 1rem; padding: .45rem .9rem; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; }
+.rg-zu:hover, .rg-stationen button:hover { border-color: var(--ember); color: var(--ember); }
 .rg-punkte li.rg-offen { color: var(--muted); }
-.rg-nav { display: none; }
-.rg-an .rg-bild:not(.aktiv), .rg-an .rg-punkte { display: none; }
-.rg-an .rg-nav { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin: 1rem 0 2rem; }
-.rg-nav button { background: var(--ember); color: var(--sheet); border-color: var(--ember); }
-.rg-nav button:disabled { opacity: .35; cursor: default; }
+/* Kameraflug (nur mit JS) */
+.rg-player { display: none; }
+.rg-an .rg-bild { display: none; }
+.rg-an .rg-player { display: block; }
+.rg-titel { scroll-margin-top: 6rem; }
+.rg-buehne { --bh: min(70vh, calc(100vw - 2rem)); position: relative; height: var(--bh); margin: .5rem 0 1rem; overflow: hidden; background: var(--coal); }
+.rg-buehne .rg-foto { display: none; position: absolute; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%); width: min(100%, calc(var(--bh) * var(--ar))); overflow: hidden; }
+.rg-buehne .rg-foto.an { display: block; }
+.rg-buehne .rg-foto img { border: 0; will-change: transform; }
+.rg-flug .rg-spot { visibility: hidden; }
+.rg-tiefe { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.rg-tiefe.an { opacity: 1; }
+.rg-start { position: absolute; z-index: 5; left: 50%; bottom: 1.2rem; transform: translateX(-50%); padding: .8rem 1.4rem; font: 600 1.2rem/1 var(--display); color: var(--sheet); background: var(--ember); border: 3px solid #fff; border-radius: 2rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.45); }
+.rg-start:hover { background: var(--ember-deep); }
+.rg-steuer { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 0 0 1rem; }
+.rg-steuer button { background: var(--ember); color: var(--sheet); border-color: var(--ember); }
+.rg-steuer button:hover:not(:disabled) { background: var(--ember-deep); }
+.rg-steuer button:disabled { opacity: .35; cursor: default; }
 .rg-stand { font-family: var(--display); color: var(--muted); }
+.rg-neigen { margin: 0 0 1rem; }
+.rg-stationen { margin: 1.5rem 0 2rem; }
+.rg-stationen h3 { margin: .8rem 0 .3rem; font-size: 1rem; }
+.rg-stationen ol { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.rg-stationen button { font-size: .95rem; padding: .35rem .7rem; }
+.rg-stationen button[aria-current] { background: var(--ember); color: var(--sheet); border-color: var(--ember); }
+@media (prefers-reduced-motion: reduce) { .rg-tiefe { display: none; } }
