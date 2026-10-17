@@ -1010,6 +1010,49 @@ img, video, iframe { max-width: 100%; }
   .nav-group > a::after { margin-left: .3rem; }
 }
 
+/* Untermenü aufklappbar: Button .nav-sub-toggle (Skript inline am Seitenende), nur mit JavaScript aktiv.
+   Ohne JavaScript bleibt alles wie bisher: Desktop per Hover/Fokus, mobil immer sichtbar, "Unsere Wehr" ist ein Link. */
+.nav-sub-toggle { display: none; }
+.js .nav-group { display: flex; flex-wrap: wrap; align-items: stretch; }
+.js .nav-sub-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0 .7rem 0 .4rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.js .nav-sub-toggle::before {
+  content: "";
+  border: .25rem solid transparent;
+  border-top-color: currentColor;
+  border-bottom-width: 0;
+  transition: transform .15s;
+}
+.js .nav-sub-toggle[aria-expanded="true"]::before { transform: rotate(180deg); }
+.js .nav-sub-toggle:hover, .js .nav-sub-toggle[aria-expanded="true"], .js .nav-row a.nav-parent-active + .nav-sub-toggle { color: var(--ember); }
+.js .nav-sub-toggle:focus-visible { outline-offset: -2px; }
+@media (min-width: 600px) {
+  .js .nav-group > a { padding-right: 0; }
+  .js .nav-group > a::after { content: none; }
+  .js .nav-group:hover .nav-sub, .js .nav-group:focus-within .nav-sub { display: none; }
+}
+@media (min-width: 600px) and (max-width: 899px) { .js .nav-sub-toggle { padding-right: .45rem; } }
+@media (min-width: 600px) and (max-width: 767px) { .js .nav-sub-toggle { padding: 0 .28rem 0 .3rem; } }
+@media (min-width: 900px) and (max-width: 1199px) { .js .nav-sub-toggle { padding-right: .5rem; } }
+@media (max-width: 599px) {
+  .js .nav-group > a { flex: 1 1 auto; }
+  .js .nav-sub-toggle { min-width: 2.75rem; padding: 0; border-top: 1px solid var(--line); }
+  .js .nav-sub { display: none; flex: 1 0 calc(100% - 1.2rem); }
+}
+@media (max-height: 500px) and (orientation: landscape) { .js .nav-sub-toggle { min-height: 2.2rem; } }
+.js .nav-sub-toggle[aria-expanded="true"] + .nav-sub { display: block; }
+
 /* Suche im Berichte-Archiv (Archiv und Aktuelles, Skript /suche.js, Index /pagefind/) – nur mit JavaScript sichtbar */
 .suche { display: none; margin: 1.2rem 0 .4rem; max-width: 42rem; }
 .js .suche { display: block; }
