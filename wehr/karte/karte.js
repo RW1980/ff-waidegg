@@ -9,8 +9,8 @@
   if (!main) return;
   var basis = main.getAttribute("data-basis") || "/";
   var ruhig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var ARTEN = { einsatz: "Einsatz", bewerb: "Bewerb", fest: "Fest", geschichte: "Geschichte", uebung: "Übung" };
-  var FARBE = { einsatz: "#a4161a", bewerb: "#8c7344", fest: "#2d5b86", geschichte: "#242220", uebung: "#3d6b35" };
+  var ARTEN = { einsatz: "Einsatz", bewerb: "Bewerb", geschichte: "Geschichte", uebung: "Übung" };
+  var FARBE = { einsatz: "#a4161a", bewerb: "#8c7344", geschichte: "#242220", uebung: "#3d6b35" };
   var MON = ["Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
   var punkte = Array.prototype.slice.call(main.querySelectorAll(".ka-punkt"));
@@ -30,7 +30,7 @@
   var jahrzehnte = [];
   jahre.forEach(function (j) { var d = Math.floor(j / 10) * 10; if (jahrzehnte.indexOf(d) < 0) jahrzehnte.push(d); });
 
-  var modus = "alle", stufen = [], arten = { einsatz: 1, bewerb: 1, fest: 1, geschichte: 1, uebung: 1 };
+  var modus = "alle", stufen = [], arten = { einsatz: 1, bewerb: 1, geschichte: 1, uebung: 1 };
 
   function zeitPasst(j) {
     if (modus === "alle") return true;

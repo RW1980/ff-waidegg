@@ -1,5 +1,5 @@
 /* Ortskarte "Einsätze & Geschichte" – nur für /wehr/karte/. Farben und Schriften aus /style.css */
-.ka { --k-einsatz: var(--ember); --k-bewerb: var(--brass); --k-fest: #2d5b86; --k-geschichte: var(--coal); --k-uebung: #3d6b35; }
+.ka { --k-einsatz: var(--ember); --k-bewerb: var(--brass); --k-geschichte: var(--coal); --k-uebung: #3d6b35; }
 
 /* Steuerung */
 .ka-steuerung {
@@ -43,7 +43,6 @@
 .ka-punktfarbe { width: .95rem; height: .95rem; border-radius: 50%; background: var(--k); flex: none; }
 .ka-einsatz { --k: var(--k-einsatz); }
 .ka-bewerb { --k: var(--k-bewerb); }
-.ka-fest { --k: var(--k-fest); }
 .ka-geschichte { --k: var(--k-geschichte); }
 .ka-uebung { --k: var(--k-uebung); }
 
