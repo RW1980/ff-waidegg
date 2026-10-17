@@ -1,0 +1,35 @@
+/* Fahrzeug-Rundgang */
+.rg-entwurf { display: inline-block; padding: .2rem .6rem; border: 1px dashed var(--ember); color: var(--ember-deep); font-family: var(--display); font-size: .9rem; }
+.rg-bild h2 { scroll-margin-top: 6rem; }
+.rg-bild { scroll-margin-top: 6rem; }
+.rg-nr { display: inline-block; margin-right: .4rem; padding: .05rem .5rem; background: var(--ember); color: var(--sheet); font-size: .8em; vertical-align: middle; }
+.rg-foto { position: relative; width: min(100%, 108vh); margin: 1rem auto; }
+.rg-foto.rg-hoch { width: min(100%, 61vh); }
+.rg-foto img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.rg-spot {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 2.2rem; height: 2.2rem; padding: 0; border-radius: 50%;
+  border: 3px solid #fff; background: var(--ember); color: #fff;
+  font: 600 1rem/1 var(--display); cursor: pointer;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.4);
+}
+.rg-spot:hover, .rg-spot[aria-expanded="true"] { background: #ffd400; color: var(--ink); }
+.rg-spot:focus-visible { outline: 3px solid #ffd400; outline-offset: 3px; }
+.rg-spot.rg-offen { background: #fff; color: var(--ink); border-style: dashed; border-color: var(--ember); }
+@media (prefers-reduced-motion: no-preference) {
+  .rg-spot:not([aria-expanded="true"]) { animation: rg-puls 2.4s ease-in-out infinite; }
+  @keyframes rg-puls { 50% { box-shadow: 0 0 0 2px rgba(0,0,0,.45), 0 0 0 8px rgba(164,22,26,.35); } }
+}
+@media (max-width: 520px) { .rg-spot { width: 1.5rem; height: 1.5rem; font-size: .75rem; border-width: 2px; } }
+.rg-info { position: relative; margin: 0 auto 1rem; max-width: 40rem; padding: .9rem 1rem; background: var(--sheet); border: 1px solid var(--line); border-left: 4px solid var(--ember); }
+.rg-info h3 { margin: 0 0 .3rem; }
+.rg-info p { margin: 0 0 .6rem; }
+.rg-zu, .rg-nav button { font-family: var(--display); font-size: 1rem; padding: .45rem .9rem; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; }
+.rg-zu:hover, .rg-nav button:hover:not(:disabled) { border-color: var(--ember); color: var(--ember); }
+.rg-punkte li.rg-offen { color: var(--muted); }
+.rg-nav { display: none; }
+.rg-an .rg-bild:not(.aktiv), .rg-an .rg-punkte { display: none; }
+.rg-an .rg-nav { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin: 1rem 0 2rem; }
+.rg-nav button { background: var(--ember); color: var(--sheet); border-color: var(--ember); }
+.rg-nav button:disabled { opacity: .35; cursor: default; }
+.rg-stand { font-family: var(--display); color: var(--muted); }
