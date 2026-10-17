@@ -9,3 +9,7 @@ Durchsucht werden alle Berichte und die Chronik (/wehr/chronik/). Nach jedem neu
 ## Chronik (/wehr/chronik/)
 
 Zeitleiste in `wehr/chronik/index.html` (reines HTML), Aussehen in `wehr/chronik/chronik.css`, Einblenden und Sprungleiste in `wehr/chronik/chronik.js`. Bilder der Chronik liegen in `wehr/chronik/bilder/` (je .jpg, .webp und -640.webp). Ein neuer Eintrag ist ein weiteres `<li class="zr-eintrag">` im passenden Kapitel.
+
+## Ortskarte (/wehr/karte/)
+
+Interaktive Karte „Einsätze & Geschichte“ mit Zeitregler. Daten in `wehr/karte/karte.json` (`orte` mit Koordinaten aus OpenStreetMap/Nominatim und `ungefaehr`-Kennzeichen, `punkte` mit Datum, Art, Ort, Text, Link und kleinem Foto). Nach jeder Änderung an `karte.json` im Repo-Hauptordner `python3 wehr/karte/liste.py` ausführen: das schreibt die Liste (für Besucher ohne JavaScript) in `wehr/karte/index.html`. Leaflet 1.9.4 liegt selbst gehostet in `wehr/karte/leaflet/` und wird nur auf dieser Seite und erst nach Klick auf „Karte laden“ geladen (Zwei-Klick-Lösung, Kacheln von tile.openstreetmap.org). Regeln: nur Ereignisse mit im Repo belegtem Ort; bei Einsätzen nur die Ortschaft, keine Adressen, keine Namen.
