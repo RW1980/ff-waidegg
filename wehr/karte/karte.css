@@ -1,5 +1,5 @@
 /* Ortskarte "Einsätze & Geschichte" – nur für /wehr/karte/. Farben und Schriften aus /style.css */
-.ka { --k-einsatz: var(--ember); --k-bewerb: var(--brass); --k-fest: #2d5b86; --k-geschichte: var(--coal); }
+.ka { --k-einsatz: var(--ember); --k-bewerb: var(--brass); --k-fest: #2d5b86; --k-geschichte: var(--coal); --k-uebung: #3d6b35; }
 
 /* Steuerung */
 .ka-steuerung {
@@ -45,12 +45,13 @@
 .ka-bewerb { --k: var(--k-bewerb); }
 .ka-fest { --k: var(--k-fest); }
 .ka-geschichte { --k: var(--k-geschichte); }
+.ka-uebung { --k: var(--k-uebung); }
 
 .ka-regler { display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: .6rem; }
 .ka-regler-feld label { display: flex; align-items: baseline; gap: .6rem; }
 .ka-wert { font-family: var(--display); font-size: 2rem; line-height: 1; color: var(--ember); letter-spacing: .02em; }
 .ka-regler input[type="range"] { width: 100%; min-height: 2.75rem; accent-color: var(--ember); margin: 0; cursor: pointer; }
-.ka-schritt, .ka-laden, .ka-alle, .ka-zeigen {
+.ka-schritt, .ka-laden, .ka-alle, .ka-merker, .ka-zeigen {
   font-family: var(--display);
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -63,7 +64,7 @@
   cursor: pointer;
 }
 .ka-schritt { font-size: 1.5rem; line-height: 1; padding: 0 .7rem; }
-.ka-schritt:hover, .ka-alle:hover, .ka-zeigen:hover { border-color: var(--ember); color: var(--ember); }
+.ka-schritt:hover, .ka-alle:hover, .ka-merker:hover, .ka-zeigen:hover { border-color: var(--ember); color: var(--ember); }
 .ka-schritt:disabled { opacity: .4; cursor: default; }
 .ka-status { margin: 0; color: var(--ink-soft); }
 
@@ -161,3 +162,13 @@
 @media (prefers-reduced-motion: reduce) {
   .ka *, .ka *::before, .ka *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* Runde 2: Merker, Ergebnisse, Beleg */
+.ka-merken { margin: .2rem 0 .8rem; font-size: .95rem; }
+.ka-merken label { display: inline-flex; gap: .45rem; align-items: center; cursor: pointer; }
+.ka-merker-info { flex-basis: 100%; color: var(--muted); font-size: .9rem; }
+.ka-merker-info:empty { display: none; }
+.ka-erg { margin: .3rem 0 .4rem; padding-left: 1.1rem; font-size: .92rem; }
+.ka-erg li { margin: .1rem 0; }
+.ka-beleg { font-size: .82rem; color: var(--muted); margin: .2rem 0; }
+.ka-pop .ka-erg { font-size: .85rem; margin: .2rem 0; }

@@ -1,14 +1,16 @@
 /* Ortskarte "Einsätze & Geschichte" (/wehr/karte/).
    Zeitregler und Filter wirken auf die Liste; die Karte (Leaflet, von diesem Server)
-   und die Kartenbilder von tile.openstreetmap.org werden erst nach Klick auf "Karte laden" geholt. */
+   und die Kartenbilder von tile.openstreetmap.org werden erst nach Klick auf "Karte laden" geholt.
+   Wer "Karte künftig automatisch laden" wählt, bekommt im localStorage den Merker
+   "ffw-karte-laden" = "1" (kein Cookie, wird nie übertragen); dann lädt die Karte beim Öffnen. */
 (function () {
   "use strict";
   var main = document.querySelector(".ka");
   if (!main) return;
   var basis = main.getAttribute("data-basis") || "/";
   var ruhig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var ARTEN = { einsatz: "Einsatz", bewerb: "Bewerb", fest: "Fest", geschichte: "Geschichte" };
-  var FARBE = { einsatz: "#a4161a", bewerb: "#8c7344", fest: "#2d5b86", geschichte: "#242220" };
+  var ARTEN = { einsatz: "Einsatz", bewerb: "Bewerb", fest: "Fest", geschichte: "Geschichte", uebung: "Übung" };
+  var FARBE = { einsatz: "#a4161a", bewerb: "#8c7344", fest: "#2d5b86", geschichte: "#242220", uebung: "#3d6b35" };
   var MON = ["Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
   var punkte = Array.prototype.slice.call(main.querySelectorAll(".ka-punkt"));
@@ -28,7 +30,7 @@
   var jahrzehnte = [];
   jahre.forEach(function (j) { var d = Math.floor(j / 10) * 10; if (jahrzehnte.indexOf(d) < 0) jahrzehnte.push(d); });
 
-  var modus = "alle", stufen = [], arten = { einsatz: 1, bewerb: 1, fest: 1, geschichte: 1 };
+  var modus = "alle", stufen = [], arten = { einsatz: 1, bewerb: 1, fest: 1, geschichte: 1, uebung: 1 };
 
   function zeitPasst(j) {
     if (modus === "alle") return true;
@@ -114,10 +116,30 @@
   }
   function datum(d) {
     var t = d.split("-");
-    return t.length === 3 ? (+t[2]) + ". " + MON[+t[1] - 1] + " " + t[0] : t[0];
+    return t.length === 3 ? (+t[2]) + ". " + MON[+t[1] - 1] + " " + t[0] : t.length === 2 ? MON[+t[1] - 1] + " " + t[0] : t[0];
   }
 
-  ladenKnopf.addEventListener("click", function () {
+  /* Merker im Browser (localStorage), nur auf Wunsch */
+  var MERKER = "ffw-karte-laden";
+  var merkenBox = main.querySelector(".ka-merken");
+  var merkerKnopf = main.querySelector(".ka-merker");
+  var merkerInfo = main.querySelector(".ka-merker-info");
+  function gemerkt() { try { return window.localStorage.getItem(MERKER) === "1"; } catch (e) { return false; } }
+  function merken(an) {
+    try { if (an) window.localStorage.setItem(MERKER, "1"); else window.localStorage.removeItem(MERKER); return true; } catch (e) { return false; }
+  }
+  function merkerZeigen() {
+    var an = gemerkt();
+    merkerKnopf.textContent = an ? "Karte nicht mehr automatisch laden" : "Karte künftig automatisch laden";
+  }
+  merkerKnopf.addEventListener("click", function () {
+    var an = !gemerkt();
+    if (!merken(an)) { merkerInfo.textContent = "Dein Browser erlaubt das Merken nicht."; return; }
+    merkerZeigen();
+    merkerInfo.textContent = an ? "Gemerkt: Die Karte lädt beim nächsten Besuch automatisch." : "Erledigt: Der Merker ist gelöscht, die Karte lädt erst wieder nach Klick.";
+  });
+
+  function kartenLaden() {
     ladenKnopf.disabled = true;
     ladenKnopf.textContent = "Karte wird geladen …";
     Promise.all([
@@ -128,6 +150,11 @@
       ladenKnopf.disabled = false;
       ladenKnopf.textContent = "Erneut versuchen";
     });
+  }
+  ladenKnopf.addEventListener("click", function () {
+    var c = merkenBox && merkenBox.querySelector("input");
+    if (c && c.checked) merken(true);
+    kartenLaden();
   });
 
   function kartenStart() {
@@ -147,6 +174,7 @@
     karte.on("blur", function () { karte.scrollWheelZoom.disable(); });
     ebene = L.layerGroup().addTo(karte);
     zeile.hidden = false;
+    merkerZeigen();
     main.querySelector(".ka-alle").addEventListener("click", einpassen);
     punkte.forEach(function (li) {
       var b = document.createElement("button");
@@ -209,8 +237,10 @@
       h += "<li>";
       if (p.foto) h += '<img src="' + esc(basis + p.foto) + '" alt="" width="72" height="54" loading="lazy" decoding="async">';
       h += '<p><span class="ka-meta">' + esc(ARTEN[p.art]) + " · " + esc(datum(p.datum)) + "</span><br><strong>" + esc(p.titel) + "</strong></p>";
-      h += "<p>" + esc(p.text) + "</p>";
-      h += '<p><a href="' + esc(basis + p.link) + '">' + (p.link.indexOf("berichte/") === 0 ? "Zum Bericht" : p.link.indexOf("wehr/chronik/") === 0 ? "Zur Chronik" : "Zur NeverEnding Story") + " →</a></p>";
+      if (p.text) h += "<p>" + esc(p.text) + "</p>";
+      if (p.ergebnisse) h += '<ul class="ka-erg">' + p.ergebnisse.map(function (z) { return "<li>" + esc(z) + "</li>"; }).join("") + "</ul>";
+      if (p.beleg) h += '<p class="ka-beleg">' + esc(p.beleg) + "</p>";
+      h += '<p><a href="' + esc(basis + p.link) + '">' + (p.link.indexOf("berichte/") === 0 ? "Zum Bericht" : p.link.indexOf("wehr/chronik/") === 0 ? "Zur Chronik" : p.link.indexOf("bewerbe/ergebnisse/") === 0 ? "Zu den Ergebnissen" : "Zur NeverEnding Story") + " →</a></p>";
       h += "</li>";
     });
     return h + "</ul></div>";
@@ -233,4 +263,5 @@
   }
 
   anwenden();
+  if (gemerkt()) kartenLaden();
 })();
