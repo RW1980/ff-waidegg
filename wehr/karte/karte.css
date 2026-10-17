@@ -1,0 +1,163 @@
+/* Ortskarte "Einsätze & Geschichte" – nur für /wehr/karte/. Farben und Schriften aus /style.css */
+.ka { --k-einsatz: var(--ember); --k-bewerb: var(--brass); --k-fest: #2d5b86; --k-geschichte: var(--coal); }
+
+/* Steuerung */
+.ka-steuerung {
+  margin: 1.4rem 0 1rem;
+  padding: .9rem 1rem 1rem;
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--ember);
+  display: grid;
+  gap: .9rem;
+}
+.ka-steuerung[hidden], .ka-regler[hidden], .ka-karte[hidden], .ka-kartenzeile[hidden] { display: none; }
+.ka-steuerung fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.ka-steuerung legend, .ka-regler-titel {
+  font-family: var(--display);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: .85rem;
+  color: var(--muted);
+  padding: 0;
+  margin-bottom: .35rem;
+}
+.ka-modus, .ka-arten { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ka-modus legend, .ka-arten legend { width: 100%; }
+.ka-modus label, .ka-arten label {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 2.75rem;
+  padding: .3rem .75rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-family: var(--display);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.ka-modus label:has(input:checked) { border-color: var(--ember); color: var(--ember-deep); }
+.ka-modus input, .ka-arten input { accent-color: var(--ember); width: 1.1rem; height: 1.1rem; margin: 0; }
+.ka-punktfarbe { width: .95rem; height: .95rem; border-radius: 50%; background: var(--k); flex: none; }
+.ka-einsatz { --k: var(--k-einsatz); }
+.ka-bewerb { --k: var(--k-bewerb); }
+.ka-fest { --k: var(--k-fest); }
+.ka-geschichte { --k: var(--k-geschichte); }
+
+.ka-regler { display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: .6rem; }
+.ka-regler-feld label { display: flex; align-items: baseline; gap: .6rem; }
+.ka-wert { font-family: var(--display); font-size: 2rem; line-height: 1; color: var(--ember); letter-spacing: .02em; }
+.ka-regler input[type="range"] { width: 100%; min-height: 2.75rem; accent-color: var(--ember); margin: 0; cursor: pointer; }
+.ka-schritt, .ka-laden, .ka-alle, .ka-zeigen {
+  font-family: var(--display);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: .4rem .8rem;
+  cursor: pointer;
+}
+.ka-schritt { font-size: 1.5rem; line-height: 1; padding: 0 .7rem; }
+.ka-schritt:hover, .ka-alle:hover, .ka-zeigen:hover { border-color: var(--ember); color: var(--ember); }
+.ka-schritt:disabled { opacity: .4; cursor: default; }
+.ka-status { margin: 0; color: var(--ink-soft); }
+
+/* Karte und Zwei-Klick-Hinweis */
+.ka-karte {
+  position: relative;
+  height: min(62vh, 34rem);
+  min-height: 18rem;
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  margin: 0 0 .4rem;
+}
+.ka-einwilligung {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  gap: .2rem;
+  padding: 1.2rem 1.4rem;
+  max-width: 36rem;
+}
+.ka-einwilligung p { margin: 0 0 .6rem; }
+.ka-einwilligung-titel { font-family: var(--display); text-transform: uppercase; letter-spacing: .08em; font-size: 1.3rem; }
+.ka-laden { background: var(--ember); border-color: var(--ember); color: #fff; padding: .5rem 1.2rem; }
+.ka-laden:hover { background: var(--ember-deep); }
+.ka-laden:disabled { opacity: .7; cursor: progress; }
+.ka-kartenzeile { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; margin: 0 0 1.4rem; font-size: .95rem; }
+.ka-hinweis { padding: .8rem 1rem; background: var(--sheet); border: 1px solid var(--line); }
+
+/* Marker (Leaflet divIcon) */
+.ka-marker {
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--k, var(--coal));
+  color: #fff;
+  font: 500 .8rem/1 var(--display);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.45);
+}
+.ka-marker.ka-ungefaehr-m { border-style: dashed; }
+.ka-marker:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.ka .leaflet-container { font-family: var(--serif); background: #e9e4da; }
+.ka .leaflet-popup-content { margin: .7rem .8rem; font-size: .95rem; line-height: 1.45; }
+.ka-pop h3 { font-size: 1.05rem; margin: 0 0 .1rem; }
+.ka-pop .ka-ungefaehr { display: block; margin-bottom: .4rem; }
+.ka-pop ul { list-style: none; margin: 0; padding: 0; max-height: 15rem; overflow-y: auto; overscroll-behavior: contain; }
+.ka-pop li { padding: .45rem 0; border-top: 1px solid var(--line); display: flow-root; }
+.ka-pop li p { margin: .1rem 0; }
+.ka-pop img { float: right; width: 72px; height: 54px; object-fit: cover; margin: .15rem 0 .2rem .5rem; border: 1px solid var(--line); }
+.ka-pop strong { font-family: var(--display); font-weight: 500; letter-spacing: .03em; }
+.ka-pop a { font-family: var(--display); text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; }
+
+/* Liste */
+.ka-punkte { margin-top: 1.6rem; }
+.ka-zahl { color: var(--muted); margin-top: -.3rem; }
+.ka-jahr { border-top: 3px solid var(--ember); margin-top: 1.4rem; }
+.ka-jahr[hidden], .ka-punkt[hidden] { display: none; }
+.ka-jahr h3 { font-size: 2rem; color: var(--brass); margin: .5rem 0 .4rem; }
+.ka-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.ka-punkt {
+  display: flow-root;
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--k);
+  padding: .7rem .9rem;
+}
+.ka-foto {
+  float: right;
+  width: 96px; height: 72px;
+  object-fit: cover;
+  margin: .2rem 0 .4rem .8rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.ka-text p { margin: 0 0 .35rem; max-width: 42rem; }
+.ka-text h4 { font-family: var(--display); font-weight: 500; text-transform: uppercase; letter-spacing: .04em; font-size: 1.15rem; line-height: 1.2; margin: .15rem 0 .25rem; }
+.ka-meta { font-size: .9rem; color: var(--muted); }
+.ka-art {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem;
+  color: #fff; background: var(--k); padding: .12rem .45rem; margin-right: .3rem;
+}
+.ka-ort { font-size: .95rem; color: var(--ink-soft); }
+.ka-ungefaehr { font-size: .85rem; color: var(--muted); font-style: italic; }
+.ka-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; margin: 0 !important; }
+.ka-zeigen { font-size: .8rem; min-height: 2.75rem; }
+.ka-info { margin-top: 2.2rem; padding: 1rem 1.1rem; background: var(--sheet); border: 1px solid var(--line); max-width: 46rem; }
+.ka-info h2 { margin-top: 0; }
+.ka-info p { margin: 0 0 .6rem; }
+.ka .back .zr-link { min-height: 2.75rem; }
+
+@media (max-width: 599px) {
+  .ka-steuerung { padding: .8rem; }
+  .ka-modus label, .ka-arten label { font-size: .82rem; padding: .3rem .6rem; }
+  .ka-karte { height: 58vh; }
+  .ka-foto { width: 80px; height: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ka *, .ka *::before, .ka *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
