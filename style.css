@@ -300,12 +300,14 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   text-decoration: none;
   transition: background-color .15s ease;
 }
-.facts--links a span::after { content: " →"; color: var(--ember-deep); }
+.facts--links a span::after { content: "\00a0→"; color: var(--ember-deep); }
 .facts--links a:hover { background: var(--sheet); }
 .facts--links a:hover strong { color: var(--ember-deep); }
 .facts--links a:focus-visible { outline: 2px solid var(--ember); outline-offset: -2px; background: var(--sheet); }
+.facts--links span { hyphens: none; -webkit-hyphens: none; overflow-wrap: normal; }
 @media (max-width: 599px) {
   .facts--links a { padding: .9rem .6rem; }
+  .facts--links span { hyphens: manual; -webkit-hyphens: manual; overflow-wrap: break-word; }
 }
 @media (max-width: 599px) {
   .facts:not(.stat-facts) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
