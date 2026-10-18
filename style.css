@@ -290,6 +290,23 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   line-height: 1.05;
 }
 .facts span { color: var(--muted); font-size: .92rem; }
+/* Startseite: ganze Kennzahl-Karte ist ein Link */
+.facts.facts--links li { padding: 0; }
+.facts--links a {
+  display: block;
+  height: 100%;
+  padding: 1.1rem .4rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color .15s ease;
+}
+.facts--links a span::after { content: " →"; color: var(--ember-deep); }
+.facts--links a:hover { background: var(--sheet); }
+.facts--links a:hover strong { color: var(--ember-deep); }
+.facts--links a:focus-visible { outline: 2px solid var(--ember); outline-offset: -2px; background: var(--sheet); }
+@media (max-width: 599px) {
+  .facts--links a { padding: .9rem .6rem; }
+}
 @media (max-width: 599px) {
   .facts:not(.stat-facts) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .facts:not(.stat-facts) li:nth-child(2n) { border-right: 0; }
