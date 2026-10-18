@@ -531,62 +531,67 @@ body.lb-open { overflow: hidden; }
   cursor: pointer;
 }
 
-/* Mannschaft: Kommando-Karten, Foto oben, Text darunter (nur /mannschaft/) */
-.portraits {
+/* Mannschaft: Funktionskarten des Kommandos ohne Fotos (nur /mannschaft/) */
+.funktionen {
+  list-style: none;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
-  gap: 1.4rem 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
+  gap: .8rem;
   margin: .6rem 0 2rem;
 }
-.portrait {
+.funktion {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: .7rem;
-  padding: 0 0 1rem;
-  border-bottom: 1px solid var(--line);
-  background: transparent;
-  text-align: center;
-}
-.portrait source { display: none; }
-.portrait img {
-  width: 100%;
-  max-width: 16rem;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  object-position: center 20%;
-  filter: grayscale(.35) contrast(1.02);
+  gap: 1rem;
+  min-height: 6.5rem;
+  padding: 1rem 1.1rem 1rem 1.25rem;
+  background: var(--sheet);
   border: 1px solid var(--line);
-  background: #fff;
+  border-left: 4px solid var(--ember);
 }
-.portrait img.portrait-platzhalter { object-fit: contain; object-position: center; filter: none; }
-.portrait > div { width: 100%; }
-.portrait span, .portrait strong {
-  hyphens: manual;
-  -webkit-hyphens: manual;
-  word-break: normal;
-  overflow-wrap: normal;
-  text-wrap: balance;
-}
-.portrait span {
-  display: block;
-  font-size: .74rem;
-  letter-spacing: .05em;
-  line-height: 1.3;
-  text-transform: uppercase;
-  color: var(--muted);
+.funktion-zeichen {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: var(--ember);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--sheet), 0 0 0 4px var(--brass);
   font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: .06em;
 }
-.portrait strong {
-  display: block;
-  margin-top: .3rem;
+.funktion > div { min-width: 0; }
+.funktion h3 {
+  margin: 0;
   font-family: var(--display);
   font-weight: 500;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  font-size: 1.05rem;
+  font-size: 1.12rem;
   line-height: 1.2;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--ink);
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  text-wrap: balance;
+}
+.funktion p {
+  margin: .35rem 0 0;
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+@media (max-width: 599px) {
+  .funktionen { gap: .6rem; }
+  .funktion { min-height: 0; padding: .85rem .9rem .85rem 1rem; gap: .85rem; }
+  .funktion-zeichen { width: 2.9rem; height: 2.9rem; font-size: 1rem; }
+  .funktion h3 { font-size: 1.02rem; }
 }
 .crew {
   list-style: none;
