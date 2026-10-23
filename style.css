@@ -596,6 +596,10 @@ body.lb-open { overflow: hidden; }
   font-weight: 500;
   letter-spacing: .06em;
 }
+.funktion-zeichen { overflow: hidden; text-align: center; line-height: 1; cursor: help; }
+.funktion-zeichen--lang { font-size: .98rem; letter-spacing: .03em; }
+.funktion-zeichen--zwei { display: flex; flex-direction: column; justify-content: center; gap: .08rem; font-size: .8rem; letter-spacing: .03em; }
+.funktion-zeichen--zwei span:last-child { font-size: .72rem; }
 .funktion > div { min-width: 0; }
 .funktion h3 {
   margin: 0;
@@ -621,6 +625,9 @@ body.lb-open { overflow: hidden; }
   .funktionen { gap: .6rem; }
   .funktion { min-height: 0; padding: .85rem .9rem .85rem 1rem; gap: .85rem; }
   .funktion-zeichen { width: 2.9rem; height: 2.9rem; font-size: 1rem; }
+  .funktion-zeichen--lang { font-size: .85rem; letter-spacing: .02em; }
+  .funktion-zeichen--zwei { font-size: .7rem; letter-spacing: .02em; }
+  .funktion-zeichen--zwei span:last-child { font-size: .64rem; }
   .funktion h3 { font-size: 1.02rem; }
 }
 .crew {
