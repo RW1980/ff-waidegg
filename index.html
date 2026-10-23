@@ -41,6 +41,8 @@
       data-bis = erster Tag, an dem der Termin automatisch verschwindet (meist der Tag nach dem Termin),
       data-uid = eindeutig je Termin (z. B. name-jahr@ff-waidegg.at),
       data-ics = Kalenderdatei unter /termine/ (Vorlage: bft-hermagor-2026.ics); ohne data-ics erzeugt das Skript sie selbst.
+      optional: data-text (kurzer Satz), data-ab="ja" (Anzeige „ab 17:00 Uhr“),
+      data-plakat="/termine/name-jahr-plakat.webp" (Plakat klein im aufgeklappten Blatt, Link öffnet es groß), data-plakat-alt.
       Sichtbarer Text im <li> (für Besuch ohne JavaScript) mit denselben Angaben füllen; optional ein <img class="tl-bild">.
     Mit JavaScript: zugeklappt steht nur der nächste anstehende Termin auf dem Blatt, aufgeklappt alle anstehenden
     chronologisch; abgelaufene (ab data-bis) werden ausgeblendet, sind alle abgelaufen, verschwindet die Lasche.
@@ -61,6 +63,20 @@
           <p><strong>Bezirksfeuerwehrtag</strong> des Bezirksfeuerwehrkommandos Hermagor<br>
           <time datetime="2026-10-31T18:00+01:00">Samstag, 31. Oktober 2026, 18:00 Uhr</time>, Rathaussaal Kötschach-Mauthen<br>
           <a href="/termine/bft-hermagor-2026.ics">Termin in den Kalender (.ics)</a></p>
+        </li>
+        <li data-termin-eintrag
+          data-titel="Friedenslicht abholen"
+          data-ort="Feuerwehrhaus Waidegg"
+          data-start="2026-12-23T17:00+01:00"
+          data-ab="ja"
+          data-bis="2026-12-24"
+          data-text="Getränke und wärmende Suppe; musikalische Umrahmung ab ca. 19:00 Uhr durch eine Kleingruppe der Trachtenkapelle Alpenrose Waidegg."
+          data-uid="friedenslicht-2026@ff-waidegg.at"
+          data-ics="/termine/friedenslicht-2026.ics">
+          <p><strong>Friedenslicht abholen</strong><br>
+          <time datetime="2026-12-23T17:00+01:00">Mittwoch, 23. Dezember 2026, ab 17:00 Uhr</time>, Feuerwehrhaus Waidegg<br>
+          Getränke und wärmende Suppe; musikalische Umrahmung ab ca. 19:00 Uhr durch eine Kleingruppe der Trachtenkapelle Alpenrose Waidegg.<br>
+          <a href="/termine/friedenslicht-2026.ics">Termin in den Kalender (.ics)</a></p>
         </li>
         <li data-termin-eintrag
           data-titel="Preiswatten"
