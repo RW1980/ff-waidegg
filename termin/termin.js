@@ -3,7 +3,9 @@
    Datenquelle: <li data-termin-eintrag> in [data-termine] (index.html). Zugeklappt: nächster anstehender Termin,
    aufgeklappt: alle anstehenden chronologisch; abgelaufene (ab data-bis) werden ausgeblendet.
    data-Attribute je Eintrag:
-     data-titel, data-zusatz, data-ort,
+     data-titel, data-zusatz, data-ort, data-text (optional, kurzer Satz unter Datum/Ort),
+     data-ab="ja" (Uhrzeit als „ab 17:00 Uhr“), data-plakat (optional, Pfad zum Plakat: klein im Blatt, Link öffnet es groß),
+     data-plakat-alt (optional, sonst „Plakat: <Titel>“),
      data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (ohne data-ende: data-dauer Stunden, Standard 3),
      data-bis = JJJJ-MM-TT, erster Tag, an dem der Hinweis automatisch verschwindet,
      data-uid, data-link, data-ics (statische .ics; fehlt sie, wird die Datei im Browser erzeugt), data-datei. */
@@ -40,6 +42,7 @@
     var bis = /^\d{4}-\d{2}-\d{2}$/.test(d.bis || "") ? Date.parse(d.bis + "T00:00:00" + start.off) : ende.ms;
     return {
       titel: d.titel || "", zusatz: d.zusatz || "", ort: d.ort || "", start: start, ende: ende, bis: bis,
+      text: d.text || "", ab: d.ab === "ja", plakat: d.plakat || "", plakatAlt: d.plakatAlt || "",
       uid: d.uid || ("termin-" + wand(start) + "@ff-waidegg.at"),
       link: d.link || "https://ff-waidegg.at/", datei: d.datei || "termin.ics", ics: d.ics || ""
     };
@@ -47,6 +50,7 @@
 
   function datumLang(z) { return WTAG[wtag(z)] + ", " + z.t + ". " + MONAT[z.mo - 1] + " " + z.j; }
   function uhr(z) { return zwei(z.h) + ":" + zwei(z.mi) + " Uhr"; }
+  function zeitText(c) { return ((c.ab ? "ab " : "") + uhr(c.start)).replace(/ /g, "\u00a0"); } /* ohne Umbruch in „ab 17:00 Uhr“ */
   function volltitel(c) { return (c.titel + " " + c.zusatz).trim(); }
 
   /* ---------- .ics (RFC 5545) ---------- */
@@ -73,14 +77,14 @@
       "BEGIN:VEVENT", "UID:" + c.uid, "DTSTAMP:" + stempel(jetzt),
       "DTSTART;TZID=Europe/Vienna:" + wand(c.start), "DTEND;TZID=Europe/Vienna:" + wand(c.ende),
       "SUMMARY:" + esc(volltitel(c)), "LOCATION:" + esc(c.ort),
-      "DESCRIPTION:" + esc(volltitel(c) + "\n" + datumLang(c.start) + ", " + uhr(c.start) + "\n" + c.ort + "\n" + c.link),
+      "DESCRIPTION:" + esc(volltitel(c) + "\n" + datumLang(c.start) + ", " + zeitText(c) + "\n" + c.ort + (c.text ? "\n" + c.text : "") + "\n" + c.link),
       "URL:" + c.link, "END:VEVENT", "END:VCALENDAR"
     ];
     return z.map(falten).join("\r\n") + "\r\n";
   }
 
   function whatsapp(c) {
-    var text = "\uD83D\uDE92 " + volltitel(c) + "\n" + datumLang(c.start) + ", " + uhr(c.start) + "\n" + c.ort + "\n" + c.link;
+    var text = "\uD83D\uDE92 " + volltitel(c) + "\n" + datumLang(c.start) + ", " + zeitText(c) + "\n" + c.ort + "\n" + c.link;
     return "https://wa.me/?text=" + encodeURIComponent(text);
   }
 
@@ -119,12 +123,20 @@
         if (i > 0) b.setAttribute("loading", "lazy");
         li.appendChild(b);
       }
+      if (c.plakat) { /* Plakat klein, Link öffnet es in voller Größe */
+        var pa = el("a", "tl-plakat"); pa.href = c.plakat; pa.target = "_blank"; pa.rel = "noopener";
+        var pi = el("img"); pi.src = c.plakat; pi.alt = c.plakatAlt || ("Plakat: " + c.titel);
+        pi.loading = "lazy"; pi.decoding = "async";
+        pa.appendChild(pi); pa.appendChild(el("span", "tl-plakat-hinweis", "Plakat groß ansehen"));
+        li.appendChild(pa);
+      }
       var h = el("h3", "tl-e-titel", c.titel); li.appendChild(h);
       if (c.zusatz) li.appendChild(el("p", "tl-zusatz", c.zusatz));
       var wann = el("p", "tl-wann"), t = el("time");
-      t.setAttribute("datetime", iso(c.start)); t.textContent = datumLang(c.start) + ", " + uhr(c.start);
+      t.setAttribute("datetime", iso(c.start)); t.textContent = datumLang(c.start) + ", " + zeitText(c);
       wann.appendChild(t); wann.appendChild(d.createElement("br")); wann.appendChild(d.createTextNode(c.ort));
       li.appendChild(wann);
+      if (c.text) li.appendChild(el("p", "tl-text", c.text));
       var cd = el("p", "tl-countdown"); li.appendChild(cd); countdowns.push({ e: cd, c: c });
       var akt = el("p", "tl-aktionen");
       var a = el("a", "tl-btn"); a.innerHTML = SVG_KAL; a.appendChild(d.createTextNode("In den Kalender"));
@@ -149,7 +161,7 @@
         var c = aktiv[0], s = c.start, n = aktiv.length - 1;
         setze(root, "titel", c.titel);
         setze(root, "datum", datumLang(s));
-        setze(root, "uhrzeit", uhr(s));
+        setze(root, "uhrzeit", zeitText(c));
         setze(root, "tag", String(s.t));
         setze(root, "monat", MONAT_K[s.mo - 1]);
         setze(root, "wochentag-kurz", WTAG_K[wtag(s)]);

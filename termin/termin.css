@@ -60,6 +60,12 @@
 .tl-eintrag .tl-zusatz { margin-top: 0; }
 .tl-bild { display: block; width: 100%; max-width: 18rem; height: auto; margin: 0 auto .5rem; }
 .tl-eintrag .tl-countdown { margin-bottom: .6rem; }
+.tl-text { margin: -.2rem 0 .6rem; }
+.tl-plakat { display: block; width: fit-content; max-width: 100%; margin: 0 auto .6rem; text-align: center; text-decoration: none; color: var(--ember-deep); }
+.tl-plakat img { display: block; max-width: 100%; max-height: 13rem; width: auto; height: auto; margin: 0 auto; border: 1px solid var(--line); }
+.tl-plakat-hinweis { display: block; margin-top: .25rem; font-family: var(--display); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+.tl-plakat:hover .tl-plakat-hinweis, .tl-plakat:focus-visible .tl-plakat-hinweis { text-decoration: underline; }
+.tl-plakat:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
 .tl-wort { display: none; }
 
 /* Pfeil im Blatt */
