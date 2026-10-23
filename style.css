@@ -630,6 +630,11 @@ body.lb-open { overflow: hidden; }
   .funktion-zeichen--zwei span:last-child { font-size: .64rem; }
   .funktion h3 { font-size: 1.02rem; }
 }
+/* Mannschaft: Dienstgradabzeichen neben dem Kürzel (nur Chargen-, Verwaltungs- und Offiziersdienstgrade laut KLFV) */
+.funktion p.mit-dg { display: flex; align-items: center; gap: .4rem; }
+.dg { display: inline-flex; align-items: center; gap: .35rem; flex: 0 0 auto; white-space: nowrap; }
+.dg-name { min-width: 0; }
+.dg-abz { display: block; flex: 0 0 auto; width: 35px; height: 22px; }
 .crew {
   list-style: none;
   padding: 0;
