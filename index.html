@@ -32,99 +32,69 @@
     </div>
     <nav class="nav-row" id="hauptmenue" aria-label="Hauptmenü"><a href="/">Start</a><a href="/aktuelles/">Aktuelles</a><div class="nav-group"><a href="/wehr/">Unsere Wehr</a><button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="nav-sub-wehr" aria-label="Untermenü Unsere Wehr"></button><ul class="nav-sub" id="nav-sub-wehr"><li><a href="/mannschaft/">Mannschaft</a></li><li><a href="/fahrzeug/">Fahrzeug und Geräte</a></li><li><a href="/wehr/chronik/">Chronik</a></li><li><a href="/wehr/statistik/">Einsatzstatistik</a></li><li><a href="/wehr/karte/">Ortskarte</a></li></ul></div><a href="/bewerbe/">Bewerbe</a><a href="/notfall/">Notfall</a><a href="/links/">Nützliche Links</a><a href="/impressum/">Impressum</a></nav>
   </header>
-  <!-- TERMINHINWEIS START (Kalenderblatt-Lasche, Skript /termin/termin.js, Stil /termin/termin.css)
-    Neuen Termin einrichten:
-    1. Nur die data-Attribute am <aside> unten ändern:
-       data-titel, data-zusatz (Veranstalter), data-ort,
-       data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (Winterzeit) bzw. +02:00 (Sommerzeit),
-       data-bis = erster Tag, an dem der Hinweis automatisch verschwindet (meist der Tag nach dem Termin),
-       data-uid = eindeutig je Termin (z. B. name-jahr@ff-waidegg.at, landet in der Kalenderdatei).
-       Blatt (Monat/Tag/Wochentag), Texte, Countdown und WhatsApp-Text entstehen daraus automatisch.
-    2. Kalenderdatei unter /termine/ ablegen (Vorlage: bft-hermagor-2026.ics; DTSTART, DTEND, SUMMARY, LOCATION,
-       DESCRIPTION und UID anpassen) und in data-ics sowie im Ersatzkasten verlinken.
-       Ohne data-ics erzeugt das Skript die Datei selbst (auf iOS weniger zuverlässig).
-    3. Den Ersatzkasten (.termin-fallback, für Besuch ohne JavaScript) mit denselben Angaben füllen.
-    Nach dem Termin: Block stehen lassen (verschwindet ab data-bis) oder durch den nächsten Termin ersetzen. -->
-  <div class="termin-stapel">
-  <aside class="termin" aria-label="Termin" data-termin
-    data-titel="Bezirksfeuerwehrtag"
-    data-zusatz="des Bezirksfeuerwehrkommandos Hermagor"
-    data-ort="Rathaussaal Kötschach-Mauthen"
-    data-start="2026-10-31T18:00+01:00"
-    data-ende="2026-10-31T22:00+01:00"
-    data-bis="2026-11-01"
-    data-uid="bft-hermagor-2026@ff-waidegg.at"
-    data-ics="/termine/bft-hermagor-2026.ics">
+  <!-- TERMINHINWEIS START (eine Kalenderblatt-Lasche für alle Termine, Skript /termin/termin.js, Stil /termin/termin.css)
+    Datenquelle ist die Liste <ol class="tf-liste"> unten: ein <li data-termin-eintrag> je Termin.
+    Neuen Termin ergänzen: einen <li> kopieren und anpassen (Reihenfolge egal, das Skript sortiert nach Datum):
+      data-titel, data-zusatz (optional, z. B. Veranstalter), data-ort,
+      data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (Winterzeit) bzw. +02:00 (Sommerzeit);
+        ohne data-ende gilt data-dauer (Stunden, Standard 3),
+      data-bis = erster Tag, an dem der Termin automatisch verschwindet (meist der Tag nach dem Termin),
+      data-uid = eindeutig je Termin (z. B. name-jahr@ff-waidegg.at),
+      data-ics = Kalenderdatei unter /termine/ (Vorlage: bft-hermagor-2026.ics); ohne data-ics erzeugt das Skript sie selbst.
+      Sichtbarer Text im <li> (für Besuch ohne JavaScript) mit denselben Angaben füllen; optional ein <img class="tl-bild">.
+    Mit JavaScript: zugeklappt steht nur der nächste anstehende Termin auf dem Blatt, aufgeklappt alle anstehenden
+    chronologisch; abgelaufene (ab data-bis) werden ausgeblendet, sind alle abgelaufen, verschwindet die Lasche.
+    Ohne JavaScript erscheint die Liste als schlichter Kasten (dort ohne Datumsfilter: abgelaufene <li> bitte löschen). -->
+  <aside class="termin" aria-label="Termine" data-termine>
     <div class="termin-fallback">
-      <p class="kicker">Termin</p>
-      <p><strong>Bezirksfeuerwehrtag</strong> des Bezirksfeuerwehrkommandos Hermagor<br>
-      <time datetime="2026-10-31T18:00+01:00">Samstag, 31. Oktober 2026, 18:00 Uhr</time>, Rathaussaal Kötschach-Mauthen<br>
-      <a href="/termine/bft-hermagor-2026.ics">Termin in den Kalender (.ics)</a></p>
+      <p class="kicker">Termine</p>
+      <ol class="tf-liste">
+        <li data-termin-eintrag
+          data-titel="Bezirksfeuerwehrtag"
+          data-zusatz="des Bezirksfeuerwehrkommandos Hermagor"
+          data-ort="Rathaussaal Kötschach-Mauthen"
+          data-start="2026-10-31T18:00+01:00"
+          data-ende="2026-10-31T22:00+01:00"
+          data-bis="2026-11-01"
+          data-uid="bft-hermagor-2026@ff-waidegg.at"
+          data-ics="/termine/bft-hermagor-2026.ics">
+          <p><strong>Bezirksfeuerwehrtag</strong> des Bezirksfeuerwehrkommandos Hermagor<br>
+          <time datetime="2026-10-31T18:00+01:00">Samstag, 31. Oktober 2026, 18:00 Uhr</time>, Rathaussaal Kötschach-Mauthen<br>
+          <a href="/termine/bft-hermagor-2026.ics">Termin in den Kalender (.ics)</a></p>
+        </li>
+        <li data-termin-eintrag
+          data-titel="Preiswatten"
+          data-ort="Gemeinschaftshaus Waidegg"
+          data-start="2027-12-27T15:00+01:00"
+          data-bis="2027-12-28"
+          data-uid="preiswatten-2027@ff-waidegg.at"
+          data-ics="/termine/preiswatten-2027.ics">
+          <img class="tl-bild" src="/termine/preiswatten-2027-karten.webp" alt="Aufgefächertes Blatt Doppeldeutscher Spielkarten" width="640" height="373" loading="lazy" decoding="async">
+          <p><strong>Preiswatten</strong><br>
+          <time datetime="2027-12-27T15:00+01:00">Montag, 27. Dezember 2027, 15:00 Uhr</time>, Gemeinschaftshaus Waidegg<br>
+          <a href="/termine/preiswatten-2027.ics">Termin in den Kalender (.ics)</a></p>
+        </li>
+      </ol>
     </div>
     <div class="termin-ui tl">
       <button class="tl-blatt" type="button" data-termin-toggle aria-expanded="false" aria-controls="tl-details">
         <span class="tl-datum" aria-hidden="true"><span class="tl-monat" data-feld="monat"></span><span class="tl-tag" data-feld="tag"></span><span class="tl-wtag" data-feld="wochentag-kurz"></span></span>
-        <span class="tl-leiste"><span class="tl-leiste-titel" data-feld="titel"></span><span class="tl-leiste-info" aria-hidden="true"><span data-feld="kurz"></span> · <span data-feld="uhrzeit"></span></span></span>
-        <span class="visually-hidden">Termin: <span data-feld="titel"></span> am <span data-feld="datum"></span>, Details</span>
+        <span class="tl-wort" aria-hidden="true">Termin</span>
+        <span class="tl-leiste" aria-hidden="true"><span class="tl-leiste-kicker">Termin<span data-feld="weitere"></span></span><span class="tl-leiste-titel" data-feld="titel"></span><span class="tl-leiste-info"><span data-feld="kurz"></span> · <span data-feld="uhrzeit"></span></span></span>
+        <span class="visually-hidden">Nächster Termin: <span data-feld="titel"></span> am <span data-feld="datum"></span>. <span data-feld="alle"></span></span>
         <span class="tl-pfeil" aria-hidden="true"></span>
       </button>
       <div class="tl-details" id="tl-details" role="group" aria-labelledby="tl-titel">
         <div class="tl-innen">
           <div class="tl-inhalt">
-            <p class="kicker">Termin · Bezirk Hermagor</p>
-            <h2 class="tl-titel" id="tl-titel" tabindex="-1" data-termin-fokus data-feld="titel">Termin</h2>
-            <p class="tl-zusatz" data-feld="zusatz"></p>
-            <p class="tl-wann"><span data-zeit="start"></span><br><span data-feld="ort"></span></p>
-            <p class="tl-countdown" data-cd="text"></p>
-            <p class="tl-aktionen">
-              <a class="tl-btn" data-aktion="ics" href="/termine/bft-hermagor-2026.ics"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5M12 13v5M9.5 15.5h5"/></svg>In den Kalender</a>
-              <a class="tl-btn tl-btn--ruhig" data-aktion="teilen" href="https://wa.me/" hidden target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path fill="currentColor" d="M9 8.5c0 3.5 3 6.5 6.5 6.5l.9-1.6-2-.9-.8.8a4 4 0 0 1-2.5-2.5l.8-.8-.9-2z"/></svg>Per WhatsApp teilen</a>
-            </p>
+            <h2 class="tl-titel" id="tl-titel" tabindex="-1" data-termin-fokus>Termine</h2>
+            <ol class="tl-liste" data-liste></ol>
             <button class="tl-zuklappen" type="button" data-termin-zu>Zuklappen</button>
           </div>
         </div>
       </div>
     </div>
   </aside>
-  <aside class="termin" aria-label="Termin" data-termin
-    data-titel="Preiswatten"
-    data-ort="Gemeinschaftshaus Waidegg"
-    data-start="2027-12-27T15:00+01:00"
-    data-bis="2027-12-28"
-    data-uid="preiswatten-2027@ff-waidegg.at"
-    data-ics="/termine/preiswatten-2027.ics">
-    <div class="termin-fallback">
-      <p class="kicker">Termin</p>
-      <p><strong>Preiswatten</strong><br>
-      <time datetime="2027-12-27T15:00+01:00">Montag, 27. Dezember 2027, 15:00 Uhr</time>, Gemeinschaftshaus Waidegg<br>
-      <a href="/termine/preiswatten-2027.ics">Termin in den Kalender (.ics)</a></p>
-    </div>
-    <div class="termin-ui tl">
-      <button class="tl-blatt" type="button" data-termin-toggle aria-expanded="false" aria-controls="tl-details-preiswatten">
-        <span class="tl-datum" aria-hidden="true"><span class="tl-monat" data-feld="monat"></span><span class="tl-tag" data-feld="tag"></span><span class="tl-wtag" data-feld="wochentag-kurz"></span></span>
-        <span class="tl-leiste"><span class="tl-leiste-titel" data-feld="titel"></span><span class="tl-leiste-info" aria-hidden="true"><span data-feld="kurz"></span> · <span data-feld="uhrzeit"></span></span></span>
-        <span class="visually-hidden">Termin: <span data-feld="titel"></span> am <span data-feld="datum"></span>, Details</span>
-        <span class="tl-pfeil" aria-hidden="true"></span>
-      </button>
-      <div class="tl-details" id="tl-details-preiswatten" role="group" aria-labelledby="tl-titel-preiswatten">
-        <div class="tl-innen">
-          <img class="tl-bild" src="/termine/preiswatten-2027-karten.webp" alt="Aufgefächertes Blatt Doppeldeutscher Spielkarten" width="640" height="373" loading="lazy" decoding="async">
-          <div class="tl-inhalt">
-            <p class="kicker">Termin</p>
-            <h2 class="tl-titel" id="tl-titel-preiswatten" tabindex="-1" data-termin-fokus data-feld="titel">Termin</h2>
-            <p class="tl-wann"><span data-zeit="start"></span><br><span data-feld="ort"></span></p>
-            <p class="tl-countdown" data-cd="text"></p>
-            <p class="tl-aktionen">
-              <a class="tl-btn" data-aktion="ics" href="/termine/preiswatten-2027.ics"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5M12 13v5M9.5 15.5h5"/></svg>In den Kalender</a>
-              <a class="tl-btn tl-btn--ruhig" data-aktion="teilen" href="https://wa.me/" hidden target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path fill="currentColor" d="M9 8.5c0 3.5 3 6.5 6.5 6.5l.9-1.6-2-.9-.8.8a4 4 0 0 1-2.5-2.5l.8-.8-.9-2z"/></svg>Per WhatsApp teilen</a>
-            </p>
-            <button class="tl-zuklappen" type="button" data-termin-zu>Zuklappen</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-  </div>
   <!-- TERMINHINWEIS ENDE -->
   <main id="inhalt">
 <figure class="cover hero-cover"><picture><source type="image/webp" srcset="/titelbild-800.webp 800w, /titelbild.webp 1600w" sizes="(min-width: 1200px) 1112px, 100vw"><img src="/titelbild.jpg" alt="Wappen-W der FF Waidegg mit Flammen und Wasser, 1895. Retten, Löschen, Bergen, Schützen." width="1600" height="700" fetchpriority="high"></picture></figure>

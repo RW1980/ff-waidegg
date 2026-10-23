@@ -17,6 +17,9 @@
 }
 .termin-fallback p { margin: 0; }
 .termin-fallback .kicker { margin-bottom: .2rem; }
+.tf-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.tf-liste li + li { padding-top: .8rem; border-top: 1px dashed var(--line); }
+.tf-liste .tl-bild { max-width: 14rem; padding: 0 0 .4rem; }
 .termin-fallback strong { font-family: var(--display); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; font-size: 1.25rem; }
 .termin.is-bereit .termin-fallback { display: none; }
 .termin:not(.is-bereit) .termin-ui { display: none; }
@@ -50,9 +53,14 @@
 }
 .tl-zuklappen:hover { color: var(--ember-deep); }
 
-/* Kleines Bild im Detailblatt (optional) */
-.tl-bild { display: block; width: 100%; height: auto; max-height: 11rem; object-fit: contain; padding: .6rem .8rem 0; box-sizing: border-box; }
-@media (max-width: 599px) { .tl-bild { max-width: 18rem; margin: 0 auto; padding-top: .7rem; } }
+/* Terminliste im Detailblatt */
+.tl-liste { list-style: none; margin: .9rem 0 0; padding: .9rem 0 0; border-top: 1px solid var(--line); }
+.tl-eintrag + .tl-eintrag { margin-top: 1rem; padding-top: 1rem; border-top: 2px dashed var(--line); }
+.tl-e-titel { margin: 0 0 .1rem; font-size: 1.35rem; }
+.tl-eintrag .tl-zusatz { margin-top: 0; }
+.tl-bild { display: block; width: 100%; max-width: 18rem; height: auto; margin: 0 auto .5rem; }
+.tl-eintrag .tl-countdown { margin-bottom: .6rem; }
+.tl-wort { display: none; }
 
 /* Pfeil im Blatt */
 .tl-pfeil { flex: 0 0 auto; width: .5rem; height: .5rem; border-right: 2px solid var(--ember); border-bottom: 2px solid var(--ember); transform: translateY(-2px) rotate(45deg); }
@@ -76,27 +84,22 @@
   .tl-tag { font-size: 1.15rem; font-weight: 500; padding: .12rem 0 .1rem; }
   .tl-wtag { display: none; }
   .tl-leiste { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
+  .tl-leiste-kicker { font-family: var(--display); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ember); }
   .tl-leiste-titel { font-family: var(--display); font-weight: 500; letter-spacing: .05em; text-transform: uppercase; font-size: 1rem; }
   .tl-leiste-info { font-size: .88rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tl-pfeil { width: .6rem; height: .6rem; margin-right: .3rem; }
   .tl-details { display: grid; grid-template-rows: 0fr; visibility: hidden; }
   .termin.is-offen .tl-details { grid-template-rows: 1fr; visibility: visible; }
   .tl-innen { overflow: hidden; min-height: 0; }
-  .tl-inhalt { padding: .2rem 1rem 1rem; border-top: 2px dashed var(--line); }
+  .tl-inhalt { padding: .6rem 1rem 1rem; border-top: 2px dashed var(--line); }
 }
 
 /* ---------- Tablet/Desktop: am Kopf hängendes Blatt ---------- */
 @media (min-width: 600px) {
-  /* Mehrere Termine: gemeinsamer Stapel, nebeneinander (nächster Termin ganz rechts) */
-  .termin-stapel:has(.termin.is-bereit) {
+  .tl {
     position: fixed; z-index: 19; /* knapp unter dem Kopf (20): das Blatt kommt unter dessen Kante hervor */
     top: var(--termin-kopf, 7.4rem);
     right: calc(max(0px, (100vw - var(--max)) / 2) + 1.25rem);
-    display: flex; flex-direction: row-reverse; align-items: flex-start; gap: .45rem;
-  }
-  .termin-stapel .termin.is-offen { position: relative; z-index: 2; }
-  .tl {
-    position: relative;
     display: flex; flex-direction: column; align-items: flex-end;
     perspective: 900px;
   }
@@ -126,11 +129,11 @@
   .tl-tag { display: flex; align-items: center; padding: .15rem .35rem 0 .5rem; font-size: 1.55rem; font-weight: 500; }
   .tl-wtag { display: flex; align-items: center; padding-top: .15rem; font-size: .75rem; letter-spacing: .12em; color: var(--muted); }
   .tl-leiste { display: none; }
+  .tl-wort { display: flex; align-items: center; padding: .15rem 0 0 .55rem; font-size: .75rem; letter-spacing: .14em; color: var(--ember); }
   .tl-pfeil { align-self: center; margin: 0 .7rem 0 .55rem; }
 
   .tl-details {
-    position: absolute; right: 0; top: calc(100% + .35rem);
-    width: min(22rem, calc(100vw - 2rem));
+    width: min(22rem, calc(100vw - 2rem)); margin-top: .35rem;
     max-height: calc(100vh - var(--termin-kopf, 7.4rem) - 4rem); overflow-y: auto; overscroll-behavior: contain;
     background: var(--sheet); border: 1px solid var(--line); border-top: 3px solid var(--ember);
     box-shadow: 0 14px 30px rgba(28, 27, 25, .22);
@@ -141,14 +144,14 @@
 
 /* Breite Bildschirme: ganzes Kalenderblatt im freien Rand neben dem Inhalt, verdeckt nichts */
 @media (min-width: 85rem) {
-  .termin-stapel:has(.termin.is-bereit) { right: calc(((100vw - var(--max)) / 2 - 5.4rem) / 2); flex-direction: column; gap: .6rem; }
+  .tl { right: calc(((100vw - var(--max)) / 2 - 5.4rem) / 2); }
   .tl-blatt { flex-direction: column; align-items: center; width: 5.4rem; height: auto; padding-bottom: .3rem; }
   .tl-blatt::before { top: .2rem; left: .9rem; right: .9rem; }
   .tl-datum { flex-direction: column; align-self: stretch; text-align: center; }
   .tl-monat { justify-content: center; padding: .7rem 0 .3rem; font-size: .85rem; letter-spacing: .14em; }
   .tl-tag { justify-content: center; padding: .3rem 0 .05rem; font-size: 2.6rem; }
   .tl-wtag { justify-content: center; padding: 0 0 .3rem; font-size: .78rem; letter-spacing: .14em; }
-  .tl-datum::after { content: "Termin"; padding: .3rem 0 .1rem; border-top: 1px dashed var(--line); font-size: .72rem; letter-spacing: .18em; color: var(--ember); }
+  .tl-wort { justify-content: center; align-self: stretch; padding: .3rem 0 .1rem; border-top: 1px dashed var(--line); font-size: .72rem; letter-spacing: .18em; }
   .tl-pfeil { margin: .2rem auto .15rem; }
 }
 
