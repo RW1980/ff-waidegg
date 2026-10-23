@@ -1,6 +1,8 @@
-/* FF Waidegg – Terminhinweis „Kalenderblatt-Lasche“ (Startseite)
+/* FF Waidegg – Terminhinweis „Kalenderblatt-Lasche“ (Startseite), eine Lasche für alle Termine
    Keine externen Ressourcen, kein Tracking, keine Cookies, kein Speicher im Browser.
-   Konfiguration ausschließlich über data-Attribute am Element [data-termin] in index.html:
+   Datenquelle: <li data-termin-eintrag> in [data-termine] (index.html). Zugeklappt: nächster anstehender Termin,
+   aufgeklappt: alle anstehenden chronologisch; abgelaufene (ab data-bis) werden ausgeblendet.
+   data-Attribute je Eintrag:
      data-titel, data-zusatz, data-ort,
      data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (ohne data-ende: data-dauer Stunden, Standard 3),
      data-bis = JJJJ-MM-TT, erster Tag, an dem der Hinweis automatisch verschwindet,
@@ -96,49 +98,78 @@
   var d = w.document;
   function alle(root, sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
   function setze(root, feld, txt) { alle(root, '[data-feld="' + feld + '"]').forEach(function (e) { e.textContent = txt; }); }
+  function el(tag, cls, txt) { var e = d.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  var SVG_KAL = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5M12 13v5M9.5 15.5h5"/></svg>';
+  var SVG_WA = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path fill="currentColor" d="M9 8.5c0 3.5 3 6.5 6.5 6.5l.9-1.6-2-.9-.8.8a4 4 0 0 1-2.5-2.5l.8-.8-.9-2z"/></svg>';
 
   function init(root) {
-    var c = lesen(root.dataset);
-    if (!c) return;
-    if (Date.now() >= c.bis) { root.hidden = true; return; }
+    var termine = alle(root, "[data-termin-eintrag]").map(function (li) {
+      var c = lesen(li.dataset);
+      if (c) { c.bild = li.querySelector("img.tl-bild"); c.datei = li.dataset.datei || (c.uid.split("@")[0] + ".ics"); }
+      return c;
+    }).filter(Boolean).sort(function (a, b) { return a.start.ms - b.start.ms; });
+    var liste = root.querySelector("[data-liste]");
+    var aktivKey = "";
+    var countdowns = [];
 
-    var s = c.start;
-    setze(root, "titel", c.titel);
-    setze(root, "zusatz", c.zusatz);
-    setze(root, "ort", c.ort);
-    setze(root, "datum", datumLang(s));
-    setze(root, "uhrzeit", uhr(s));
-    setze(root, "tag", String(s.t));
-    setze(root, "monat", MONAT_K[s.mo - 1]);
-    setze(root, "wochentag-kurz", WTAG_K[wtag(s)]);
-    setze(root, "kurz", WTAG_K[wtag(s)] + " " + zwei(s.t) + "." + zwei(s.mo) + ".");
-    /* <time> entsteht erst hier: HTML ohne Skript bleibt gültig, der Termin steht nur in den data-Attributen */
-    alle(root, "[data-zeit=start]").forEach(function (e) {
-      var t = d.createElement("time");
-      t.setAttribute("datetime", iso(s));
-      t.textContent = datumLang(s) + ", " + uhr(s);
-      e.textContent = "";
-      e.appendChild(t);
-    });
+    function eintrag(c, i) {
+      var li = el("li", "tl-eintrag");
+      if (c.bild) {
+        var b = c.bild.cloneNode(true);
+        if (i > 0) b.setAttribute("loading", "lazy");
+        li.appendChild(b);
+      }
+      var h = el("h3", "tl-e-titel", c.titel); li.appendChild(h);
+      if (c.zusatz) li.appendChild(el("p", "tl-zusatz", c.zusatz));
+      var wann = el("p", "tl-wann"), t = el("time");
+      t.setAttribute("datetime", iso(c.start)); t.textContent = datumLang(c.start) + ", " + uhr(c.start);
+      wann.appendChild(t); wann.appendChild(d.createElement("br")); wann.appendChild(d.createTextNode(c.ort));
+      li.appendChild(wann);
+      var cd = el("p", "tl-countdown"); li.appendChild(cd); countdowns.push({ e: cd, c: c });
+      var akt = el("p", "tl-aktionen");
+      var a = el("a", "tl-btn"); a.innerHTML = SVG_KAL; a.appendChild(d.createTextNode("In den Kalender"));
+      a.setAttribute("aria-label", c.titel + " in den Kalender (.ics)");
+      if (c.ics) a.href = c.ics;
+      else { a.href = URL.createObjectURL(new Blob([ics(c, Date.now())], { type: "text/calendar;charset=utf-8" })); a.setAttribute("download", c.datei); }
+      var wa = el("a", "tl-btn tl-btn--ruhig"); wa.innerHTML = SVG_WA; wa.appendChild(d.createTextNode("Per WhatsApp teilen"));
+      wa.setAttribute("aria-label", c.titel + " per WhatsApp teilen");
+      wa.href = whatsapp(c); wa.target = "_blank"; wa.rel = "noopener noreferrer";
+      akt.appendChild(a); akt.appendChild(wa); li.appendChild(akt);
+      return li;
+    }
 
-    var icsHref = c.ics || URL.createObjectURL(new Blob([ics(c, Date.now())], { type: "text/calendar;charset=utf-8" }));
-    alle(root, "[data-aktion=ics]").forEach(function (a) {
-      a.href = icsHref;
-      /* statische Datei normal öffnen (iOS: „Zum Kalender hinzufügen“), erzeugte Datei speichern */
-      if (c.ics) a.removeAttribute("download"); else a.setAttribute("download", c.datei);
-    });
-    alle(root, "[data-aktion=teilen]").forEach(function (a) { a.href = whatsapp(c); a.hidden = false; });
+    /* Anstehende Termine bestimmen; nur bei Änderung neu aufbauen */
+    function aufbauen() {
+      var jetzt = Date.now();
+      var aktiv = termine.filter(function (c) { return jetzt < c.bis; });
+      if (!aktiv.length) { root.hidden = true; return false; }
+      var key = aktiv.map(function (c) { return c.uid; }).join("|");
+      if (key !== aktivKey) {
+        aktivKey = key;
+        var c = aktiv[0], s = c.start, n = aktiv.length - 1;
+        setze(root, "titel", c.titel);
+        setze(root, "datum", datumLang(s));
+        setze(root, "uhrzeit", uhr(s));
+        setze(root, "tag", String(s.t));
+        setze(root, "monat", MONAT_K[s.mo - 1]);
+        setze(root, "wochentag-kurz", WTAG_K[wtag(s)]);
+        setze(root, "kurz", WTAG_K[wtag(s)] + " " + zwei(s.t) + "." + zwei(s.mo) + ".");
+        setze(root, "weitere", n ? " · " + n + (n === 1 ? " weiterer" : " weitere") : "");
+        setze(root, "alle", aktiv.length > 1 ? "Alle " + aktiv.length + " Termine anzeigen" : "Details anzeigen");
+        countdowns = [];
+        liste.textContent = "";
+        aktiv.forEach(function (t, i) { liste.appendChild(eintrag(t, i)); });
+      }
+      countdowns.forEach(function (x) { x.e.textContent = restText(x.c, jetzt); });
+      return true;
+    }
+    if (!aufbauen()) return;
 
     /* Countdown als Satz, ohne aria-live (keine Dauer-Ansagen); läuft nur bei sichtbarem Tab */
-    function tick() {
-      if (Date.now() >= c.bis) { root.hidden = true; return; }
-      alle(root, "[data-cd=text]").forEach(function (e) { e.textContent = restText(c, Date.now()); });
-    }
-    tick();
-    var uhrwerk = w.setInterval(tick, 30000);
+    var uhrwerk = w.setInterval(aufbauen, 30000);
     d.addEventListener("visibilitychange", function () {
       w.clearInterval(uhrwerk);
-      if (!d.hidden) { tick(); uhrwerk = w.setInterval(tick, 30000); }
+      if (!d.hidden) { aufbauen(); uhrwerk = w.setInterval(aufbauen, 30000); }
     });
 
     /* Aufklappen: echter <button> mit aria-expanded, Fokus auf die Überschrift, Escape schließt */
@@ -147,7 +178,7 @@
     function schalten(auf, fokus) {
       root.classList.toggle("is-offen", auf);
       btn.setAttribute("aria-expanded", auf ? "true" : "false");
-      if (auf) tick();
+      if (auf) aufbauen();
       if (auf && fokus) {
         var f = root.querySelector("[data-termin-fokus]");
         if (f) w.setTimeout(function () { f.focus({ preventScroll: true }); }, 30);
@@ -179,6 +210,6 @@
     root.classList.add("is-bereit");
   }
 
-  function start() { alle(d, "[data-termin]").forEach(init); }
+  function start() { alle(d, "[data-termine]").forEach(init); }
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", start); else start();
 })(typeof window !== "undefined" ? window : globalThis);
