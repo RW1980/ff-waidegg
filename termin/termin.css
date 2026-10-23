@@ -50,6 +50,10 @@
 }
 .tl-zuklappen:hover { color: var(--ember-deep); }
 
+/* Kleines Bild im Detailblatt (optional) */
+.tl-bild { display: block; width: 100%; height: auto; max-height: 11rem; object-fit: contain; padding: .6rem .8rem 0; box-sizing: border-box; }
+@media (max-width: 599px) { .tl-bild { max-width: 18rem; margin: 0 auto; padding-top: .7rem; } }
+
 /* Pfeil im Blatt */
 .tl-pfeil { flex: 0 0 auto; width: .5rem; height: .5rem; border-right: 2px solid var(--ember); border-bottom: 2px solid var(--ember); transform: translateY(-2px) rotate(45deg); }
 .termin.is-offen .tl-pfeil { transform: translateY(2px) rotate(225deg); }
@@ -83,10 +87,16 @@
 
 /* ---------- Tablet/Desktop: am Kopf hängendes Blatt ---------- */
 @media (min-width: 600px) {
-  .tl {
+  /* Mehrere Termine: gemeinsamer Stapel, nebeneinander (nächster Termin ganz rechts) */
+  .termin-stapel:has(.termin.is-bereit) {
     position: fixed; z-index: 19; /* knapp unter dem Kopf (20): das Blatt kommt unter dessen Kante hervor */
     top: var(--termin-kopf, 7.4rem);
     right: calc(max(0px, (100vw - var(--max)) / 2) + 1.25rem);
+    display: flex; flex-direction: row-reverse; align-items: flex-start; gap: .45rem;
+  }
+  .termin-stapel .termin.is-offen { position: relative; z-index: 2; }
+  .tl {
+    position: relative;
     display: flex; flex-direction: column; align-items: flex-end;
     perspective: 900px;
   }
@@ -119,7 +129,8 @@
   .tl-pfeil { align-self: center; margin: 0 .7rem 0 .55rem; }
 
   .tl-details {
-    width: min(22rem, calc(100vw - 2rem)); margin-top: .35rem;
+    position: absolute; right: 0; top: calc(100% + .35rem);
+    width: min(22rem, calc(100vw - 2rem));
     max-height: calc(100vh - var(--termin-kopf, 7.4rem) - 4rem); overflow-y: auto; overscroll-behavior: contain;
     background: var(--sheet); border: 1px solid var(--line); border-top: 3px solid var(--ember);
     box-shadow: 0 14px 30px rgba(28, 27, 25, .22);
@@ -130,7 +141,7 @@
 
 /* Breite Bildschirme: ganzes Kalenderblatt im freien Rand neben dem Inhalt, verdeckt nichts */
 @media (min-width: 85rem) {
-  .tl { right: calc(((100vw - var(--max)) / 2 - 5.4rem) / 2); }
+  .termin-stapel:has(.termin.is-bereit) { right: calc(((100vw - var(--max)) / 2 - 5.4rem) / 2); flex-direction: column; gap: .6rem; }
   .tl-blatt { flex-direction: column; align-items: center; width: 5.4rem; height: auto; padding-bottom: .3rem; }
   .tl-blatt::before { top: .2rem; left: .9rem; right: .9rem; }
   .tl-datum { flex-direction: column; align-self: stretch; text-align: center; }

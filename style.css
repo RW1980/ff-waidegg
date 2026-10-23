@@ -344,17 +344,6 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
   gap: .8rem;
 }
-/* Startseite: Terminliste (Einträge mit kleinem Bild) */
-.termine { list-style: none; padding: 0; margin: 0 0 1.6rem; display: grid; gap: .8rem; }
-.termin-eintrag { display: flex; align-items: center; gap: 1rem; padding: .8rem; background: var(--sheet); border: 1px solid var(--line); border-left: 4px solid var(--ember); }
-.termin-bild { flex: 0 0 auto; width: 9rem; margin: 0; }
-.termin-bild img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
-.termin-bild figcaption { margin-top: .2rem; font-size: .72rem; line-height: 1.2; color: var(--muted); }
-.termin-text { min-width: 0; }
-.termin-text h3 { margin: 0 0 .25rem; }
-.termin-text p { margin: .2rem 0 0; }
-@media (max-width: 599px) { .termin-eintrag { gap: .75rem; padding: .7rem; } .termin-bild { width: 7rem; } }
-@media (max-width: 419px) { .termin-eintrag { flex-direction: column; align-items: flex-start; } .termin-bild { width: 10rem; } }
 .card {
   display: block;
   background: var(--sheet);
