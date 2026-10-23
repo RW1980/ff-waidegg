@@ -474,6 +474,17 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   .gallery img, .gallery a:first-child img { height: 8.5rem; }
 }
 
+/* Startseite: Kennzahl-Karte mit Text-Titel */
+.facts .fact--titel strong { font-size: 1.4rem; letter-spacing: .02em; line-height: 1.15; }
+@media (max-width: 599px) { .facts .fact--titel strong { font-size: 1.15rem; } }
+/* /bewerbe/sammlung/: Bilder im ganzen Format */
+.gallery--sammlung { grid-template-columns: 1fr; }
+.gallery--sammlung picture { display: block; }
+.gallery.gallery--sammlung img, .gallery.gallery--sammlung a:first-child img { height: auto; object-fit: contain; }
+.gallery--sammlung .sammlung-breit, .gallery--sammlung .sammlung-hoch { grid-column: 1 / -1; }
+@media (min-width: 700px) { .gallery--sammlung .sammlung-hoch { justify-self: center; width: 100%; max-width: 34rem; } }
+@media (min-width: 700px) { .gallery.gallery--sammlung { grid-template-columns: repeat(2, 1fr); align-items: start; } }
+
 body.lb-open { overflow: hidden; }
 .lightbox {
   position: fixed;
