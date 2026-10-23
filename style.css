@@ -634,6 +634,8 @@ body.lb-open { overflow: hidden; }
 .funktion p.mit-dg { display: flex; align-items: center; gap: .4rem; }
 .dg { display: inline-flex; align-items: center; gap: .35rem; flex: 0 0 auto; white-space: nowrap; }
 .dg-name { min-width: 0; }
+.funktion p.mit-dg.mit-tag { align-items: flex-start; }
+.tag-reserve { display: block; width: max-content; margin-top: .2rem; padding: .05rem .45rem; font-family: var(--display); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; line-height: 1.4; color: var(--ink-soft); border: 1px solid var(--line); border-radius: 999px; }
 .dg-abz { display: block; flex: 0 0 auto; width: 35px; height: 22px; }
 .crew {
   list-style: none;
