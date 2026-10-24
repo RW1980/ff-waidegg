@@ -1195,3 +1195,8 @@ img, video, iframe { max-width: 100%; }
 .gemeinschaftsfoto a { display: block; }
 .gemeinschaftsfoto img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--sheet); }
 .gemeinschaftsfoto figcaption { margin-top: .4rem; font-size: .92rem; color: var(--muted); }
+
+/* Platzhalter für Berichte, die noch auf Datum oder Fotos warten (nur Vorschau) */
+.platzhalter { margin: 1.2rem 0; padding: 1.4rem 1rem; border: 2px dashed var(--line); background: var(--sheet); color: var(--muted); text-align: center; font-size: .95rem; }
+.platzhalter-text { color: var(--muted); }
+.quelle { font-size: .92rem; color: var(--muted); }
