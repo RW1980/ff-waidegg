@@ -146,6 +146,19 @@
       <p>Ein besonderer Tag für die Gemeinde: Die neue Waidegger Gailbrücke ist offiziell eröffnet.</p>
     </a></div>
 <p class="mehr"><a class="btn-alle" href="/aktuelles/">Alle Berichte</a></p>
+<section class="wetter" aria-labelledby="wetter-h">
+<div class="section-head"><h2 id="wetter-h">Wetter</h2><a href="https://www.windy.com/46.634/13.231?wind,46.634,13.231,9" rel="noopener">Auf Windy.com</a></div>
+<!-- Windy-Einbettung (embed.windy.com, gratis). Position Waidegg laut OpenStreetMap/Nominatim: 46.6344 N, 13.2307 E.
+     Der iframe entsteht erst nach Klick (wetter.js); vorher wird nichts von Windy geladen. Datenschutz: /datenschutz/#wetter -->
+<div class="wetter-rahmen" data-wetter data-wetter-src="https://embed.windy.com/embed2.html?lat=46.634&amp;lon=13.231&amp;detailLat=46.634&amp;detailLon=13.231&amp;zoom=9&amp;level=surface&amp;overlay=wind&amp;product=ecmwf&amp;menu=&amp;message=true&amp;marker=true&amp;calendar=now&amp;pressure=&amp;type=map&amp;location=coordinates&amp;detail=true&amp;metricWind=km%2Fh&amp;metricTemp=%C2%B0C&amp;metricRain=mm&amp;radarRange=-1">
+  <div class="wetter-einwilligung">
+    <p class="wetter-titel">Wetterkarte für Waidegg</p>
+    <p>Wind und Vorhersage für Waidegg im Gailtal, von Windy.com. Die Karte wird erst nach einem Klick geladen. Dann ruft dein Browser Inhalte von den Servern von Windy (Windyty, SE, Prag) ab und übermittelt dabei deine IP-Adresse. <a href="/datenschutz/#wetter">Mehr dazu im Datenschutz</a></p>
+    <button type="button" class="wetter-laden" data-wetter-laden>Wetterkarte laden</button>
+  </div>
+</div>
+<noscript><p class="wetter-hinweis">Die Wetterkarte braucht JavaScript. <a href="https://www.windy.com/46.634/13.231?wind,46.634,13.231,9">Vorhersage für Waidegg auf Windy.com</a></p></noscript>
+</section>
 </main>
   <footer class="site-foot">
     <div class="foot-inner">
@@ -222,6 +235,7 @@
     })();
   </script>
   <script src="/termin/termin.js" defer></script>
+  <script src="/wetter.js" defer></script>
   <script src="/lightbox.js"></script>
 </body>
 </html>

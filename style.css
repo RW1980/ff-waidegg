@@ -1189,3 +1189,34 @@ img, video, iframe { max-width: 100%; }
 /* Jahresauswahl als Links (Aktuelles) */
 .years a[aria-current="page"] { background: var(--ember); border-color: var(--ember); color: #fff; }
 .years a[aria-current="page"]:hover { color: #fff; }
+
+/* Startseite: Wetterkarte (Windy, lädt erst nach Klick – wetter.js) */
+.wetter { margin-top: 2.4rem; }
+.wetter-rahmen {
+  position: relative;
+  height: clamp(28rem, 70vh, 34rem);
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ember);
+  overflow: hidden;
+}
+.wetter-rahmen.is-geladen { border-left-width: 1px; }
+.wetter-rahmen iframe { display: block; width: 100%; height: 100%; border: 0; }
+.wetter-einwilligung {
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  height: 100%; max-width: 38rem; padding: 1.2rem 1.4rem; box-sizing: border-box;
+}
+.wetter-einwilligung p { margin: 0 0 .7rem; }
+.wetter-titel { font-family: var(--display); font-weight: 500; text-transform: uppercase; letter-spacing: .08em; font-size: 1.3rem; }
+.wetter-laden {
+  min-height: 2.75rem; padding: .5rem 1.2rem; cursor: pointer;
+  font-family: var(--display); font-size: .95rem; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--ember); color: var(--sheet); border: 1px solid var(--ember-deep);
+}
+.wetter-laden:hover { background: var(--ember-deep); }
+.wetter-laden:focus-visible { outline: 3px solid var(--ember); outline-offset: 3px; }
+.wetter-hinweis { margin: .6rem 0 0; color: var(--ink-soft); }
+@media (max-width: 599px) {
+  .wetter-rahmen { height: 30rem; }
+  .wetter-einwilligung { padding: 1rem; }
+}
