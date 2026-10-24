@@ -6,5 +6,8 @@ OUT="_site"
 rm -rf "$OUT" && mkdir -p "$OUT"
 tar -cf - --exclude=./.git --exclude=./.github --exclude=./.gitignore --exclude="./$OUT" --exclude=./tools \
   --exclude=./statichost.yml --exclude=./pagefind.yml --exclude=./README.md . | tar -xf - -C "$OUT"
+# Noch nicht freigegebene Inhalte (Liste: tools/nur-vorschau.txt) aus der Live-Seite entfernen.
+# Bricht den Build ab, falls danach noch Vorschau-Inhalte übrig sind.
+sh tools/nur-vorschau.sh "$OUT"
 test -f "$OUT/index.html" && test -f "$OUT/_redirects" && test -f "$OUT/pagefind/pagefind.js"
 echo "Live-Seite in $OUT/ erzeugt ($(find "$OUT" -type f | wc -l) Dateien)"
