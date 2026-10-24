@@ -4,5 +4,4 @@
 # Freigabe: Zeile hier löschen, Marker im Bericht (meta ffw-status, data-pagefind-ignore) und
 # in aktuelles/index.html entfernen, pagefind neu erzeugen. Details: README / Go-live-README.
 # Ein Pfad pro Zeile, relativ zum Repo-Hauptordner, ohne führenden Schrägstrich.
-berichte/2026/einsatzübung-rattendorf
-fotos/2026/einsatzübung-rattendorf
+# (derzeit leer)
