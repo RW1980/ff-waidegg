@@ -1,0 +1,8 @@
+# Inhalte, die NUR in der Vorschau (/v-dukayd9b57/) erscheinen und NICHT live gehen.
+# tools/live.sh (über tools/nur-vorschau.sh) entfernt jeden hier gelisteten Pfad aus _site/
+# und alle Blöcke <!-- NUR-VORSCHAU:START … --> … <!-- NUR-VORSCHAU:ENDE --> aus den HTML-Seiten.
+# Freigabe: Zeile hier löschen, Marker im Bericht (meta ffw-status, data-pagefind-ignore) und
+# in aktuelles/index.html entfernen, pagefind neu erzeugen. Details: README / Go-live-README.
+# Ein Pfad pro Zeile, relativ zum Repo-Hauptordner, ohne führenden Schrägstrich.
+berichte/2026/einsatzübung-rattendorf
+fotos/2026/einsatzübung-rattendorf
