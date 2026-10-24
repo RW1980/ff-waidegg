@@ -64,7 +64,6 @@ def bericht_beschreibung(p, t):
              and x.lower().strip(' "„“') != h1.lower()]
     satz = ''
     for x in teile:
-        if 'corona' in x.lower() or 'covid' in x.lower(): continue
         if x == 'Bericht folgt.': continue
         satz = (satz + ' ' + x).strip()
         if len(satz) >= 110: break
