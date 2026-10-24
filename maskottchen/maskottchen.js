@@ -2,12 +2,13 @@
    Beim ersten Besuch erscheint unten rechts eine kleine Figur mit Sprechblase und zeigt in 4 Schritten
    Termine, Berichte, Notfall-Infos und Kontakt. Danach nie wieder: Merker „ffw-maskottchen“ im localStorage,
    keine Cookies, kein Tracking, keine externen Dienste.
-   Testen: ?maskottchen=a bzw. ?maskottchen=b zeigt die Variante immer (auch wenn schon gesehen),
-   ?maskottchen=aus blendet sie aus, ?maskottchen=neu löscht den Merker (dann gilt wieder die Einstellung unten). */
+   Testen: ?maskottchen=1 (oder =a) zeigt die Tour immer, auch wenn schon gesehen und auch wenn unten "aus" steht;
+   ?maskottchen=aus blendet sie aus, ?maskottchen=neu löscht den Merker (dann gilt wieder die Einstellung unten).
+   Bilder: winken / zeigen / daumen als .webp und .png (240 px hoch, transparent) in diesem Ordner. */
 (function () {
   "use strict";
 
-  /* EINSTELLUNG: "aus" (Standard, bis Roland wählt), "a" (Bub, dunkle Einsatzjacke) oder "b" (Mädchen, rote Jacke) */
+  /* EINSTELLUNG: "aus" (Standard, bis Roland freigibt) oder "an" (Tour beim ersten Besuch für alle) */
   var MASKOTTCHEN = "aus";
 
   var MERKER = "ffw-maskottchen";
@@ -22,9 +23,8 @@
   try { speicher = window.localStorage; speicher.getItem(MERKER); } catch (e) { speicher = null; }
 
   if (param === "neu" && speicher) { try { speicher.removeItem(MERKER); } catch (e) {} }
-  var test = param === "a" || param === "b";
-  var variante = test ? param : MASKOTTCHEN;
-  if (param === "aus" || (variante !== "a" && variante !== "b")) return;
+  var test = param === "1" || param === "a";
+  if (param === "aus" || (!test && MASKOTTCHEN !== "an")) return;
   if (!test) {
     /* ohne funktionierenden Speicher nicht zeigen, sonst käme die Tour bei jedem Besuch */
     if (!speicher || speicher.getItem(MERKER)) return;
@@ -75,7 +75,7 @@
   function aufbauen() {
     merken();
     var nr = 0, ziel = null;
-    var box = el("section", "mk mk--" + variante);
+    var box = el("section", "mk");
     box.setAttribute("aria-label", "Kurze Tour durch die Startseite");
     box.setAttribute("role", "region");
 
@@ -113,7 +113,7 @@
     document.documentElement.classList.add("mk-offen");
 
     /* alle Posen vorladen, damit der Wechsel nicht flackert */
-    ["winken", "zeigen", "daumen"].forEach(function (p) { var i = new Image(); i.src = new URL(variante + "-" + p + ".webp", ordner).href; });
+    ["winken", "zeigen", "daumen"].forEach(function (p) { var i = new Image(); i.src = new URL(p + ".webp", ordner).href; });
 
     function platz() { document.documentElement.style.setProperty("--mk-hoehe", box.offsetHeight + "px"); }
 
@@ -145,8 +145,8 @@
       var letzter = nr === schritte.length - 1;
       weiter.textContent = letzter ? "Fertig" : "Weiter";
       weiter.setAttribute("aria-label", letzter ? "Tour beenden" : "Weiter zu Schritt " + (nr + 2));
-      quelle.srcset = new URL(variante + "-" + s.pose + ".webp", ordner).href;
-      bild.src = new URL(variante + "-" + s.pose + ".png", ordner).href;
+      quelle.srcset = new URL(s.pose + ".webp", ordner).href;
+      bild.src = new URL(s.pose + ".png", ordner).href;
       figur.className = "mk-figur mk-pose-" + s.pose;
       platz();
       hinscrollen(ziel);
