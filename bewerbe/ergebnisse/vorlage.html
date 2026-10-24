@@ -18,7 +18,7 @@
 .lm-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 .lm-wrap:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 .lm-tab{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.lm-tab td[data-label=Hinweis]{min-width:9rem;overflow-wrap:break-word;hyphens:auto}
+@media (min-width:641px) and (max-width:1023px){.lm-tab th,.lm-tab td{padding:.4rem .35rem;font-size:.92rem}.lm-tab td{hyphens:auto;overflow-wrap:break-word}}
 .lm-tab th,.lm-tab td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid rgba(0,0,0,.12);vertical-align:top}
 .lm-tab thead th{font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
 .lm-podest{background:rgba(201,162,39,.12)}
