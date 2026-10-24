@@ -1,0 +1,4 @@
+# Dateien, die im Repo nötig sind, aber nicht veröffentlicht werden (relativ zum Repo-Hauptordner).
+# Skripte (*.py, *.sh), *.md, *.yml, *.pkl, versteckte Dateien usw. entfernt tools/hilfsdateien.sh ohnehin.
+bewerbe/ergebnisse/vorlage.html
+bewerbe/ergebnisse/ergebnisse.json
