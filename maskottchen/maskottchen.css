@@ -1,0 +1,64 @@
+/* FF Waidegg – Begrüßungs-Maskottchen (wird nur geladen, wenn die Tour erscheint). Farben/Schriften aus style.css. */
+.mk {
+  position: fixed; z-index: 18; /* unter Kopf (20), Menü und Terminblatt (19) */
+  right: max(.6rem, env(safe-area-inset-right)); bottom: max(.6rem, env(safe-area-inset-bottom));
+  display: flex; align-items: flex-end; gap: .25rem;
+  max-width: calc(100vw - 1.2rem);
+  pointer-events: none;
+}
+.mk > * { pointer-events: auto; }
+.mk-blase {
+  position: relative; width: min(17.5rem, calc(100vw - 6.6rem)); margin-bottom: 1.6rem;
+  padding: .6rem .8rem .7rem; background: var(--sheet); color: var(--ink);
+  border: 1px solid var(--line); border-left: 4px solid var(--ember); border-radius: .35rem;
+  box-shadow: 0 6px 18px rgba(28, 27, 25, .2);
+  font-size: .92rem; line-height: 1.4;
+}
+.mk-blase::after { /* Sprechblasen-Spitze zur Figur */
+  content: ""; position: absolute; right: -.5rem; bottom: 1.4rem; width: .9rem; height: .9rem;
+  background: var(--sheet); border: solid var(--line); border-width: 1px 1px 0 0; transform: rotate(45deg);
+}
+.mk-weg {
+  float: right; margin: -.15rem -.3rem .2rem .6rem; min-height: 2.75rem; padding: .3rem .6rem;
+  background: var(--coal); color: var(--sheet); border: 0; border-radius: .25rem;
+  font: 500 .82rem/1 var(--display); letter-spacing: .06em; text-transform: uppercase; cursor: pointer;
+}
+.mk-weg:hover { background: var(--ember-deep); }
+.mk-gruss { margin: 0 0 .25rem; font-weight: 600; color: var(--ember-deep); }
+.mk-stand { margin: 0; font: 500 .75rem/1.3 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.mk-titel { margin: 0 0 .15rem; font: 500 1.15rem/1.2 var(--display); letter-spacing: .04em; text-transform: uppercase; }
+.mk-inhalt { margin: 0 0 .35rem; }
+.mk-link { display: inline-block; margin-bottom: .4rem; font-weight: 600; }
+.mk-link[hidden], .mk-gruss[hidden], .mk-knoepfe button[hidden] { display: none; }
+.mk-knoepfe { clear: both; display: flex; justify-content: flex-end; gap: .4rem; }
+.mk-knoepfe button {
+  min-height: 2.75rem; padding: .4rem .9rem; border-radius: .25rem; cursor: pointer;
+  font: 500 .88rem/1 var(--display); letter-spacing: .08em; text-transform: uppercase;
+}
+.mk-zurueck { background: var(--sheet); color: var(--ink); border: 1px solid var(--line); }
+.mk-weiter { background: var(--ember); color: var(--sheet); border: 1px solid var(--ember); }
+.mk-weiter:hover { background: var(--ember-deep); }
+.mk button:focus-visible, .mk a:focus-visible { outline: 3px solid var(--ember); outline-offset: 2px; }
+.mk-weg:focus-visible { outline-color: var(--ember-deep); box-shadow: 0 0 0 2px var(--sheet) inset; }
+.mk-figur { display: block; flex: none; width: auto; }
+.mk-figur img { display: block; height: 6.2rem; width: auto; filter: drop-shadow(0 3px 4px rgba(28, 27, 25, .25)); }
+.mk-pose-zeigen img { transform: scaleX(-1); } /* Original zeigt nach rechts – hier zur Seite hin (links) */
+/* Platz schaffen, damit der Fußbereich ganz über die Figur gescrollt werden kann */
+html.mk-offen body { padding-bottom: calc(var(--mk-hoehe, 10rem) + 1rem); }
+/* hervorgehobener Bereich */
+.mk-ziel { outline: 3px dashed var(--ember-deep) !important; outline-offset: 5px; border-radius: .2rem; }
+.site-foot.mk-ziel { outline-offset: -8px; }
+@media (max-width: 599px) { .tl-blatt.mk-ziel { outline-offset: -6px; } }
+@media (min-width: 600px) {
+  .mk-blase { width: 19rem; font-size: .95rem; margin-bottom: 2.6rem; }
+  .mk-figur img { height: 9rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mk { animation: mk-rein .45s ease-out both; }
+  .mk-ziel { animation: mk-puls 1.2s ease-in-out 2; }
+  .site-foot.mk-ziel { animation: none; }
+  @media (max-width: 599px) { .tl-blatt.mk-ziel { animation: none; } }
+}
+@keyframes mk-rein { from { opacity: 0; transform: translateY(1.5rem); } to { opacity: 1; transform: none; } }
+@keyframes mk-puls { 50% { outline-offset: 9px; } }
+@media print { .mk { display: none !important; } }
