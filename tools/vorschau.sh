@@ -8,6 +8,9 @@ OUT="_wartung/$P"
 rm -rf "$OUT" && mkdir -p "$OUT"
 tar -cf - --exclude=./.git --exclude=./_wartung --exclude=./tools \
   --exclude=./statichost.yml --exclude=./pagefind.yml --exclude=./README.md . | tar -xf - -C "$OUT"
+# Hilfsdateien (Skripte, Doku, Vorlagen …) auch in Unterordnern entfernen, abgelaufene Termine aus dem No-JS-Fallback
+sh tools/hilfsdateien.sh "$OUT"
+sh tools/termine.sh "$OUT/index.html"
 cd "$OUT"
 find . -name '*.html' -exec sed -i \
   -e 's#\(href\|src\|srcset\|content\|action\|poster\|data-[a-z-]*\)="/\([^/]\)#\1="/'"$P"'/\2#g' \
