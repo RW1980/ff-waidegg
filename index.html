@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Freiwillige Feuerwehr Waidegg</title>
-  <meta name="description" content="Freiwillige Feuerwehr Waidegg, Ortswehr der Marktgemeinde Kirchbach. Seit 1895.">
+  <title>Freiwillige Feuerwehr Waidegg – Seit 1895 für die Heimat</title>
+  <meta name="description" content="Die Freiwillige Feuerwehr Waidegg im Oberen Gailtal: Ortswehr der Marktgemeinde Kirchbach seit 1895. Neueste Berichte, Termine und der Notruf 122.">
   <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2">
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=2">
@@ -14,6 +14,7 @@
   <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/termin/termin.css">
+  <link rel="canonical" href="https://ff-waidegg.at/">
 </head>
 <body>
   <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -46,7 +47,8 @@
       Sichtbarer Text im <li> (für Besuch ohne JavaScript) mit denselben Angaben füllen; optional ein <img class="tl-bild">.
     Mit JavaScript: zugeklappt steht nur der nächste anstehende Termin auf dem Blatt, aufgeklappt alle anstehenden
     chronologisch; abgelaufene (ab data-bis) werden ausgeblendet, sind alle abgelaufen, verschwindet die Lasche.
-    Ohne JavaScript erscheint die Liste als schlichter Kasten (dort ohne Datumsfilter: abgelaufene <li> bitte löschen). -->
+    Ohne JavaScript erscheint die Liste als schlichter Kasten; abgelaufene Einträge entfernt tools/termine.sh bei jedem Build
+    (Vorschau und Live), sind alle abgelaufen, fällt die Lasche ganz weg. Im Repo dürfen sie stehen bleiben (später aufräumen). -->
   <aside class="termin" aria-label="Termine" data-termine>
     <div class="termin-fallback">
       <p class="kicker">Termine</p>
