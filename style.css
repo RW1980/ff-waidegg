@@ -1189,3 +1189,9 @@ img, video, iframe { max-width: 100%; }
 /* Jahresauswahl als Links (Aktuelles) */
 .years a[aria-current="page"] { background: var(--ember); border-color: var(--ember); color: #fff; }
 .years a[aria-current="page"]:hover { color: #fff; }
+
+/* Mannschaft: Gemeinschaftsfoto (Platz vorbereitet in mannschaft/index.html, aktiv erst mit Foto) */
+.gemeinschaftsfoto { margin: 1.6rem 0 2rem; }
+.gemeinschaftsfoto a { display: block; }
+.gemeinschaftsfoto img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--sheet); }
+.gemeinschaftsfoto figcaption { margin-top: .4rem; font-size: .92rem; color: var(--muted); }
