@@ -15,7 +15,10 @@
   <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/bewerbe/geschichte/geschichte.css">
 <style>
+.lm-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.lm-wrap:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 .lm-tab{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.lm-tab td[data-label=Hinweis]{min-width:9rem;overflow-wrap:break-word;hyphens:auto}
 .lm-tab th,.lm-tab td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid rgba(0,0,0,.12);vertical-align:top}
 .lm-tab thead th{font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
 .lm-podest{background:rgba(201,162,39,.12)}
@@ -64,7 +67,7 @@
     <section id="lm" aria-labelledby="lm-titel">
     <h2 id="lm-titel">Landesmeisterschaften</h2>
     <p class="lm-hinweis">47 Ergebnisse. Die Liste wird laufend ergänzt.</p>
-    <div class="lm-wrap"><table class="lm-tab">
+    <div class="lm-wrap" tabindex="0" role="region" aria-labelledby="lm-titel"><table class="lm-tab">
     <caption class="visually-hidden">Landesmeisterschaften der FF Waidegg</caption>
     <thead><tr><th scope="col">Jahr</th><th scope="col">Ort</th><th scope="col">Bewerb</th><th scope="col">Gruppe</th><th scope="col">Platz</th><th scope="col">Zeit</th><th scope="col">Hinweis</th></tr></thead>
     <tbody>
@@ -120,7 +123,7 @@
     <section id="blb" aria-labelledby="blb-titel">
     <h2 id="blb-titel">Bezirksleistungsbewerbe</h2>
     <p class="lm-hinweis">55 Ergebnisse. Die Liste wird laufend ergänzt.</p>
-    <div class="lm-wrap"><table class="lm-tab">
+    <div class="lm-wrap" tabindex="0" role="region" aria-labelledby="blb-titel"><table class="lm-tab">
     <caption class="visually-hidden">Bezirksleistungsbewerbe der FF Waidegg</caption>
     <thead><tr><th scope="col">Jahr</th><th scope="col">Ort</th><th scope="col">Bewerb</th><th scope="col">Gruppe</th><th scope="col">Platz</th><th scope="col">Zeit</th><th scope="col">Hinweis</th></tr></thead>
     <tbody>
@@ -184,7 +187,7 @@
     <section id="alb" aria-labelledby="alb-titel">
     <h2 id="alb-titel">Abschnittsbewerbe und Cup</h2>
     <p class="lm-hinweis">129 Ergebnisse. Die Liste wird laufend ergänzt.</p>
-    <div class="lm-wrap"><table class="lm-tab">
+    <div class="lm-wrap" tabindex="0" role="region" aria-labelledby="alb-titel"><table class="lm-tab">
     <caption class="visually-hidden">Abschnittsbewerbe und Cup der FF Waidegg</caption>
     <thead><tr><th scope="col">Jahr</th><th scope="col">Ort</th><th scope="col">Bewerb</th><th scope="col">Gruppe</th><th scope="col">Platz</th><th scope="col">Zeit</th><th scope="col">Hinweis</th></tr></thead>
     <tbody>

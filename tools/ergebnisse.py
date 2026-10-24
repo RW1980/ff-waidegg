@@ -29,7 +29,7 @@ for key, titel, kurz in ART:
     out.append(f'''    <section id="{key}" aria-labelledby="{key}-titel">
     <h2 id="{key}-titel">{titel}</h2>
     <p class="lm-hinweis">{len(rows)} Ergebnisse. Die Liste wird laufend ergänzt.</p>
-    <div class="lm-wrap"><table class="lm-tab">
+    <div class="lm-wrap" tabindex="0" role="region" aria-labelledby="{key}-titel"><table class="lm-tab">
     <caption class="visually-hidden">{titel} der FF Waidegg</caption>
     <thead><tr><th scope="col">Jahr</th><th scope="col">Ort</th><th scope="col">Bewerb</th><th scope="col">Gruppe</th><th scope="col">Platz</th><th scope="col">Zeit</th><th scope="col">Hinweis</th></tr></thead>
     <tbody>
