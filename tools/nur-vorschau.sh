@@ -22,13 +22,13 @@ done
 dateien=$(find "$OUT" -name '*.html' -exec grep -l 'NUR-VORSCHAU:START' {} + || true)
 for f in $dateien; do
   awk -v A='<!-- NUR-VORSCHAU:START' -v E='<!-- NUR-VORSCHAU:ENDE -->' '
-    { s = $0; out = ""
+    { s = $0; out = ""; anders = skip
       while (1) {
         if (skip) { e = index(s, E); if (e == 0) { s = ""; break }; s = substr(s, e + length(E)); skip = 0 }
         a = index(s, A); if (a == 0) { out = out s; break }
-        out = out substr(s, 1, a - 1); s = substr(s, a); skip = 1
+        out = out substr(s, 1, a - 1); s = substr(s, a); skip = 1; anders = 1
       }
-      print out }
+      if (!(anders && out ~ /^[ \t]*$/)) print out }
     END { if (skip) { print "nur-vorschau: FEHLER, NUR-VORSCHAU:ENDE fehlt" > "/dev/stderr"; exit 1 } }' "$f" > "$f.tmp"
   mv "$f.tmp" "$f"
 done
