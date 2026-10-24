@@ -1,6 +1,10 @@
 # ff-waidegg
 Freiwillige Feuerwehr Waidegg
 
+## Veröffentlichung (statichost)
+
+Die Seite ist fertiges HTML. `statichost.yml` ruft beim Build `sh tools/live.sh` auf: Das kopiert alles außer `.git`, `tools/`, `README.md`, `statichost.yml` und `pagefind.yml` nach `_site/`, und dieser Ordner geht online. Ein Build wird mit `curl -X POST https://builder.statichost.eu/ff-waidegg` ausgelöst. `_redirects` leitet die alte Vorschau-Adresse `/v-dukayd9b57/…` dauerhaft (301) auf die gleiche Seite unter `/` um.
+
 ## Suche im Archiv (Pagefind)
 
 Die Suche auf /archiv/ und /aktuelles/ nutzt einen fertig erzeugten Index im Ordner `pagefind/` (keine externen Anfragen, kein Build auf statichost nötig).
