@@ -108,7 +108,9 @@
     right: calc(max(0px, (100vw - var(--max)) / 2) + 1.25rem);
     display: flex; flex-direction: column; align-items: flex-end;
     perspective: 900px;
+    pointer-events: none; /* der unsichtbare Rahmen darunter darf keine Klicks schlucken */
   }
+  .tl-blatt, .tl-details { pointer-events: auto; } /* zugeklappte Details sind visibility:hidden, also nicht klickbar */
   .tl-blatt {
     position: relative; display: flex; align-items: stretch; height: 2.4rem; padding: 0;
     background: var(--sheet); color: var(--ink); border: 1px solid var(--line); border-top: 0;
