@@ -1,5 +1,4 @@
 /* Fahrzeug-Rundgang */
-.rg-entwurf { display: inline-block; padding: .2rem .6rem; border: 1px dashed var(--ember); color: var(--ember-deep); font-family: var(--display); font-size: .9rem; }
 .rg-bild h2 { scroll-margin-top: 6rem; }
 .rg-bild { scroll-margin-top: 6rem; }
 .rg-nr { display: inline-block; margin-right: .4rem; padding: .05rem .5rem; background: var(--ember); color: var(--sheet); font-size: .8em; vertical-align: middle; }
