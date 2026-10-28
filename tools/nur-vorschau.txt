@@ -4,6 +4,4 @@
 # Freigabe: Zeile hier löschen, Marker im Bericht (meta ffw-status, data-pagefind-ignore) und
 # in aktuelles/index.html entfernen, pagefind neu erzeugen. Details: README / Go-live-README.
 # Ein Pfad pro Zeile, relativ zum Repo-Hauptordner, ohne führenden Schrägstrich.
-# Fahrzeug-Rundgang/Kameraflug KLFA: erst online, wenn alle Inhalte ergänzt sind (Roland, 28.10.2026).
-# Freigabe: Zeile löschen, Marker um den Link in fahrzeug/index.html und meta robots/ffw-status in fahrzeug/rundgang/index.html entfernen.
-fahrzeug/rundgang
+# (derzeit leer)
