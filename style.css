@@ -300,14 +300,37 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   text-decoration: none;
   transition: background-color .15s ease;
 }
-.facts--links a span::after { content: "\00a0→"; color: var(--ember-deep); }
+/* Je Karte: große Zahl, kurzer roter Strich, eine kurze Zeile, optional eine kleine Zusatzzeile */
+.facts--links a { padding: 1rem .9rem 1.1rem; line-height: 1.25; }
+.facts.facts--links strong { font-size: 2.5rem; line-height: 1; letter-spacing: .03em; color: var(--ink); }
+.facts--links strong::after {
+  content: ""; display: block; width: 1.75rem; height: 3px; margin: .45rem 0 .5rem;
+  background: var(--ember); transition: width .2s ease;
+}
+.facts--links .fact-mal { display: inline-block; height: 1em; line-height: 1; overflow: visible; vertical-align: top; font-family: Arial, "Helvetica Neue", sans-serif; font-weight: 700; font-size: .95em; margin-left: .04em; color: var(--ember); }
+.facts--links .fact-text {
+  display: block; font-family: var(--display); font-size: 1rem; font-weight: 500;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); line-height: 1.2;
+}
+.facts--links .fact-text::after { content: "\00a0→"; color: var(--ember); }
+.facts--links .fact-zusatz { display: block; margin-top: .3rem; font-size: .84rem; line-height: 1.35; color: var(--muted); }
 .facts--links a:hover { background: var(--sheet); }
 .facts--links a:hover strong { color: var(--ember-deep); }
+.facts--links a:hover strong::after { width: 2.75rem; }
 .facts--links a:focus-visible { outline: 2px solid var(--ember); outline-offset: -2px; background: var(--sheet); }
 .facts--links span { hyphens: none; -webkit-hyphens: none; overflow-wrap: normal; }
+.facts--links .fact-zusatz { hyphens: manual; -webkit-hyphens: manual; }
+@media (prefers-reduced-motion: reduce) { .facts--links strong::after { transition: none; } }
 @media (max-width: 599px) {
-  .facts--links a { padding: .9rem .6rem; }
+  .facts--links a { padding: .85rem .7rem 1rem; }
+  .facts.facts--links strong { font-size: 2.1rem; }
+  .facts--links .fact-text { font-size: .92rem; }
+  .facts--links .fact-zusatz { font-size: .8rem; }
   .facts--links span { hyphens: manual; -webkit-hyphens: manual; overflow-wrap: break-word; }
+}
+@media (min-width: 600px) and (max-width: 1023px) {
+  .facts.facts--links strong { font-size: 2.15rem; }
+  .facts--links a { padding-left: .7rem; padding-right: .7rem; }
 }
 @media (max-width: 599px) {
   .facts:not(.stat-facts) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -475,8 +498,6 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
 }
 
 /* Startseite: Kennzahl-Karte mit Text-Titel */
-.facts .fact--titel strong { font-size: 1.4rem; letter-spacing: .02em; line-height: 1.15; }
-@media (max-width: 599px) { .facts .fact--titel strong { font-size: 1.15rem; } }
 /* /bewerbe/sammlung/: Bilder im ganzen Format */
 .gallery--sammlung { grid-template-columns: 1fr; }
 .gallery--sammlung picture { display: block; }
