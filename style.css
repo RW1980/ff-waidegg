@@ -497,7 +497,6 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   .gallery img, .gallery a:first-child img { height: 8.5rem; }
 }
 
-/* Startseite: Kennzahl-Karte mit Text-Titel */
 /* /bewerbe/sammlung/: Bilder im ganzen Format */
 .gallery--sammlung { grid-template-columns: 1fr; }
 .gallery--sammlung picture { display: block; }
