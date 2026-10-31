@@ -1,5 +1,6 @@
-# WARTUNG: Wartungsseite (_wartung/) + echte Seite unter geheimem Pfad (tools/vorschau.sh).
-# Livegang: diese Datei wieder auf nur "public: ." setzen und tools/ + _wartung/ loeschen.
+# LIVE: Die Website wird direkt unter https://ff-waidegg.at/ veröffentlicht.
+# tools/live.sh kopiert die Seite nach _site/ – ohne .git, tools/, README.md und Konfigurationsdateien,
+# damit nur die Website selbst öffentlich ist. Keine Link-Umschreibungen, kein noindex.
 image: alpine:3.20
-command: sh tools/vorschau.sh
-public: _wartung
+command: sh tools/live.sh
+public: _site
