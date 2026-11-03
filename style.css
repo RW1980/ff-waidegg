@@ -258,6 +258,10 @@ h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); max-width: 24ch; hyphens: manual; -w
   h1 { font-size: clamp(1.85rem, 8.5vw, 2.2rem); }
   .lead { font-size: 1.1rem; }
 }
+/* Startseiten-Überschrift: „KAMERADSCHAFT.“ passt auf sehr schmalen Handys (unter 360 px) sonst nicht in eine Zeile */
+@media (max-width: 359px) {
+  .hero h1 { font-size: 1.7rem; }
+}
 h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
 h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
 .lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 42rem; }
