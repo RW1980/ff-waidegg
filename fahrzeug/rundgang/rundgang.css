@@ -40,6 +40,8 @@
 .rg-tiefe.an { opacity: 1; }
 .rg-start { position: absolute; z-index: 5; left: 50%; bottom: 1.2rem; transform: translateX(-50%); padding: .8rem 1.4rem; font: 600 1.2rem/1 var(--display); color: var(--sheet); background: var(--ember); border: 3px solid #fff; border-radius: 2rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.45); }
 .rg-start:hover { background: var(--ember-deep); }
+/* Handy: Startknopf einzeilig und tiefer, damit er Punkte am unteren Bildrand (z. B. Rosenbauer-Logo) nicht verdeckt */
+@media (max-width: 520px) { .rg-start { bottom: .5rem; padding: .6rem 1.1rem; font-size: 1rem; white-space: nowrap; } }
 .rg-steuer { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 0 0 1rem; }
 .rg-steuer button { background: var(--ember); color: var(--sheet); border-color: var(--ember); }
 .rg-steuer button:hover:not(:disabled) { background: var(--ember-deep); }
