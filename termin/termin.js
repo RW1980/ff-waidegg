@@ -6,6 +6,7 @@
      data-titel, data-zusatz, data-ort, data-text (optional, kurzer Satz unter Datum/Ort),
      data-ab="ja" (Uhrzeit als „ab 17:00 Uhr“), data-plakat (optional, Pfad zum Plakat: klein im Blatt, Link öffnet es groß),
      data-plakat-alt (optional, sonst „Plakat: <Titel>“),
+     data-plakat-breite / data-plakat-hoehe (Pixelmaße des Plakats, reservieren den Platz),
      data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (ohne data-ende: data-dauer Stunden, Standard 3),
      data-bis = JJJJ-MM-TT, erster Tag, an dem der Hinweis automatisch verschwindet,
      data-uid, data-link, data-ics (statische .ics; fehlt sie, wird die Datei im Browser erzeugt), data-datei. */
@@ -42,7 +43,7 @@
     var bis = /^\d{4}-\d{2}-\d{2}$/.test(d.bis || "") ? Date.parse(d.bis + "T00:00:00" + start.off) : ende.ms;
     return {
       titel: d.titel || "", zusatz: d.zusatz || "", ort: d.ort || "", start: start, ende: ende, bis: bis,
-      text: d.text || "", ab: d.ab === "ja", plakat: d.plakat || "", plakatAlt: d.plakatAlt || "",
+      text: d.text || "", ab: d.ab === "ja", plakat: d.plakat || "", plakatAlt: d.plakatAlt || "", plakatB: d.plakatBreite || "", plakatH: d.plakatHoehe || "",
       uid: d.uid || ("termin-" + wand(start) + "@ff-waidegg.at"),
       link: d.link || "https://ff-waidegg.at/", datei: d.datei || "termin.ics", ics: d.ics || ""
     };
@@ -127,6 +128,7 @@
         var pa = el("a", "tl-plakat"); pa.href = c.plakat; pa.target = "_blank"; pa.rel = "noopener";
         var pi = el("img"); pi.src = c.plakat; pi.alt = c.plakatAlt || ("Plakat: " + c.titel);
         pi.loading = "lazy"; pi.decoding = "async";
+        if (c.plakatB && c.plakatH) { pi.width = +c.plakatB; pi.height = +c.plakatH; } /* Platz reservieren (CLS) */
         pa.appendChild(pi); pa.appendChild(el("span", "tl-plakat-hinweis", "Plakat groß ansehen"));
         li.appendChild(pa);
       }

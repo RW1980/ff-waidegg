@@ -86,11 +86,11 @@
     border: 1px solid var(--line); background: var(--paper);
     font-family: var(--display); text-transform: uppercase; line-height: 1;
   }
-  .tl-monat { align-self: stretch; text-align: center; padding: .15rem 0; background: var(--ember); color: var(--sheet); font-size: .66rem; letter-spacing: .1em; }
+  .tl-monat { align-self: stretch; text-align: center; padding: .15rem 0; background: var(--ember); color: var(--sheet); font-size: max(.66rem, 12px); letter-spacing: .1em; }
   .tl-tag { font-size: 1.15rem; font-weight: 500; padding: .12rem 0 .1rem; }
   .tl-wtag { display: none; }
   .tl-leiste { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
-  .tl-leiste-kicker { font-family: var(--display); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ember); }
+  .tl-leiste-kicker { font-family: var(--display); font-size: max(.7rem, 12px); letter-spacing: .14em; text-transform: uppercase; color: var(--ember); }
   .tl-leiste-titel { font-family: var(--display); font-weight: 500; letter-spacing: .05em; text-transform: uppercase; font-size: 1rem; }
   .tl-leiste-info { font-size: .88rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tl-pfeil { width: .6rem; height: .6rem; margin-right: .3rem; }
