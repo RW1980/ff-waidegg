@@ -23,6 +23,10 @@
 .termin-fallback strong { font-family: var(--display); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; font-size: 1.25rem; }
 .termin.is-bereit .termin-fallback { display: none; }
 .termin:not(.is-bereit) .termin-ui { display: none; }
+/* Mit JavaScript (html.js, gesetzt im <head>): den Fallback-Kasten nicht erst zeigen und nach dem Laden von termin.js
+   wieder entfernen, sondern gleich den Platz der Lasche freihalten – sonst springt die ganze Seite um ~530 px (CLS). */
+.js .termin:not(.is-bereit) .termin-fallback { display: none; }
+@media (max-width: 599px) { .js .termin:not(.is-bereit) { min-height: 62.65px; } }
 
 /* Inhalt des Detailblatts */
 .tl-inhalt { padding: .9rem 1.1rem 1rem; }
