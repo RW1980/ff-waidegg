@@ -16,6 +16,7 @@ Interaktive Karte „Einsätze & Geschichte“ mit Zeitregler. Daten in `wehr/ka
 
 ## Build-Helfer (tools/)
 - `tools/seo.py`: nach neuen Seiten oder Berichten ausführen (`python3 tools/seo.py`). Setzt `canonical` (https://ff-waidegg.at/…), ersetzt die Standard-Beschreibung durch den Kartentext aus /aktuelles/ bzw. den Berichtsanfang und macht gleiche Berichtstitel mit dem Jahr eindeutig.
+- `tools/breadcrumb.py`: nach neuen Seiten oder Berichten ausführen (`python3 tools/breadcrumb.py`, Prüfen ohne Schreiben: `--check`). Setzt auf allen Unterseiten die Pfadanzeige unter dem Hauptmenü (`nav.breadcrumb`, z. B. „← Start › Aktuelles › 2024 › Titel“) und ein JSON-LD `BreadcrumbList`; idempotent (Blöcke zwischen `BREADCRUMB`-Markern werden ersetzt). Startseite, 404 und Weiterleitungs-Stubs bleiben ohne.
 - `tools/hilfsdateien.sh <ordner>`: entfernt beim Build Skripte, Doku, Konfiguration, versteckte Dateien und die Liste `tools/hilfsdateien.txt` (z. B. `wehr/karte/liste.py`, Ergebnis-Vorlage) aus der Ausgabe, auch in Unterordnern.
 - `tools/termine.sh <ordner>/index.html`: entfernt beim Build abgelaufene Termine (ab `data-bis`, Wiener Datum) aus dem No-JS-Fallback der Startseite.
 - `tools/sitemap.sh _site`: erzeugt im Live-Build `sitemap.xml` (alle Seiten ohne noindex). In der Vorschau gibt es keine Sitemap.

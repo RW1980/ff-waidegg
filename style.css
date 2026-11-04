@@ -951,9 +951,45 @@ body.lb-open { overflow: hidden; }
   }
 }
 
+/* Pfadanzeige (Breadcrumb) unter dem Hauptmenü, alle Unterseiten (tools/breadcrumb.py).
+   Immer einzeilig: mittlere Teile werden bei Platzmangel mit … gekürzt, notfalls horizontal scrollbar. */
+.breadcrumb {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: .55rem 1.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-family: var(--display);
+  font-size: .9rem;
+  letter-spacing: .03em;
+  line-height: 1.4;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.breadcrumb::-webkit-scrollbar { display: none; }
+.breadcrumb ol { display: flex; align-items: center; min-width: 0; margin: 0; padding: 0; list-style: none; }
+.breadcrumb li { display: flex; align-items: center; min-width: 4.6em; flex: 0 2 auto; }
+.breadcrumb li:first-child { min-width: auto; flex-shrink: 0; }
+.breadcrumb li:last-child { min-width: 6em; flex-shrink: 1; }
+.breadcrumb li + li::before { content: "›"; content: "›" / ""; flex: 0 0 auto; padding: 0 .45rem; color: var(--brass); }
+.breadcrumb a, .breadcrumb li[aria-current] { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: .2rem 0; }
+.breadcrumb a { color: var(--ember-deep); text-decoration: none; }
+.breadcrumb a:hover { color: var(--ember); text-decoration: underline; }
+.breadcrumb li[aria-current] { color: var(--ink-soft); }
+.breadcrumb .breadcrumb-hoch { flex: 0 0 auto; overflow: visible; padding: .2rem .35rem; margin-left: -.35rem; font-family: var(--serif); }
+.breadcrumb + main { padding-top: 1rem; }
+@media (max-width: 599px) {
+  .breadcrumb { padding-left: 1rem; padding-right: 1rem; font-size: .85rem; }
+  .breadcrumb + main { padding-top: .8rem; }
+}
+
+
 @media print {
   .site-head { position: static; }
-  .menu-toggle, .ember-bar, .back { display: none; }
+  .menu-toggle, .ember-bar, .back, .breadcrumb { display: none; }
   .js .nav-row:not(.open) { display: flex; }
 }
 
