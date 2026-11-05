@@ -12,6 +12,7 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#f3eee4">
   <script>document.documentElement.classList.add("js");</script>
+  <link rel="preload" as="image" type="image/avif" href="/titelbild-800.avif" imagesrcset="/titelbild-400.avif 400w, /titelbild-800.avif 800w, /titelbild.avif 1600w" imagesizes="(min-width: 1200px) 1112px, 100vw" fetchpriority="high">
   <link rel="preload" href="/fonts/oswald-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/source-serif-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css">
@@ -36,7 +37,7 @@
   <header class="site-head">
     <div class="brand-row">
       <a class="brand" href="/" aria-current="page">
-        <img src="/flamme.png" alt="" width="250" height="250">
+        <img src="/flamme-144.webp" alt="" width="144" height="144">
         <span>
           <small>Freiwillige Feuerwehr</small>
           <strong>Waidegg</strong>
@@ -132,7 +133,7 @@
   </aside>
   <!-- TERMINHINWEIS ENDE -->
   <main id="inhalt">
-<figure class="cover hero-cover"><picture><source type="image/webp" srcset="/titelbild-800.webp 800w, /titelbild.webp 1600w" sizes="(min-width: 1200px) 1112px, 100vw"><img src="/titelbild.jpg" alt="Logo der FF Waidegg mit Feuerwehrmann und Feuerwehrfrau (Illustration)" width="1600" height="700" fetchpriority="high"></picture></figure>
+<figure class="cover hero-cover"><picture><source type="image/avif" srcset="/titelbild-400.avif 400w, /titelbild-800.avif 800w, /titelbild.avif 1600w" sizes="(min-width: 1200px) 1112px, 100vw"><source type="image/webp" srcset="/titelbild-400.webp 400w, /titelbild-800.webp 800w, /titelbild.webp 1600w" sizes="(min-width: 1200px) 1112px, 100vw"><img src="/titelbild.jpg" alt="Logo der FF Waidegg mit Feuerwehrmann und Feuerwehrfrau (Illustration)" width="1600" height="700" fetchpriority="high" decoding="async"></picture></figure>
 <section class="hero">
   <p class="kicker">Oberes Gailtal · Kärnten</p>
   <h1>Eine&nbsp;Kameradschaft. Ein&nbsp;Auftrag. Eine&nbsp;Feuerwehr.</h1>
