@@ -1,0 +1,204 @@
+/* FF Waidegg – Begrüßungs-Overlay (nur geladen, wenn es erscheint). Farben/Schriften aus style.css.
+   Fixed/fullscreen: verschiebt das Layout der Startseite nicht (CLS). */
+.wl {
+  position: fixed;
+  inset: 0;
+  z-index: 40; /* über Kopf (20), Menü/Termin (19), Maskottchen (18) */
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: rgba(28, 27, 25, .72);
+  overscroll-behavior: contain;
+}
+.wl[hidden] { display: none !important; }
+
+.wl-dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin: 0;
+  background: var(--coal);
+  color: var(--sheet);
+  border: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.wl-foto {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 42vh;
+  margin: 0;
+  background: var(--coal);
+  overflow: hidden;
+}
+.wl-foto picture { display: contents; }
+.wl-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+.wl-blatt {
+  flex: 0 0 auto;
+  padding: 1.1rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
+  background: var(--sheet);
+  color: var(--ink);
+  border-top: 4px solid var(--ember);
+  box-shadow: 0 -8px 28px rgba(28, 27, 25, .35);
+}
+.wl-kicker {
+  margin: 0 0 .35rem;
+  font: 500 .78rem/1.3 var(--display);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ember-deep);
+}
+.wl-text {
+  margin: 0 0 .85rem;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  max-width: 38rem;
+}
+.wl-text strong { font-weight: 600; color: var(--ember-deep); }
+
+.wl-handy {
+  margin: 0 0 1rem;
+  padding: .7rem .85rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ember);
+  border-radius: .3rem;
+  font-size: .92rem;
+  line-height: 1.45;
+}
+.wl-handy h3 {
+  margin: 0 0 .35rem;
+  font: 500 .95rem/1.25 var(--display);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.wl-handy ol {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+.wl-handy li { margin: .15rem 0; }
+.wl-handy .wl-plattform {
+  display: block;
+  margin-top: .35rem;
+  font: 500 .72rem/1.3 var(--display);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* Am PC (breite Geräte) die Handy-Anleitung dezent halten */
+@media (min-width: 900px) {
+  .wl-handy {
+    opacity: .78;
+    font-size: .85rem;
+    padding: .55rem .75rem;
+  }
+  .wl-handy h3 { font-size: .82rem; }
+}
+
+.wl-aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  align-items: center;
+}
+.wl-zu {
+  min-height: 2.75rem;
+  padding: .55rem 1.25rem;
+  background: var(--ember);
+  color: var(--sheet);
+  border: 1px solid var(--ember);
+  border-radius: .3rem;
+  font: 500 .95rem/1 var(--display);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.wl-zu:hover { background: var(--ember-deep); border-color: var(--ember-deep); }
+.wl-zu:focus-visible,
+.wl button:focus-visible {
+  outline: 3px solid var(--ember);
+  outline-offset: 3px;
+}
+
+.wl-x {
+  position: absolute;
+  top: max(.55rem, env(safe-area-inset-top));
+  right: max(.55rem, env(safe-area-inset-right));
+  z-index: 2;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: .35rem .7rem;
+  background: rgba(28, 27, 25, .72);
+  color: var(--sheet);
+  border: 1px solid rgba(251, 247, 241, .35);
+  border-radius: .3rem;
+  font: 500 .82rem/1 var(--display);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+.wl-x:hover { background: var(--ember-deep); border-color: var(--ember); }
+
+@media (min-width: 700px) {
+  .wl {
+    padding: 1.5rem;
+    align-items: center;
+  }
+  .wl-dialog {
+    width: min(42rem, 100%);
+    height: auto;
+    max-height: calc(100vh - 3rem);
+    border-radius: .4rem;
+    overflow: hidden;
+    box-shadow: 0 18px 48px rgba(28, 27, 25, .55);
+  }
+  .wl-foto {
+    min-height: 0;
+    height: min(48vh, 22rem);
+    flex: 0 0 auto;
+  }
+  .wl-blatt {
+    padding: 1.35rem 1.6rem 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wl { animation: wl-bg .35s ease-out both; }
+  .wl-dialog { animation: wl-rein .4s ease-out both; }
+}
+@keyframes wl-bg {
+  from { background: rgba(28, 27, 25, 0); }
+  to { background: rgba(28, 27, 25, .72); }
+}
+@keyframes wl-rein {
+  from { opacity: 0; transform: translateY(.6rem) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+
+@media print {
+  .wl { display: none !important; }
+}
+
+/* Body-Scroll sperren, ohne Layoutbreite zu ändern (scrollbar-gutter / padding-trick vermeiden → CLS) */
+html.wl-offen,
+html.wl-offen body {
+  overflow: hidden;
+}
+.wl, .wl-dialog { touch-action: pan-y; }
