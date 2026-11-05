@@ -5,6 +5,10 @@ Freiwillige Feuerwehr Waidegg
 
 Die Seite ist fertiges HTML. `statichost.yml` ruft beim Build `sh tools/live.sh` auf: Das kopiert alles außer `.git`, `tools/`, `README.md`, `statichost.yml` und `pagefind.yml` nach `_site/`, und dieser Ordner geht online. Ein Build wird mit `curl -X POST https://builder.statichost.eu/ff-waidegg` ausgelöst. `_redirects` leitet die alte Vorschau-Adresse `/v-dukayd9b57/…` dauerhaft (301) auf die gleiche Seite unter `/` um.
 
+## Begrüßungs-Overlay (Startseite)
+
+Einmaliges Overlay beim ersten Besuch (`willkommen/`: CSS, JS, Platzhalterfoto). Merker `ffw-willkommen=gesehen` im localStorage. Test: `?willkommen=1` (immer zeigen), `?willkommen=neu` (Merker löschen). Foto-Tausch am 8.11.2026: Dateien `willkommen/gemeinschaftsfoto-2026.{avif,webp,jpg}` und `willkommen/gemeinschaftsfoto-2026-800.{avif,webp,jpg}` ersetzen (ohne EXIF); bei geändertem Seitenverhältnis `FOTO_W`/`FOTO_H` in `willkommen/willkommen.js` anpassen. Maskottchen bleibt separat und standardmäßig aus.
+
 ## Suche im Archiv (Pagefind)
 
 Die Suche auf /archiv/ und /aktuelles/ nutzt einen fertig erzeugten Index im Ordner `pagefind/` (keine externen Anfragen, kein Build auf statichost nötig).
