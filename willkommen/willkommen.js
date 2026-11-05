@@ -99,7 +99,7 @@
     text.appendChild(document.createTextNode("Willkommen auf der neuen Website der Freiwilligen Feuerwehr Waidegg. "));
     var leit = el("strong", null, "Eine Kameradschaft. Ein Auftrag. Eine Feuerwehr.");
     text.appendChild(leit);
-    text.appendChild(document.createTextNode(" – Hier findest du Termine, Berichte und alles rund um unsere Wehr."));
+    text.appendChild(document.createTextNode(" – Hier findest du Termine, Berichte und alles rund um unsere Wehr. Statt feuerwehrwaidegg.at heißt die Adresse jetzt ff-waidegg.at."));
 
     var handy = el("div", "wl-handy");
     handy.setAttribute("aria-label", "Seite aufs Handy holen");
