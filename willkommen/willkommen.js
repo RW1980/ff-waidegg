@@ -43,7 +43,25 @@
     return e;
   }
 
+  /* srcset-Text für das Gemeinschaftsfoto (800w + 1600w) im jeweiligen Format */
+  function fotoSrcset(name, ext) {
+    return new URL(name + "-800." + ext, ordner).href + " 800w, " +
+      new URL(name + "." + ext, ordner).href + " 1600w";
+  }
+  var FOTO_SIZES = "(min-width: 700px) 42rem, 100vw";
+
   function start() {
+    /* Foto schon parallel zum Stylesheet anfordern (Preload), statt erst nach dessen Laden:
+       spart am Handy eine ganze Anfrage-Runde, das Foto ist meist das größte Element (LCP). */
+    var vorlad = document.createElement("link");
+    vorlad.rel = "preload";
+    vorlad.as = "image";
+    vorlad.type = "image/avif";
+    vorlad.setAttribute("imagesrcset", fotoSrcset("gemeinschaftsfoto-2026", "avif"));
+    vorlad.setAttribute("imagesizes", FOTO_SIZES);
+    vorlad.setAttribute("fetchpriority", "high");
+    document.head.appendChild(vorlad);
+
     var css = document.createElement("link");
     css.rel = "stylesheet";
     css.href = new URL("willkommen.css", ordner).href;
@@ -74,9 +92,8 @@
     function source(type, name) {
       var s = document.createElement("source");
       s.type = type;
-      s.srcset = new URL(name + "-800." + (type.indexOf("avif") >= 0 ? "avif" : "webp"), ordner).href + " 800w, " +
-        new URL(name + "." + (type.indexOf("avif") >= 0 ? "avif" : "webp"), ordner).href + " 1600w";
-      s.sizes = "(min-width: 700px) 42rem, 100vw";
+      s.srcset = fotoSrcset(name, type.indexOf("avif") >= 0 ? "avif" : "webp");
+      s.sizes = FOTO_SIZES;
       return s;
     }
     pic.appendChild(source("image/avif", "gemeinschaftsfoto-2026"));
@@ -197,9 +214,15 @@
     }
   }
 
+  /* erst nach dem ersten Bildaufbau der Seite starten (ein Frame später), damit Titelbild und Schriften
+     beim Laden Vorrang haben; Foto und Stylesheet des Overlays laden dann parallel */
+  function spaeter() {
+    if (window.requestAnimationFrame) window.requestAnimationFrame(function () { setTimeout(start, 0); });
+    else setTimeout(start, 0);
+  }
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
+    document.addEventListener("DOMContentLoaded", spaeter);
   } else {
-    start();
+    spaeter();
   }
 })();
