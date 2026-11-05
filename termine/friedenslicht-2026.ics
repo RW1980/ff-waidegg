@@ -24,9 +24,9 @@ BEGIN:VEVENT
 UID:friedenslicht-2026@ff-waidegg.at
 DTSTAMP:20261023T101500Z
 DTSTART;TZID=Europe/Vienna:20261223T170000
-SUMMARY:Friedenslicht abholen
+SUMMARY:Friedenslicht
 LOCATION:Feuerwehrhaus Waidegg
-DESCRIPTION:Friedenslicht abholen\nMittwoch\, 23. Dezember 2026\, ab 17:00 
+DESCRIPTION:Friedenslicht\nMittwoch\, 23. Dezember 2026\, ab 17:00 
  Uhr\nFeuerwehrhaus Waidegg\nGetränke und wärmende Suppe\; musikalische U
  mrahmung ab ca. 19:00 Uhr durch eine Kleingruppe der Trachtenkapelle Alpen
  rose Waidegg.\nhttps://ff-waidegg.at/
