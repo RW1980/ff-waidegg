@@ -26,10 +26,11 @@ DTSTAMP:20261023T101500Z
 DTSTART;TZID=Europe/Vienna:20261223T170000
 SUMMARY:Friedenslicht
 LOCATION:Feuerwehrhaus Waidegg
-DESCRIPTION:Friedenslicht\nMittwoch\, 23. Dezember 2026\, ab 17:00 
- Uhr\nFeuerwehrhaus Waidegg\nGetränke und wärmende Suppe\; musikalische U
- mrahmung ab ca. 19:00 Uhr durch eine Kleingruppe der Trachtenkapelle Alpen
- rose Waidegg.\nhttps://ff-waidegg.at/
+DESCRIPTION:Friedenslicht\nMittwoch\, 23. Dezember 2026\, ab 17:00 Uhr\nFeu
+ erwehrhaus Waidegg\nGetränke und wärmende Suppe\; musikalische Umrahmun
+ g ab ca. 19:00 Uhr durch eine Kleingruppe der Trachtenkapelle Alpenrose W
+ aidegg. Jeder Waidegger Haushalt erhält ein Friedenslicht für den siche
+ ren Nachhauseweg.\nhttps://ff-waidegg.at/
 URL:https://ff-waidegg.at/
 END:VEVENT
 END:VCALENDAR

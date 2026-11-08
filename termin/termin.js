@@ -110,7 +110,11 @@
   function init(root) {
     var termine = alle(root, "[data-termin-eintrag]").map(function (li) {
       var c = lesen(li.dataset);
-      if (c) { c.bild = li.querySelector("img.tl-bild"); c.datei = li.dataset.datei || (c.uid.split("@")[0] + ".ics"); }
+      if (c) {
+        var bild = li.querySelector("img.tl-bild");
+        c.bild = bild && bild.parentNode && bild.parentNode.tagName === "PICTURE" ? bild.parentNode : bild;
+        c.datei = li.dataset.datei || (c.uid.split("@")[0] + ".ics");
+      }
       return c;
     }).filter(Boolean).sort(function (a, b) { return a.start.ms - b.start.ms; });
     var liste = root.querySelector("[data-liste]");
