@@ -12,6 +12,7 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#f3eee4">
   <script>document.documentElement.classList.add("js");</script>
+  <link rel="preload" as="image" type="image/avif" href="/titelbild-800.avif" imagesrcset="/titelbild-400.avif 400w, /titelbild-800.avif 800w, /titelbild.avif 1600w" imagesizes="(min-width: 1200px) 1112px, 100vw" fetchpriority="high">
   <link rel="stylesheet" href="/style.css">
   <script>(function(){var m=location.hash.match(/^#j(20\d\d)$/);if(m&&m[1]!=="2026")location.replace(m[1]+"/");})();</script>
   <link rel="canonical" href="https://ff-waidegg.at/aktuelles/">
@@ -50,6 +51,7 @@
   <nav class="breadcrumb" aria-label="Pfad" data-pagefind-ignore><a class="breadcrumb-hoch" href="/"><span aria-hidden="true">←</span><span class="visually-hidden">Eine Ebene höher: Start</span></a><ol><li><a href="/">Start</a></li><li aria-current="page">Aktuelles</li></ol></nav>
   <!-- BREADCRUMB:ENDE -->
   <main id="inhalt">
+<figure class="hero-cover"><picture><source type="image/avif" srcset="/titelbild-400.avif 400w, /titelbild-800.avif 800w, /titelbild.avif 1600w" sizes="(min-width: 1200px) 1112px, 100vw"><source type="image/webp" srcset="/titelbild-400.webp 400w, /titelbild-800.webp 800w, /titelbild.webp 1600w" sizes="(min-width: 1200px) 1112px, 100vw"><img src="/titelbild.jpg" alt="Logo der FF Waidegg mit Feuerwehrmann und Feuerwehrfrau (Illustration)" width="1600" height="700" fetchpriority="high" decoding="async"></picture></figure>
 <p class="kicker">Berichte</p><h1>Aktuelles</h1>
 <p class="lead">Berichte der FF Waidegg aus 2026. Ältere Jahre über die Jahresauswahl, die Suche durchsucht alle Jahre.</p>
 <form class="suche" role="search" data-suche action="#" aria-label="Berichte durchsuchen"><label for="suche-feld">Alle Berichte durchsuchen</label><div class="suche-zeile"><input id="suche-feld" type="search" name="suche" autocomplete="off" enterkeyhint="search" placeholder="z. B. Brandeinsatz, Bewerb, 2019"><button type="submit">Suchen</button></div><p class="suche-status" role="status" aria-live="polite"></p></form><div class="grid cards suche-treffer" id="suche-treffer" hidden></div>
