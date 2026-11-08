@@ -2,15 +2,14 @@
    Beim ersten Besuch: Gemeinschaftsfoto, kurzer Text, Hinweis „Seite aufs Handy holen“.
    Danach nie wieder: Merker „ffw-willkommen“ = „gesehen“ im localStorage (kein Cookie, kein Tracking).
    Testen: ?willkommen=1 zeigt das Overlay immer; ?willkommen=neu löscht den Merker.
-   Foto-Tausch (So 8.11.): Dateien unter willkommen/gemeinschaftsfoto-2026.{avif,webp,jpg}
-   und -800.{avif,webp,jpg} ersetzen; width/height im Skript anpassen, falls das Seitenverhältnis wechselt. */
+   Foto: vorhandene Dateien /mannschaft/gemeinschaftsfoto-2026-800 und -1600 (webp/jpg). */
 (function () {
   "use strict";
 
   var MERKER = "ffw-willkommen";
-  /* feste Maße des Platzhalters / künftigen Gemeinschaftsfotos (CLS am img) */
+  /* Maße von /mannschaft/gemeinschaftsfoto-2026-1600 (CLS am img) */
   var FOTO_W = 1600;
-  var FOTO_H = 936;
+  var FOTO_H = 967;
 
   var skript = document.currentScript;
   if (!skript || !window.URL || !document.querySelector) return;
@@ -43,10 +42,10 @@
     return e;
   }
 
-  /* srcset-Text für das Gemeinschaftsfoto (800w + 1600w) im jeweiligen Format */
-  function fotoSrcset(name, ext) {
-    return new URL(name + "-800." + ext, ordner).href + " 800w, " +
-      new URL(name + "." + ext, ordner).href + " 1600w";
+  /* vorhandene responsive Exporte, nicht die Platzhalter unter willkommen/ */
+  function fotoSrcset(ext) {
+    return "/mannschaft/gemeinschaftsfoto-2026-800." + ext + " 800w, " +
+      "/mannschaft/gemeinschaftsfoto-2026-1600." + ext + " 1600w";
   }
   var FOTO_SIZES = "(min-width: 700px) 42rem, 100vw";
 
@@ -56,8 +55,8 @@
     var vorlad = document.createElement("link");
     vorlad.rel = "preload";
     vorlad.as = "image";
-    vorlad.type = "image/avif";
-    vorlad.setAttribute("imagesrcset", fotoSrcset("gemeinschaftsfoto-2026", "avif"));
+    vorlad.type = "image/webp";
+    vorlad.setAttribute("imagesrcset", fotoSrcset("webp"));
     vorlad.setAttribute("imagesizes", FOTO_SIZES);
     vorlad.setAttribute("fetchpriority", "high");
     document.head.appendChild(vorlad);
@@ -89,18 +88,19 @@
 
     var foto = el("figure", "wl-foto");
     var pic = document.createElement("picture");
-    function source(type, name) {
+    function source(type) {
       var s = document.createElement("source");
       s.type = type;
-      s.srcset = fotoSrcset(name, type.indexOf("avif") >= 0 ? "avif" : "webp");
+      s.srcset = fotoSrcset("webp");
       s.sizes = FOTO_SIZES;
       return s;
     }
-    pic.appendChild(source("image/avif", "gemeinschaftsfoto-2026"));
-    pic.appendChild(source("image/webp", "gemeinschaftsfoto-2026"));
+    pic.appendChild(source("image/webp"));
     var img = el("img");
-    img.src = new URL("gemeinschaftsfoto-2026.jpg", ordner).href;
-    img.alt = "Gemeinschaftsfoto der Freiwilligen Feuerwehr Waidegg (Platzhalter bis 8. November 2026)";
+    img.src = "/mannschaft/gemeinschaftsfoto-2026-1600.jpg";
+    img.srcset = fotoSrcset("jpg");
+    img.sizes = FOTO_SIZES;
+    img.alt = "Gemeinschaftsfoto der Mannschaft der Freiwilligen Feuerwehr Waidegg am 8. November 2026";
     img.width = FOTO_W;
     img.height = FOTO_H;
     img.decoding = "async";
