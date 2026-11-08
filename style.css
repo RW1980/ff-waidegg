@@ -585,7 +585,7 @@ body.lb-open { overflow: hidden; }
   cursor: pointer;
 }
 
-/* Mannschaft: Funktionskarten des Kommandos ohne Fotos (nur /mannschaft/) */
+/* Mannschaft: Funktionskarten des Kommandos (Porträts nur /mannschaft/) */
 .funktionen {
   list-style: none;
   padding: 0;
@@ -605,6 +605,31 @@ body.lb-open { overflow: hidden; }
   border: 1px solid var(--line);
   border-left: 4px solid var(--ember);
 }
+.funktion-foto { margin: 0; background: #e7e1d6; overflow: hidden; }
+.funktion-foto img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+}
+.funktion:has(.funktion-foto) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  min-height: 0;
+  min-width: 0;
+}
+.funktion:has(.funktion-foto) > .funktion-foto { grid-column: 1 / -1; }
+.funktion:has(.funktion-foto) > .funktion-zeichen { margin-left: .9rem; }
+.funktion:has(.funktion-foto) > div {
+  display: block;
+  min-width: 0;
+  padding: .8rem .9rem .9rem .75rem;
+}
+.funktion:has(.funktion-foto) .dg-name { overflow-wrap: break-word; }
 .funktion-zeichen {
   flex: 0 0 auto;
   display: grid;
@@ -648,6 +673,9 @@ body.lb-open { overflow: hidden; }
 @media (max-width: 599px) {
   .funktionen { gap: .6rem; }
   .funktion { min-height: 0; padding: .85rem .9rem .85rem 1rem; gap: .85rem; }
+  .funktion:has(.funktion-foto) { padding: 0; gap: 0; }
+  .funktion:has(.funktion-foto) > .funktion-zeichen { margin-left: .75rem; }
+  .funktion:has(.funktion-foto) > div { padding: .7rem .75rem .8rem .65rem; }
   .funktion-zeichen { width: 2.9rem; height: 2.9rem; font-size: 1rem; }
   .funktion-zeichen--lang { font-size: .85rem; letter-spacing: .02em; }
   .funktion-zeichen--zwei { font-size: 12px; letter-spacing: .02em; }
