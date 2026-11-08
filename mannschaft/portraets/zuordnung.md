@@ -6,7 +6,7 @@ Quelle ist die von Roland am 08.11.2026 bestätigte Reihenfolge im Kontaktbogen 
 |---:|---|---|---|---|
 | 01 | Lukas | `PXL_20261108_092603129.PORTRAIT.jpg` | `/mannschaft/portraets/lukas-pfaffenberger-960.webp` | Lukas Pfaffenberger |
 | 02 | Helmut | `PXL_20261108_092724406.PORTRAIT.jpg` | `/mannschaft/portraets/helmut-kronhofer-960.webp` | Helmut Kronhofer |
-| 03 | Heimo | `PXL_20261108_092934560.PORTRAIT.jpg` | `/mannschaft/portraets/heimo-ramsbacher-960.webp` | Heimo Ramsbacher |
+| 03 | Heimo | `PXL_20261108_092934560.PORTRAIT.jpg` | `/mannschaft/portraets/heimo-ramsbacher-960.webp` | Heimo Ramsbacher-Ranner |
 | 04 | Michael | `PXL_20261108_093034194.PORTRAIT.ORIGINAL.jpg` | `/mannschaft/portraets/michael-kronhofer-960.webp` | Michael Kronhofer |
 | 05 | Stefan | `PXL_20261108_093200519.PORTRAIT.jpg` | `/mannschaft/portraets/stefan-tassotti-960.webp` | Stefan Tassotti |
 | 06 | Christopher | `PXL_20261108_093259389.PORTRAIT.jpg` | `/mannschaft/portraets/christopher-kommetter-960.webp` | Christopher Kommetter |
