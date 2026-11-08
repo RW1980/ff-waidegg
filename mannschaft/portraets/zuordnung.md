@@ -19,4 +19,6 @@ Quelle ist die von Roland am 08.11.2026 bestätigte Reihenfolge im Kontaktbogen 
 | 13 | Hans-Christian | `PXL_20261108_094223570.PORTRAIT.jpg` | `/mannschaft/portraets/hans-christian-fillafer-960.webp` | Hans-Christian Fillafer |
 | 14 | Mario | `PXL_20261108_094414115.PORTRAIT.jpg` | `/mannschaft/portraets/mario-trattler-960.webp` | Mario Trattler |
 
-Zuschnitt nur auf genau 3:4, seitlich zentriert, Kopfseite bleibt. Keine Retusche. EXIF/GPS in den Exporten entfernt.
+Zuschnitt der 14 Einzelporträts nur auf genau 3:4, seitlich zentriert, Kopfseite bleibt. Keine Retusche. EXIF/GPS in den Exporten entfernt.
+
+Zusätzlich, nur in dieser Abnahme, ohne Namenszuordnung: das gelieferte Gemeinschaftsfoto (optimierte WebP-Dateien unverändert übernommen, 800 und 2400 nur skaliert) und das Hochformat der vier Mitglieder im vollen Bildausschnitt, ohne zugewiesene Namen.

@@ -1279,11 +1279,17 @@ img, video, iframe { max-width: 100%; }
 .years a[aria-current="page"] { background: var(--ember); border-color: var(--ember); color: #fff; }
 .years a[aria-current="page"]:hover { color: #fff; }
 
-/* Mannschaft: Gemeinschaftsfoto (Platz vorbereitet in mannschaft/index.html, aktiv erst mit Foto) */
-.gemeinschaftsfoto { margin: 1.6rem 0 2rem; }
-.gemeinschaftsfoto a { display: block; }
-.gemeinschaftsfoto img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--sheet); }
-.gemeinschaftsfoto figcaption { margin-top: .4rem; font-size: .92rem; color: var(--muted); }
+/* Mannschaft: Gemeinschaftsfoto und Viererfoto, nur /mannschaft/ */
+.mannschaft-motive { margin: 1.2rem 0 1.8rem; }
+.gemeinschaftsfoto { margin: 0 0 1rem; }
+.gemeinschaftsfoto a, .vierer a { display: block; }
+.gemeinschaftsfoto img, .vierer img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--sheet); }
+.gemeinschaftsfoto figcaption, .vierer figcaption { margin-top: .4rem; font-size: .92rem; color: var(--muted); }
+.vierer { margin: 0 auto; max-width: 28rem; }
+.vierer figcaption { text-align: center; }
+@media (max-width: 599px) {
+  .vierer { max-width: none; }
+}
 
 /* Platzhalter für Berichte, die noch auf Datum oder Fotos warten (nur Vorschau) */
 .platzhalter { margin: 1.2rem 0; padding: 1.4rem 1rem; border: 2px dashed var(--line); background: var(--sheet); color: var(--muted); text-align: center; font-size: .95rem; }
