@@ -356,7 +356,6 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
   gap: 1rem;
   margin: 1.4rem 0 .8rem;
 }
-.push { margin: 0 0 1rem; }
 .push-knopf {
   display: inline-flex; align-items: center; gap: .5rem;
   max-width: 100%; min-height: 2.75rem; padding: .45rem .9rem;
@@ -368,8 +367,6 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
 .push-knopf:hover, .push-knopf:focus-visible { border-color: var(--ember); color: var(--ember-deep); }
 .push-knopf[data-push-status="aktiv"] { border-color: var(--ember); color: var(--ember-deep); }
 .push-knopf:disabled { cursor: default; color: var(--muted); }
-.push-hinweis { margin: .4rem 0 0; max-width: 40rem; font-size: .92rem; color: var(--muted); }
-.push-hinweis[hidden] { display: none; }
 .foot-inner > .push--fuss { grid-column: 1 / -1; margin: .15rem 0 .35rem; }
 .push--fuss .push-knopf { font-size: .82rem; letter-spacing: .05em; padding: .35rem .7rem; min-height: 2.5rem; }
 .push-frage {
