@@ -23,6 +23,9 @@
   var initWatch = 0;
   var optWatch = 0;
   var boxTimer = 0;
+  var initBekannt = false;
+  var hinweisErzwingen = /(?:^|[?&])pushhinweis=1(?:&|$)/.test(location.search);
+  var HINWEIS = "ffw-push-hinweis";
 
   function zeit() {
     var d = new Date();
@@ -98,10 +101,12 @@
     console.warn(warnung || "OneSignal", fehler || text);
     wartet = false;
     initFehler = true;
+    initBekannt = true;
     diagnose.fehler = text;
     debug = true;
     setze("Gerade nicht verfügbar, bitte später nochmal");
     debugZeichnen();
+    hinweisAktualisieren();
   }
   function initBegrenzen() {
     clearTimeout(initWatch);
@@ -188,7 +193,12 @@
           "optedIn: " + (diagnose.optedIn ? "ja" : "nein"),
           "Abo-ID: " + kuerzen(diagnose.id)
         ].join("\n");
+        var ziele = [];
         bloecke.forEach(function (block) {
+          if (!block.classList.contains("push--fuss")) ziele.push(block);
+        });
+        if (!ziele.length && bloecke.length) ziele = [bloecke[0]];
+        ziele.forEach(function (block) {
           var box = block.querySelector("[data-push-debug]");
           if (!box) {
             var huelle = document.createElement("div");
@@ -243,6 +253,7 @@
   function male() {
     debugZeichnen();
     if (wartet) return;
+    hinweisAktualisieren();
     if (ios() && !standalone()) {
       setze("Auf dem iPhone/iPad erst ‚Zum Home-Bildschirm‘ hinzufügen");
       return;
@@ -257,6 +268,98 @@
     }
     if (abonniert) setze("Benachrichtigungen aktiv · Abbestellen", "aktiv");
     else setze("Benachrichtigungen bei neuen Berichten");
+  }
+  function speicherLesen(schluessel) {
+    try { return localStorage.getItem(schluessel); } catch (fehler) { return null; }
+  }
+  function speicherSchreiben(schluessel, wert) {
+    try { localStorage.setItem(schluessel, wert); } catch (fehler) {}
+  }
+  function willkommenKommt() {
+    if (/(?:^|[?&])willkommen=1(?:&|$)/.test(location.search)) return true;
+    if (!document.querySelector("script[src*='willkommen.js']")) return false;
+    return speicherLesen("ffw-willkommen") !== "gesehen";
+  }
+  function willkommenSichtbar() {
+    return !!(document.querySelector(".wl") || document.documentElement.classList.contains("wl-offen"));
+  }
+  function hinweisWeg() {
+    var feld = document.querySelector(".push-frage");
+    if (feld) feld.remove();
+  }
+  function hinweisErlaubt() {
+    if (document.querySelector(".push-frage")) return false;
+    if (willkommenSichtbar()) return false;
+    if (hinweisErzwingen) return !willkommenKommt();
+    if (!initBekannt || !standalone() || abonniert) return false;
+    if (speicherLesen(HINWEIS)) return false;
+    if (typeof Notification !== "undefined" && Notification.permission === "denied") return false;
+    if (willkommenKommt()) return false;
+    return true;
+  }
+  function hinweisWarten() {
+    if (hinweisWarten.laeuft) return;
+    hinweisWarten.laeuft = true;
+    var beobachter = new MutationObserver(function () {
+      if (willkommenSichtbar() || willkommenKommt()) return;
+      beobachter.disconnect();
+      hinweisWarten.laeuft = false;
+      hinweisZeigen();
+    });
+    beobachter.observe(document.documentElement, { attributes: true, childList: true, subtree: true });
+  }
+  function hinweisZeigen() {
+    if (!hinweisErlaubt()) {
+      if (hinweisErzwingen && (willkommenSichtbar() || willkommenKommt())) hinweisWarten();
+      return;
+    }
+    var feld = document.createElement("div");
+    feld.className = "push-frage";
+    feld.setAttribute("role", "dialog");
+    feld.setAttribute("aria-modal", "true");
+    feld.setAttribute("aria-labelledby", "push-frage-titel");
+    var karte = document.createElement("div");
+    karte.className = "push-frage-karte";
+    var glocke = document.createElement("span");
+    glocke.className = "push-frage-glocke";
+    glocke.setAttribute("aria-hidden", "true");
+    glocke.innerHTML = '<svg viewBox="0 0 24 24" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M6 9a6 6 0 0 1 12 0c0 7 2 7 2 9H4c0-2 2-2 2-9z"/><path fill="none" stroke="currentColor" stroke-width="2" d="M10 20a2 2 0 0 0 4 0"/></svg>';
+    var text = document.createElement("p");
+    text.id = "push-frage-titel";
+    text.textContent = "Benachrichtigungen bei neuen Berichten einschalten?";
+    var aktionen = document.createElement("div");
+    aktionen.className = "push-frage-aktionen";
+    var ein = document.createElement("button");
+    ein.type = "button";
+    ein.className = "push-frage-ein";
+    ein.textContent = "Einschalten";
+    var spaeter = document.createElement("button");
+    spaeter.type = "button";
+    spaeter.className = "push-frage-spaeter";
+    spaeter.textContent = "Später";
+    ein.addEventListener("click", function () {
+      hinweisWeg();
+      klick();
+    });
+    spaeter.addEventListener("click", function () {
+      speicherSchreiben(HINWEIS, "spaeter");
+      hinweisWeg();
+    });
+    aktionen.appendChild(ein);
+    aktionen.appendChild(spaeter);
+    karte.appendChild(glocke);
+    karte.appendChild(text);
+    karte.appendChild(aktionen);
+    feld.appendChild(karte);
+    document.body.appendChild(feld);
+    try { ein.focus({ preventScroll: true }); } catch (fehler) { ein.focus(); }
+  }
+  function hinweisAktualisieren() {
+    if (!hinweisErzwingen && document.querySelector(".push-frage") &&
+        (abonniert || !standalone() || (typeof Notification !== "undefined" && Notification.permission === "denied"))) {
+      hinweisWeg();
+    }
+    hinweisZeigen();
   }
   function aboLesen(OneSignal) {
     var abo = OneSignal.User && OneSignal.User.PushSubscription;
@@ -416,6 +519,7 @@
       promptOptions: { slidedown: { prompts: [{ type: "push", autoPrompt: false }] } }
     }), "OneSignal.init").then(function () {
       clearTimeout(initWatch);
+      initBekannt = true;
       diagnose.init = "fertig";
       diagnose.schritte.init = zeit();
       pushSupportedLesen(OneSignal);

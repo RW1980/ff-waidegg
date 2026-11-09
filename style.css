@@ -370,6 +370,47 @@ h3 { font-size: clamp(1.25rem, 2.4vw, 1.55rem); }
 .push-knopf:disabled { cursor: default; color: var(--muted); }
 .push-hinweis { margin: .4rem 0 0; max-width: 40rem; font-size: .92rem; color: var(--muted); }
 .push-hinweis[hidden] { display: none; }
+.foot-inner > .push--fuss { grid-column: 1 / -1; margin: .15rem 0 .35rem; }
+.push--fuss .push-knopf { font-size: .82rem; letter-spacing: .05em; padding: .35rem .7rem; min-height: 2.5rem; }
+.push-frage {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 1rem; background: rgba(28, 27, 25, .45);
+}
+.push-frage-karte {
+  width: min(24rem, 100%);
+  background: var(--sheet); color: var(--ink);
+  border: 1px solid #a8151b;
+  padding: 1.15rem 1.1rem 1rem; text-align: center;
+  box-shadow: 0 16px 40px rgba(28, 27, 25, .28);
+}
+.push-frage-glocke {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 3.4rem; height: 3.4rem; margin: 0 0 .7rem;
+  color: #a8151b; background: #f8e4e3; border-radius: 50%;
+  animation: push-glocke 1.6s ease-in-out infinite;
+}
+.push-frage-glocke svg { width: 1.7rem; height: 1.7rem; }
+.push-frage-karte p {
+  margin: 0 0 .95rem;
+  font-family: var(--display); font-size: 1.2rem; font-weight: 500;
+  letter-spacing: .04em; line-height: 1.25; text-transform: uppercase;
+}
+.push-frage-aktionen { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
+.push-frage-ein, .push-frage-spaeter {
+  min-height: 2.75rem; padding: .45rem 1rem; cursor: pointer;
+  font-family: var(--display); font-size: .95rem; letter-spacing: .08em; text-transform: uppercase;
+  border: 1px solid var(--line); background: var(--sheet); color: var(--ink);
+}
+.push-frage-ein { background: #a8151b; border-color: #a8151b; color: #fff; }
+.push-frage-ein:hover, .push-frage-ein:focus-visible { background: var(--ember-deep); border-color: var(--ember-deep); }
+@keyframes push-glocke {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 21, 27, .5); }
+  70% { box-shadow: 0 0 0 .7rem rgba(168, 21, 27, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .push-frage-glocke { animation: none !important; }
+}
 
 .section-head a {
   display: inline-flex;
