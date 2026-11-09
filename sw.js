@@ -1,7 +1,8 @@
-/* FF Waidegg – Service Worker der installierbaren App.
-   Passthrough: Anfragen gehen ins Netz, nichts wird gecacht, damit neue Berichte
-   sofort sichtbar sind. Pagefind und Bilder werden nicht gesondert behandelt.
-   Für spätere Push-Nachrichten hier einen Listener "push" ergänzen. */
+/* FF Waidegg – ein Service Worker für die ganze Seite (Scope /).
+   OneSignal (Push) und unser Passthrough teilen sich diese Datei.
+   Passthrough: GET-Anfragen gehen ins Netz, nichts wird gecacht. */
+importScripts("/OneSignalSDKWorker.js");
+
 self.addEventListener("install", function () {
   self.skipWaiting();
 });
