@@ -7,6 +7,7 @@
      data-ab="ja" (Uhrzeit als „ab 17:00 Uhr“), data-plakat (optional, Pfad zum Plakat: klein im Blatt, Link öffnet es groß),
      data-plakat-alt (optional, sonst „Plakat: <Titel>“),
      data-plakat-breite / data-plakat-hoehe (Pixelmaße des Plakats, reservieren den Platz),
+     picture.tl-mini: Laternenfoto klein im Text, vor „Jeder Waidegger Haushalt“, nicht groß über dem Plakat,
      data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (ohne data-ende: data-dauer Stunden, Standard 3),
      data-bis = JJJJ-MM-TT, erster Tag, an dem der Hinweis automatisch verschwindet,
      data-uid, data-link, data-ics (statische .ics; fehlt sie, wird die Datei im Browser erzeugt), data-datei. */
@@ -123,7 +124,8 @@
 
     function eintrag(c, i) {
       var li = el("li", "tl-eintrag");
-      if (c.bild) {
+      var mini = c.bild && c.bild.classList && c.bild.classList.contains("tl-mini");
+      if (c.bild && !mini) {
         var b = c.bild.cloneNode(true);
         if (i > 0) b.setAttribute("loading", "lazy");
         li.appendChild(b);
@@ -142,7 +144,24 @@
       t.setAttribute("datetime", iso(c.start)); t.textContent = datumLang(c.start) + ", " + zeitText(c);
       wann.appendChild(t); wann.appendChild(d.createElement("br")); wann.appendChild(d.createTextNode(c.ort));
       li.appendChild(wann);
-      if (c.text) li.appendChild(el("p", "tl-text", c.text));
+      if (c.text) {
+        var p = el("p", "tl-text");
+        if (mini) {
+          var marke = "Jeder Waidegger Haushalt";
+          var pos = c.text.indexOf(marke);
+          var knoten = c.bild.cloneNode(true);
+          if (pos < 0) {
+            p.appendChild(knoten);
+            p.appendChild(d.createTextNode(c.text));
+          } else {
+            if (pos > 0) p.appendChild(d.createTextNode(c.text.slice(0, pos).replace(/\s+$/, "")));
+            p.appendChild(d.createElement("br"));
+            p.appendChild(knoten);
+            p.appendChild(d.createTextNode(c.text.slice(pos)));
+          }
+        } else p.textContent = c.text;
+        li.appendChild(p);
+      }
       var cd = el("p", "tl-countdown"); li.appendChild(cd); countdowns.push({ e: cd, c: c });
       var akt = el("p", "tl-aktionen");
       var a = el("a", "tl-btn"); a.innerHTML = SVG_KAL; a.appendChild(d.createTextNode("In den Kalender"));
