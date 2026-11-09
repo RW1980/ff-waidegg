@@ -162,9 +162,20 @@
   function debugZeichnen() {
     if (!debug) return;
     var bloecke = knoepfe();
-    var regPromise = navigator.serviceWorker ? navigator.serviceWorker.getRegistration("/") : Promise.resolve(null);
-    regPromise.then(function (reg) {
+    var regPromise = navigator.serviceWorker ? navigator.serviceWorker.getRegistrations() : Promise.resolve([]);
+    regPromise.then(function (regs) {
+      regs = regs || [];
+      var reg = null;
+      regs.forEach(function (eintrag) {
+        if (!reg) reg = eintrag;
+        if (eintrag.scope && /\/$/.test(eintrag.scope)) reg = eintrag;
+      });
       var sw = reg && (reg.active || reg.waiting || reg.installing);
+      var urls = [];
+      regs.forEach(function (eintrag) {
+        var worker = eintrag.active || eintrag.waiting || eintrag.installing;
+        if (worker) urls.push(worker.scriptURL);
+      });
       var aboPromise = reg && reg.pushManager ? reg.pushManager.getSubscription() : Promise.resolve(null);
       return Promise.resolve(aboPromise).then(function (abo) {
         var skript = !!document.querySelector("script[src*='OneSignalSDK.page.es6.js']");
@@ -176,6 +187,7 @@
           "Notification.permission nach requestPermission: " + (diagnose.permissionNachPrompt || "–"),
           "PushManager: " + ("PushManager" in window ? "ja" : "nein"),
           "SW: " + (sw ? sw.scriptURL + " " + sw.state : "keine"),
+          "SW-Registrierungen: " + regs.length + (urls.length ? " " + urls.join(" | ") : ""),
           "SW-Controller: " + (navigator.serviceWorker && navigator.serviceWorker.controller ? "ja" : "nein"),
           "pushManager-Abo: " + (abo ? "ja" : "nein"),
           "OneSignal-Skript: " + (skript ? "ja" : "nein"),
@@ -492,20 +504,50 @@
     male();
   }
 
-  if (navigator.serviceWorker) {
-    navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(function (fehler) {
-      console.warn("Service Worker", fehler);
-      diagnose.fehler = diagnose.fehler || String(fehler && fehler.message || fehler);
-      debug = true;
-    });
-  }
-
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", binden);
   else binden();
 
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  initBegrenzen();
-  window.OneSignalDeferred.push(function (OneSignal) {
+  /* OneSignal registriert /sw.js selbst, mit ?appId=…&sdkVersion=…
+     (SDK: register(workerPath + Query) und wartet, bis genau diese URL active ist).
+     Eine eigene Registrierung ohne Query bleibt auf WebKit liegen; optIn wartet dann ewig.
+     Doku: eine Registrierung pro Scope, eine geänderte Script-URL braucht eine Migration.
+     https://documentation.onesignal.com/docs/en/onesignal-service-worker */
+  function workerOhneAppId(url) {
+    try {
+      var adresse = new URL(url, location.href);
+      if (!/\/sw\.js$/.test(adresse.pathname)) return false;
+      return !adresse.searchParams.has("appId");
+    } catch (fehler) {
+      return false;
+    }
+  }
+  function sitzung(name, wert) {
+    try {
+      if (arguments.length < 2) return sessionStorage.getItem(name);
+      sessionStorage.setItem(name, wert);
+    } catch (fehler) { return null; }
+  }
+  function alteRegistrierungWeg() {
+    if (!navigator.serviceWorker || !navigator.serviceWorker.getRegistrations) return Promise.resolve(false);
+    return navigator.serviceWorker.getRegistrations().then(function (regs) {
+      var jobs = (regs || []).map(function (reg) {
+        var worker = reg.active || reg.waiting || reg.installing;
+        if (!worker || !workerOhneAppId(worker.scriptURL)) return Promise.resolve(false);
+        var abo = reg.pushManager && reg.pushManager.getSubscription ? reg.pushManager.getSubscription() : Promise.resolve(null);
+        return abo.then(function (sub) {
+          if (sub) return false;
+          return reg.unregister().then(function () { return true; }, function () { return false; });
+        });
+      });
+      return Promise.all(jobs).then(function (flags) {
+        return flags.indexOf(true) !== -1;
+      });
+    });
+  }
+  function oneSignalStarten() {
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    initBegrenzen();
+    window.OneSignalDeferred.push(function (OneSignal) {
     diagnose.geladen = true;
     diagnose.init = "läuft";
     pushSupportedLesen(OneSignal);
@@ -544,5 +586,17 @@
       diagnose.schritte.init = zeit() + " (Fehler)";
       fehlgeschlagen(fehler, "OneSignal.init");
     });
+  });
+  }
+  alteRegistrierungWeg().then(function (weg) {
+    if (weg && sitzung("ffw-sw-reset") !== "1") {
+      sitzung("ffw-sw-reset", "1");
+      location.reload();
+      return;
+    }
+    oneSignalStarten();
+  }).catch(function (fehler) {
+    console.warn("Service Worker", fehler);
+    oneSignalStarten();
   });
 })();
