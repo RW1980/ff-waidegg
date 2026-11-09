@@ -63,6 +63,25 @@
 .tl-e-titel { margin: 0 0 .1rem; font-size: 1.35rem; }
 .tl-eintrag .tl-zusatz { margin-top: 0; }
 .tl-bild { display: block; width: 100%; max-width: 18rem; height: auto; margin: 0 auto .5rem; }
+/* Laterne im Friedenslicht-Text: vorhandene Datei nur kleiner, Seitenverhältnis bleibt (width/height am img). */
+.tl-text picture.tl-mini,
+.tf-liste picture.tl-mini {
+  display: block;
+  float: left;
+  width: 6.25rem; /* 100 px */
+  max-width: 100%;
+  margin: .15rem .7rem .3rem 0;
+}
+.tl-text picture.tl-mini img,
+.tf-liste picture.tl-mini img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+.tl-text:has(picture.tl-mini),
+.tf-liste p:has(picture.tl-mini) { display: flow-root; }
 .tl-eintrag .tl-countdown { margin-bottom: .6rem; }
 .tl-text { margin: -.2rem 0 .6rem; }
 .tl-plakat { display: block; width: fit-content; max-width: 100%; margin: 0 auto .6rem; text-align: center; text-decoration: none; color: var(--ember-deep); }
