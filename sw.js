@@ -1,7 +1,9 @@
-/* FF Waidegg – ein Service Worker für die ganze Seite (Scope /).
-   OneSignal (Push) und unser Passthrough teilen sich diese Datei.
-   Passthrough: GET-Anfragen gehen ins Netz, nichts wird gecacht. */
-importScripts("/OneSignalSDKWorker.js");
+/* FF Waidegg – ein Service Worker (Scope /), Dateiname bleibt /sw.js.
+   Das OneSignal-Skript wird genau einmal geladen.
+   Kein eigener fetch-Handler: Chrome verlangt ihn für die Installierbarkeit
+   nicht mehr, und ein respondWith auf jede Anfrage kann auf WebKit
+   die Verbindung zum Worker blockieren. */
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
 
 self.addEventListener("install", function () {
   self.skipWaiting();
@@ -9,17 +11,4 @@ self.addEventListener("install", function () {
 
 self.addEventListener("activate", function (event) {
   event.waitUntil(self.clients.claim());
-});
-
-self.addEventListener("fetch", function (event) {
-  var request = event.request;
-  if (request.method !== "GET") return;
-  var url;
-  try {
-    url = new URL(request.url);
-  } catch (e) {
-    return;
-  }
-  if (url.origin !== self.location.origin) return;
-  event.respondWith(fetch(request));
 });
