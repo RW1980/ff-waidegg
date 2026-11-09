@@ -1,7 +1,12 @@
 /* OneSignal (Web SDK v16): ein Service Worker (sw.js), keine Glocke, kein Popup von selbst.
-   Der Knopf [data-push] fragt erst beim Klick. */
+   Der Knopf [data-push] ist sofort klickbar. Safari/WebKit verlangt, dass
+   Notification.requestPermission() noch im Klick selbst aufgerufen wird. */
 (function () {
   var APP = "0cff0d8c-39b6-497b-bf07-d6c2e58a03fa";
+  var abonniert = false;
+  var initFehler = false;
+  var wartet = false;
+  var erlaubnisLaeuft = false;
 
   function ios() {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
@@ -10,65 +15,127 @@
   function standalone() {
     return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
   }
-
-  function bind(OneSignal) {
-    var blocks = document.querySelectorAll("[data-push]");
-    if (!blocks.length) return;
-    var supported = OneSignal.Notifications.isPushSupported();
-
-    function paint() {
-      var an = !!(OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optedIn);
-      var blockiert = typeof Notification !== "undefined" && Notification.permission === "denied";
-      blocks.forEach(function (block) {
-        var knopf = block.querySelector("[data-push-knopf]");
-        var label = block.querySelector("[data-push-label]");
-        var hinweis = block.querySelector("[data-push-ios]");
-        if (!knopf || !label) return;
-        if (ios() && !standalone() && hinweis) hinweis.hidden = false;
-        if (!supported && !(ios() && !standalone())) {
-          label.textContent = "In diesem Browser nicht verfügbar";
-          knopf.disabled = true;
-          knopf.setAttribute("aria-pressed", "false");
-          return;
-        }
-        if (blockiert && !an) {
-          label.textContent = "Benachrichtigungen im Browser blockiert";
-          knopf.disabled = true;
-          knopf.setAttribute("data-push-status", "blockiert");
-          knopf.setAttribute("aria-pressed", "false");
-          return;
-        }
-        knopf.disabled = false;
-        if (an) {
-          label.textContent = "Benachrichtigungen aktiv · Abbestellen";
-          knopf.setAttribute("data-push-status", "aktiv");
-          knopf.setAttribute("aria-pressed", "true");
-        } else {
-          label.textContent = "Benachrichtigungen bei neuen Berichten";
-          knopf.removeAttribute("data-push-status");
-          knopf.setAttribute("aria-pressed", "false");
-        }
-      });
-    }
-
-    blocks.forEach(function (block) {
+  function knoepfe() {
+    return document.querySelectorAll("[data-push]");
+  }
+  function setze(text, status) {
+    knoepfe().forEach(function (block) {
       var knopf = block.querySelector("[data-push-knopf]");
+      var label = block.querySelector("[data-push-label]");
+      if (!label) return;
+      label.textContent = text;
       if (!knopf) return;
-      knopf.addEventListener("click", function () {
-        var abo = OneSignal.User.PushSubscription;
-        var lauf = abo.optedIn ? abo.optOut() : (OneSignal.Notifications.isPushSupported() ? abo.optIn() : Promise.resolve());
-        Promise.resolve(lauf).then(paint).catch(paint);
+      if (status) knopf.setAttribute("data-push-status", status);
+      else knopf.removeAttribute("data-push-status");
+      knopf.setAttribute("aria-pressed", status === "aktiv" ? "true" : "false");
+      knopf.disabled = status === "blockiert";
+    });
+  }
+  function male() {
+    if (wartet) return;
+    if (ios() && !standalone()) {
+      setze("Auf dem iPhone/iPad erst ‚Zum Home-Bildschirm‘ hinzufügen");
+      return;
+    }
+    if (typeof Notification !== "undefined" && Notification.permission === "denied" && !abonniert) {
+      setze("Benachrichtigungen im Browser blockiert – in den Einstellungen erlauben", "blockiert");
+      return;
+    }
+    if (initFehler) {
+      setze("Gerade nicht verfügbar, bitte später nochmal");
+      return;
+    }
+    if (abonniert) setze("Benachrichtigungen aktiv · Abbestellen", "aktiv");
+    else setze("Benachrichtigungen bei neuen Berichten");
+  }
+  function nachOneSignal(arbeit, warnung) {
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function (OneSignal) {
+      return Promise.resolve(arbeit(OneSignal)).then(function () {
+        abonniert = !!(OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optedIn);
+        wartet = false;
+        male();
+      }).catch(function (fehler) {
+        console.warn(warnung, fehler);
+        wartet = false;
+        initFehler = true;
+        setze("Gerade nicht verfügbar, bitte später nochmal");
       });
     });
-
-    OneSignal.User.PushSubscription.addEventListener("change", paint);
-    OneSignal.Notifications.addEventListener("permissionChange", paint);
-    paint();
+  }
+  function weiterNachErlaubnis(status) {
+    if (erlaubnisLaeuft) return;
+    erlaubnisLaeuft = true;
+    if (status === "denied" || (typeof Notification !== "undefined" && Notification.permission === "denied")) {
+      wartet = false;
+      setze("Benachrichtigungen im Browser blockiert – in den Einstellungen erlauben", "blockiert");
+      return;
+    }
+    if (initFehler) {
+      wartet = false;
+      setze("Gerade nicht verfügbar, bitte später nochmal");
+      return;
+    }
+    nachOneSignal(function (OneSignal) {
+      var abo = OneSignal.User.PushSubscription;
+      if (abo.optedIn) return null;
+      if (OneSignal.Notifications && OneSignal.Notifications.requestPermission) return OneSignal.Notifications.requestPermission();
+      return abo.optIn();
+    }, "OneSignal optIn");
+  }
+  function klick() {
+    erlaubnisLaeuft = false;
+    if (ios() && !standalone()) {
+      setze("Auf dem iPhone/iPad erst ‚Zum Home-Bildschirm‘ hinzufügen");
+      return;
+    }
+    if (abonniert) {
+      nachOneSignal(function (OneSignal) {
+        return OneSignal.User.PushSubscription.optOut();
+      }, "OneSignal optOut");
+      return;
+    }
+    if (typeof Notification !== "undefined" && Notification.permission === "denied") {
+      setze("Benachrichtigungen im Browser blockiert – in den Einstellungen erlauben", "blockiert");
+      return;
+    }
+    if (typeof Notification !== "undefined" && Notification.permission === "default") {
+      var erlaubnis = Notification.requestPermission(function (status) { weiterNachErlaubnis(status); });
+      if (!erlaubnisLaeuft) {
+        wartet = true;
+        setze("Bitte erlauben …");
+      }
+      if (erlaubnis && typeof erlaubnis.then === "function") {
+        erlaubnis.then(weiterNachErlaubnis).catch(function (fehler) {
+          console.warn("Notification.requestPermission", fehler);
+          wartet = false;
+          setze("Gerade nicht verfügbar, bitte später nochmal");
+        });
+      }
+      return;
+    }
+    wartet = true;
+    setze("Bitte erlauben …");
+    weiterNachErlaubnis(typeof Notification !== "undefined" ? Notification.permission : "default");
+  }
+  function binden() {
+    knoepfe().forEach(function (block) {
+      var knopf = block.querySelector("[data-push-knopf]");
+      if (!knopf || knopf.getAttribute("data-push-gebunden") === "1") return;
+      knopf.setAttribute("data-push-gebunden", "1");
+      knopf.addEventListener("click", klick);
+    });
+    male();
   }
 
   if (navigator.serviceWorker) {
-    navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(function () {});
+    navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(function (fehler) {
+      console.warn("Service Worker", fehler);
+    });
   }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", binden);
+  else binden();
 
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   window.OneSignalDeferred.push(function (OneSignal) {
@@ -79,6 +146,25 @@
       notifyButton: { enable: false },
       welcomeNotification: { disable: true },
       promptOptions: { slidedown: { prompts: [{ type: "push", autoPrompt: false }] } }
-    }).then(function () { bind(OneSignal); }).catch(function () {});
+    }).then(function () {
+      abonniert = !!(OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optedIn);
+      OneSignal.User.PushSubscription.addEventListener("change", function () {
+        abonniert = !!OneSignal.User.PushSubscription.optedIn;
+        wartet = false;
+        male();
+      });
+      if (OneSignal.Notifications && OneSignal.Notifications.addEventListener) {
+        OneSignal.Notifications.addEventListener("permissionChange", function () {
+          wartet = false;
+          male();
+        });
+      }
+      male();
+    }).catch(function (fehler) {
+      console.warn("OneSignal.init", fehler);
+      initFehler = true;
+      wartet = false;
+      male();
+    });
   });
 })();
