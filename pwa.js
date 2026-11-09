@@ -7,6 +7,68 @@
   var initFehler = false;
   var wartet = false;
   var erlaubnisLaeuft = false;
+  var debug = /(?:^|[?&])pushdebug=1(?:&|$)/.test(location.search);
+  var diagnose = { geladen: false, init: "nein", fehler: "", optedIn: false, id: "" };
+
+  function mitTimeout(promise, name) {
+    return new Promise(function (resolve, reject) {
+      var fertig = false;
+      var timer = setTimeout(function () {
+        if (fertig) return;
+        fertig = true;
+        var fehler = new Error(name + " nach 15 s nicht fertig");
+        console.warn(fehler.message);
+        reject(fehler);
+      }, 15000);
+      Promise.resolve(promise).then(function (wert) {
+        if (fertig) return;
+        fertig = true;
+        clearTimeout(timer);
+        resolve(wert);
+      }, function (fehler) {
+        if (fertig) return;
+        fertig = true;
+        clearTimeout(timer);
+        reject(fehler);
+      });
+    });
+  }
+  function kuerzen(id) {
+    if (!id) return "–";
+    return id.length > 10 ? id.slice(0, 8) + "…" : id;
+  }
+  function debugZeichnen() {
+    if (!debug) return;
+    var bloecke = knoepfe();
+    var regPromise = navigator.serviceWorker ? navigator.serviceWorker.getRegistration("/") : Promise.resolve(null);
+    regPromise.then(function (reg) {
+      var sw = reg && (reg.active || reg.waiting || reg.installing);
+      var zeilen = [
+        "UA: " + navigator.userAgent,
+        "standalone: " + (standalone() ? "ja" : "nein"),
+        "Notification.permission: " + (typeof Notification !== "undefined" ? Notification.permission : "fehlt"),
+        "PushManager: " + ("PushManager" in window ? "ja" : "nein"),
+        "SW: " + (sw ? sw.scriptURL + " " + sw.state : "keine"),
+        "OneSignal geladen: " + (diagnose.geladen ? "ja" : "nein"),
+        "init: " + diagnose.init,
+        "Fehler: " + (diagnose.fehler || "–"),
+        "optedIn: " + (diagnose.optedIn ? "ja" : "nein"),
+        "Abo-ID: " + kuerzen(diagnose.id)
+      ].join("\n");
+      bloecke.forEach(function (block) {
+        var box = block.querySelector("[data-push-debug]");
+        if (!box) {
+          box = document.createElement("pre");
+          box.setAttribute("data-push-debug", "1");
+          box.style.cssText = "margin:.45rem 0 0;padding:.5rem;max-width:100%;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.45 ui-monospace,monospace;background:#fff;border:1px solid #d4cbbc;color:#1c1b19;";
+          block.appendChild(box);
+        }
+        box.textContent = zeilen;
+      });
+    }).catch(function (fehler) {
+      console.warn("pushdebug", fehler);
+    });
+  }
 
   function ios() {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
@@ -32,6 +94,7 @@
     });
   }
   function male() {
+    debugZeichnen();
     if (wartet) return;
     if (ios() && !standalone()) {
       setze("Auf dem iPhone/iPad erst ‚Zum Home-Bildschirm‘ hinzufügen");
@@ -51,15 +114,21 @@
   function nachOneSignal(arbeit, warnung) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function (OneSignal) {
-      return Promise.resolve(arbeit(OneSignal)).then(function () {
-        abonniert = !!(OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optedIn);
+      diagnose.geladen = true;
+      return mitTimeout(arbeit(OneSignal), warnung).then(function () {
+        var abo = OneSignal.User && OneSignal.User.PushSubscription;
+        abonniert = !!(abo && abo.optedIn);
+        diagnose.optedIn = abonniert;
+        diagnose.id = abo && abo.id || "";
         wartet = false;
         male();
       }).catch(function (fehler) {
         console.warn(warnung, fehler);
         wartet = false;
         initFehler = true;
+        diagnose.fehler = String(fehler && fehler.message || fehler);
         setze("Gerade nicht verfügbar, bitte später nochmal");
+        debugZeichnen();
       });
     });
   }
@@ -139,15 +208,22 @@
 
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   window.OneSignalDeferred.push(function (OneSignal) {
-    return OneSignal.init({
+    diagnose.geladen = true;
+    diagnose.init = "läuft";
+    debugZeichnen();
+    return mitTimeout(OneSignal.init({
       appId: APP,
       serviceWorkerPath: "sw.js",
       serviceWorkerParam: { scope: "/" },
       notifyButton: { enable: false },
       welcomeNotification: { disable: true },
       promptOptions: { slidedown: { prompts: [{ type: "push", autoPrompt: false }] } }
-    }).then(function () {
-      abonniert = !!(OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optedIn);
+    }), "OneSignal.init").then(function () {
+      diagnose.init = "fertig";
+      var abo = OneSignal.User && OneSignal.User.PushSubscription;
+      abonniert = !!(abo && abo.optedIn);
+      diagnose.optedIn = abonniert;
+      diagnose.id = abo && abo.id || "";
       OneSignal.User.PushSubscription.addEventListener("change", function () {
         abonniert = !!OneSignal.User.PushSubscription.optedIn;
         wartet = false;
@@ -164,6 +240,8 @@
       console.warn("OneSignal.init", fehler);
       initFehler = true;
       wartet = false;
+      diagnose.init = "Fehler";
+      diagnose.fehler = String(fehler && fehler.message || fehler);
       male();
     });
   });
