@@ -303,7 +303,7 @@
     if (document.querySelector(".push-frage")) return false;
     if (willkommenSichtbar()) return false;
     if (hinweisErzwingen) return !willkommenKommt();
-    if (!initBekannt || !standalone() || abonniert) return false;
+    if (!initBekannt || abonniert) return false;
     if (speicherLesen(HINWEIS)) return false;
     if (typeof Notification !== "undefined" && Notification.permission === "denied") return false;
     if (willkommenKommt()) return false;
@@ -368,7 +368,7 @@
   }
   function hinweisAktualisieren() {
     if (!hinweisErzwingen && document.querySelector(".push-frage") &&
-        (abonniert || !standalone() || (typeof Notification !== "undefined" && Notification.permission === "denied"))) {
+        (abonniert || (typeof Notification !== "undefined" && Notification.permission === "denied"))) {
       hinweisWeg();
     }
     hinweisZeigen();
