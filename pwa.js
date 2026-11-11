@@ -410,6 +410,19 @@
       });
     });
   }
+
+  function manuellAbonnieren() {
+    if (!navigator.serviceWorker) return Promise.reject(new Error("kein Service Worker"));
+    return navigator.serviceWorker.ready.then(function (reg) {
+      return reg.pushManager.getSubscription().then(function (existing) {
+        if (existing) return existing;
+        return reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: null // OneSignal setzt den Key selbst
+        });
+      });
+    });
+  }
   function weiterNachErlaubnis(status) {
     if (!diagnose.schritte.erlaubnis) diagnose.schritte.erlaubnis = zeit();
     if (!diagnose.permissionNachPrompt) {
@@ -447,10 +460,16 @@
       var arbeit;
       if (!abo) arbeit = Promise.reject(new Error("PushSubscription fehlt"));
       else if (direkt) arbeit = abo.optIn();
-      else if (OneSignal.Notifications && OneSignal.Notifications.requestPermission) arbeit = OneSignal.Notifications.requestPermission();
       else arbeit = abo.optIn();
-      return Promise.resolve(arbeit).then(function () {
-        diagnose.schritte.optInFertig = zeit();
+      return Promise.race([
+        Promise.resolve(arbeit),
+        new Promise(function (_, reject) { setTimeout(function () { reject(new Error("optIn Timeout")); }, 8000); })
+      ]).catch(function (fehler) {
+        diagnose.fehler = String(fehler && fehler.message || fehler);
+        if (ios()) return manuellAbonnieren().then(function () { return "manuell"; });
+        throw fehler;
+      }).then(function (ergebnis) {
+        diagnose.schritte.optInFertig = zeit() + (ergebnis === "manuell" ? " (manuell)" : "");
         aboLesen(OneSignal);
       });
     }, "OneSignal optIn");
