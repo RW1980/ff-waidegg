@@ -18,7 +18,8 @@
     id: "",
     pushSupported: "",
     permissionNachPrompt: "",
-    schritte: { klick: "", erlaubnis: "", init: "", optInStart: "", optInFertig: "" }
+    schritte: { klick: "", erlaubnis: "", init: "", optInStart: "", optInFertig: "" },
+    swFehler: ""
   };
   var initWatch = 0;
   var optWatch = 0;
@@ -189,6 +190,7 @@
           "SW: " + (sw ? sw.scriptURL + " " + sw.state : "keine"),
           "SW-Registrierungen: " + regs.length + (urls.length ? " " + urls.join(" | ") : ""),
           "SW-Controller: " + (navigator.serviceWorker && navigator.serviceWorker.controller ? "ja" : "nein"),
+          "SW-Fehler: " + (diagnose.swFehler || "–"),
           "pushManager-Abo: " + (abo ? "ja" : "nein"),
           "OneSignal-Skript: " + (skript ? "ja" : "nein"),
           "OneSignal geladen: " + (diagnose.geladen ? "ja" : "nein"),
@@ -544,6 +546,20 @@
       });
     });
   }
+
+  function swRegistrieren() {
+    if (!navigator.serviceWorker) return Promise.resolve(null);
+    return navigator.serviceWorker.register("/sw.js", { scope: "/" })
+      .then(function (reg) {
+        diagnose.swFehler = "";
+        return reg;
+      })
+      .catch(function (fehler) {
+        diagnose.swFehler = String(fehler && fehler.message || fehler);
+        console.warn("SW register", fehler);
+        return null;
+      });
+  }
   function oneSignalStarten() {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     initBegrenzen();
@@ -594,7 +610,11 @@
       location.reload();
       return;
     }
-    oneSignalStarten();
+    if (ios()) {
+      swRegistrieren().then(function () { oneSignalStarten(); });
+    } else {
+      oneSignalStarten();
+    }
   }).catch(function (fehler) {
     console.warn("Service Worker", fehler);
     oneSignalStarten();
