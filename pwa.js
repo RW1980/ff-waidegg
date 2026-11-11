@@ -441,7 +441,7 @@
         return null;
       }
       var unterstuetzt = pushSupportedLesen(OneSignal);
-      var direkt = unterstuetzt === false || legacyErwartet();
+      var direkt = unterstuetzt === false || legacyErwartet() || (ios() && typeof Notification !== "undefined" && Notification.permission === "granted");
       diagnose.schritte.optInStart = zeit() + (direkt ? " (direkt optIn)" : "");
       debugZeichnen();
       var arbeit;
