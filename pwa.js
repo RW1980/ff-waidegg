@@ -9,7 +9,7 @@
   var initFehler = false;
   var wartet = false;
   var erlaubnisLaeuft = false;
-  var debug = /(?:^|[?&])pushdebug=1(?:&|$)/.test(location.search);
+  var debug = false;
   var diagnose = {
     geladen: false,
     init: "nein",
@@ -160,86 +160,7 @@
     }
     if (sofort) ok(); else fail();
   }
-  function debugZeichnen() {
-    if (!debug) return;
-    var bloecke = knoepfe();
-    var regPromise = navigator.serviceWorker ? navigator.serviceWorker.getRegistrations() : Promise.resolve([]);
-    regPromise.then(function (regs) {
-      regs = regs || [];
-      var reg = null;
-      regs.forEach(function (eintrag) {
-        if (!reg) reg = eintrag;
-        if (eintrag.scope && /\/$/.test(eintrag.scope)) reg = eintrag;
-      });
-      var sw = reg && (reg.active || reg.waiting || reg.installing);
-      var urls = [];
-      regs.forEach(function (eintrag) {
-        var worker = eintrag.active || eintrag.waiting || eintrag.installing;
-        if (worker) urls.push(worker.scriptURL);
-      });
-      var aboPromise = reg && reg.pushManager ? reg.pushManager.getSubscription() : Promise.resolve(null);
-      return Promise.resolve(aboPromise).then(function (abo) {
-        var skript = !!document.querySelector("script[src*='OneSignalSDK.page.es6.js']");
-        var schritte = diagnose.schritte;
-        var zeilen = [
-          "UA: " + navigator.userAgent,
-          "standalone: " + (standalone() ? "ja" : "nein"),
-          "Notification.permission: " + (typeof Notification !== "undefined" ? Notification.permission : "fehlt"),
-          "Notification.permission nach requestPermission: " + (diagnose.permissionNachPrompt || "–"),
-          "PushManager: " + ("PushManager" in window ? "ja" : "nein"),
-          "SW: " + (sw ? sw.scriptURL + " " + sw.state : "keine"),
-          "SW-Registrierungen: " + regs.length + (urls.length ? " " + urls.join(" | ") : ""),
-          "SW-Controller: " + (navigator.serviceWorker && navigator.serviceWorker.controller ? "ja" : "nein"),
-          "SW-Fehler: " + (diagnose.swFehler || "–"),
-          "pushManager-Abo: " + (abo ? "ja" : "nein"),
-          "OneSignal-Skript: " + (skript ? "ja" : "nein"),
-          "OneSignal geladen: " + (diagnose.geladen ? "ja" : "nein"),
-          "VAPID applicationServerKey: " + (vapidDa() ? "ja" : "nein"),
-          "Legacy safari.pushNotification: " + (legacyDa() ? "ja" : "nein"),
-          "isPushSupported: " + (diagnose.pushSupported === "" ? "–" : (diagnose.pushSupported ? "ja" : "nein")),
-          "init: " + diagnose.init,
-          "Klick: " + (schritte.klick || "–"),
-          "requestPermission-Ergebnis: " + (schritte.erlaubnis || "–"),
-          "init fertig: " + (schritte.init || "–"),
-          "optIn gestartet: " + (schritte.optInStart || "–"),
-          "optIn fertig: " + (schritte.optInFertig || "–"),
-          "Fehler: " + (diagnose.fehler || "–"),
-          "optedIn: " + (diagnose.optedIn ? "ja" : "nein"),
-          "Abo-ID: " + kuerzen(diagnose.id)
-        ].join("\n");
-        var ziele = [];
-        bloecke.forEach(function (block) {
-          if (!block.classList.contains("push--fuss")) ziele.push(block);
-        });
-        if (!ziele.length && bloecke.length) ziele = [bloecke[0]];
-        ziele.forEach(function (block) {
-          var box = block.querySelector("[data-push-debug]");
-          if (!box) {
-            var huelle = document.createElement("div");
-            huelle.setAttribute("data-push-debug-huelle", "1");
-            box = document.createElement("pre");
-            box.setAttribute("data-push-debug", "1");
-            box.style.cssText = "margin:.45rem 0 0;padding:.5rem;max-width:100%;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.45 ui-monospace,monospace;background:#fff;border:1px solid #d4cbbc;color:#1c1b19;";
-            var knopf = document.createElement("button");
-            knopf.type = "button";
-            knopf.setAttribute("data-push-debug-kopie", "1");
-            knopf.textContent = "Diagnose kopieren";
-            knopf.style.cssText = "margin:.35rem 0 0;padding:.35rem .6rem;font:600 12px/1.2 system-ui,sans-serif;background:#fff;border:1px solid #d4cbbc;color:#1c1b19;";
-            knopf.addEventListener("click", function () {
-              kopieren(box.textContent, knopf, box);
-            });
-            huelle.appendChild(box);
-            huelle.appendChild(knopf);
-            block.appendChild(huelle);
-          }
-          box.textContent = zeilen;
-        });
-      });
-    }).catch(function (fehler) {
-      console.warn("pushdebug", fehler);
-      diagnose.fehler = diagnose.fehler || String(fehler && fehler.message || fehler);
-    });
-  }
+  function debugZeichnen() { /* Diagnose entfernt */ }
 
   function ios() {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
