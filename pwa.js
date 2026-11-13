@@ -21,11 +21,10 @@
     schritte: { klick: "", erlaubnis: "", init: "", optInStart: "", optInFertig: "" },
     swFehler: ""
   };
-  /* Nur mit ?pushdebug=1: Konsole, Fehler und SW-Registrierungen mitschreiben,
+  /* Immer (kleiner Ringpuffer, nur lokal): Konsole, Fehler und SW-Registrierungen mitschreiben,
      damit man in der Web-App ohne Web-Inspector sieht, wo das SDK hängt. */
   var protokoll = [];
   function merke(art, teile) {
-    if (!debug) return;
     var text = [];
     for (var i = 0; i < teile.length; i++) {
       var t = teile[i];
@@ -38,7 +37,7 @@
     protokoll.push(zeile);
     if (protokoll.length > 60) protokoll.shift();
   }
-  if (debug) {
+  if (true) {
     ["log", "info", "warn", "error", "debug", "trace"].forEach(function (art) {
       var alt = console[art];
       if (typeof alt !== "function") return;
@@ -250,8 +249,8 @@
           "Fehler: " + (diagnose.fehler || "–"),
           "optedIn: " + (diagnose.optedIn ? "ja" : "nein"),
           "Abo-ID: " + kuerzen(diagnose.id),
-          "SDK intern initialisiert (C): " + (window.OneSignal && typeof window.OneSignal === "object" ? String(window.OneSignal.C) : "–"),
-          "sessionInit läuft (Ii): " + (window.OneSignal && typeof window.OneSignal === "object" ? String(window.OneSignal.Ii) : "–"),
+          "SDK intern initialisiert (C): " + (window.OneSignal && typeof window.OneSignal !== "undefined" && !Array.isArray(window.OneSignal) ? String(window.OneSignal.C) : "–"),
+          "sessionInit läuft (Ii): " + (window.OneSignal && typeof window.OneSignal !== "undefined" && !Array.isArray(window.OneSignal) ? String(window.OneSignal.Ii) : "–"),
           "--- Protokoll (neueste unten) ---"
         ].concat(protokoll.slice(-40)).join("\n");
         var ziele = [];
@@ -632,7 +631,7 @@
     window.OneSignalDeferred.push(function (OneSignal) {
     diagnose.geladen = true;
     diagnose.init = "läuft";
-    if (debug) { try { OneSignal.Debug.setLogLevel("trace"); } catch (f) { merke("Debug", [f]); } }
+    { try { OneSignal.Debug.setLogLevel("trace"); } catch (f) { merke("Debug", [f]); } }
     pushSupportedLesen(OneSignal);
     debugZeichnen();
     return mitTimeout(OneSignal.init({
