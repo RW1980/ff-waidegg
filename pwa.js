@@ -21,6 +21,50 @@
     schritte: { klick: "", erlaubnis: "", init: "", optInStart: "", optInFertig: "" },
     swFehler: ""
   };
+  /* Nur mit ?pushdebug=1: Konsole, Fehler und SW-Registrierungen mitschreiben,
+     damit man in der Web-App ohne Web-Inspector sieht, wo das SDK hängt. */
+  var protokoll = [];
+  function merke(art, teile) {
+    if (!debug) return;
+    var text = [];
+    for (var i = 0; i < teile.length; i++) {
+      var t = teile[i];
+      try { t = (t && t.stack) ? String(t.stack) : (typeof t === "object" ? JSON.stringify(t) : String(t)); }
+      catch (f) { t = String(t); }
+      text.push(t);
+    }
+    var zeile = zeit() + " " + art + " " + text.join(" ").replace(/\s+/g, " ");
+    if (zeile.length > 300) zeile = zeile.slice(0, 300) + "…";
+    protokoll.push(zeile);
+    if (protokoll.length > 60) protokoll.shift();
+  }
+  if (debug) {
+    ["log", "info", "warn", "error", "debug", "trace"].forEach(function (art) {
+      var alt = console[art];
+      if (typeof alt !== "function") return;
+      console[art] = function () {
+        try { merke(art, arguments); } catch (f) {}
+        return alt.apply(console, arguments);
+      };
+    });
+    window.addEventListener("error", function (e) { merke("FEHLER", [e.message || e.error]); });
+    window.addEventListener("unhandledrejection", function (e) { merke("REJECT", [e.reason]); });
+    if (navigator.serviceWorker && navigator.serviceWorker.register) {
+      var regAlt = navigator.serviceWorker.register.bind(navigator.serviceWorker);
+      navigator.serviceWorker.register = function (url, opt) {
+        merke("SW-register", [String(url), opt && opt.scope]);
+        return regAlt(url, opt).then(function (reg) {
+          var w = reg.installing || reg.waiting || reg.active;
+          merke("SW-register ok", [w ? w.state : "ohne Worker"]);
+          if (w) w.addEventListener("statechange", function () { merke("SW-state", [w.state]); });
+          return reg;
+        }, function (fehler) {
+          merke("SW-register FEHLER", [fehler]);
+          throw fehler;
+        });
+      };
+    }
+  }
   var initWatch = 0;
   var optWatch = 0;
   var boxTimer = 0;
@@ -205,8 +249,11 @@
           "optIn fertig: " + (schritte.optInFertig || "–"),
           "Fehler: " + (diagnose.fehler || "–"),
           "optedIn: " + (diagnose.optedIn ? "ja" : "nein"),
-          "Abo-ID: " + kuerzen(diagnose.id)
-        ].join("\n");
+          "Abo-ID: " + kuerzen(diagnose.id),
+          "SDK intern initialisiert (C): " + (window.OneSignal && typeof window.OneSignal === "object" ? String(window.OneSignal.C) : "–"),
+          "sessionInit läuft (Ii): " + (window.OneSignal && typeof window.OneSignal === "object" ? String(window.OneSignal.Ii) : "–"),
+          "--- Protokoll (neueste unten) ---"
+        ].concat(protokoll.slice(-40)).join("\n");
         var ziele = [];
         bloecke.forEach(function (block) {
           if (!block.classList.contains("push--fuss")) ziele.push(block);
@@ -585,6 +632,7 @@
     window.OneSignalDeferred.push(function (OneSignal) {
     diagnose.geladen = true;
     diagnose.init = "läuft";
+    if (debug) { try { OneSignal.Debug.setLogLevel("trace"); } catch (f) { merke("Debug", [f]); } }
     pushSupportedLesen(OneSignal);
     debugZeichnen();
     return mitTimeout(OneSignal.init({
