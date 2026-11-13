@@ -433,6 +433,16 @@
       });
     });
   }
+
+  function beiOneSignalAnmelden(OneSignal, subscription) {
+    if (!subscription || !OneSignal) return Promise.resolve();
+    try {
+      if (OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optIn) {
+        return OneSignal.User.PushSubscription.optIn().catch(function () {});
+      }
+    } catch (e) {}
+    return Promise.resolve();
+  }
   function weiterNachErlaubnis(status) {
     if (!diagnose.schritte.erlaubnis) diagnose.schritte.erlaubnis = zeit();
     if (!diagnose.permissionNachPrompt) {
@@ -479,6 +489,11 @@
         throw fehler;
       }).then(function (ergebnis) {
         diagnose.schritte.optInFertig = zeit() + (ergebnis === "manuell" ? " (manuell)" : "");
+        if (ergebnis === "manuell") {
+          return manuellAbonnieren().then(function (sub) {
+            return beiOneSignalAnmelden(OneSignal, sub);
+          }).then(function () { aboLesen(OneSignal); });
+        }
         aboLesen(OneSignal);
       });
     }, "OneSignal optIn");
