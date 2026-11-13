@@ -487,16 +487,22 @@
       return;
     }
     if (typeof Notification !== "undefined" && Notification.permission === "default") {
-      nachOneSignal(function (OneSignal) {
-        if (OneSignal.Notifications && OneSignal.Notifications.requestPermission) {
-          return OneSignal.Notifications.requestPermission();
+      // Direkt im Klick, ohne async-Kette – iOS verlangt eine Nutzer-Geste
+      var OneSignal = window.OneSignal;
+      if (OneSignal && OneSignal.Notifications && OneSignal.Notifications.requestPermission) {
+        OneSignal.Notifications.requestPermission().then(function (status) {
+          weiterNachErlaubnis(status || Notification.permission);
+        }).catch(function (fehler) {
+          fehlgeschlagen(fehler, "requestPermission");
+        });
+      } else {
+        var erlaubnis = Notification.requestPermission(function (status) { weiterNachErlaubnis(status); });
+        if (erlaubnis && typeof erlaubnis.then === "function") {
+          erlaubnis.then(weiterNachErlaubnis).catch(function (fehler) {
+            fehlgeschlagen(fehler, "Notification.requestPermission");
+          });
         }
-        return Notification.requestPermission();
-      }, "requestPermission").then(function (status) {
-        weiterNachErlaubnis(status || Notification.permission);
-      }).catch(function (fehler) {
-        fehlgeschlagen(fehler, "requestPermission");
-      });
+      }
       if (!abschluss()) boxNachZehn();
       if (!erlaubnisLaeuft) {
         wartet = true;
