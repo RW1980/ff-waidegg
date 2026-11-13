@@ -487,22 +487,24 @@
       return;
     }
     if (typeof Notification !== "undefined" && Notification.permission === "default") {
-      // Direkt im Klick, ohne async-Kette – iOS verlangt eine Nutzer-Geste
-      var OneSignal = window.OneSignal;
-      if (OneSignal && OneSignal.Notifications && OneSignal.Notifications.requestPermission) {
-        OneSignal.Notifications.requestPermission().then(function (status) {
-          weiterNachErlaubnis(status || Notification.permission);
-        }).catch(function (fehler) {
-          fehlgeschlagen(fehler, "requestPermission");
-        });
-      } else {
-        var erlaubnis = Notification.requestPermission(function (status) { weiterNachErlaubnis(status); });
-        if (erlaubnis && typeof erlaubnis.then === "function") {
-          erlaubnis.then(weiterNachErlaubnis).catch(function (fehler) {
+      // Über OneSignalDeferred, damit das SDK fertig ist
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      window.OneSignalDeferred.push(function (OneSignal) {
+        diagnose.geladen = true;
+        if (OneSignal.Notifications && OneSignal.Notifications.requestPermission) {
+          OneSignal.Notifications.requestPermission().then(function (status) {
+            weiterNachErlaubnis(status || Notification.permission);
+          }).catch(function (fehler) {
+            fehlgeschlagen(fehler, "requestPermission");
+          });
+        } else if (OneSignal.Slidedown && OneSignal.Slidedown.promptPush) {
+          OneSignal.Slidedown.promptPush();
+        } else {
+          Notification.requestPermission().then(weiterNachErlaubnis).catch(function (fehler) {
             fehlgeschlagen(fehler, "Notification.requestPermission");
           });
         }
-      }
+      });
       if (!abschluss()) boxNachZehn();
       if (!erlaubnisLaeuft) {
         wartet = true;
