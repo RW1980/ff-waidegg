@@ -452,11 +452,14 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     }).then(function (r) { return r.json(); }).then(function (data) {
-      diagnose.fehler = "API: " + JSON.stringify(data).slice(0, 180);
-      if (data && data.subscriptions && data.subscriptions[0]) {
-        diagnose.id = data.subscriptions[0].id || "";
+      diagnose.fehler = "";
+      if (data && data.subscriptions && data.subscriptions[0] && data.subscriptions[0].id) {
+        diagnose.id = data.subscriptions[0].id;
         abonniert = true;
         diagnose.optedIn = true;
+        try { localStorage.setItem("ff-push-id", diagnose.id); } catch (e) {}
+      } else {
+        diagnose.fehler = "API: " + JSON.stringify(data).slice(0, 180);
       }
       return data;
     }).catch(function (fehler) {
