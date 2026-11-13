@@ -424,51 +424,6 @@
     for (var i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
     return outputArray;
   }
-  function manuellAbonnieren() {
-    if (!navigator.serviceWorker) return Promise.reject(new Error("kein Service Worker"));
-    return navigator.serviceWorker.ready.then(function (reg) {
-      return reg.pushManager.getSubscription().then(function (existing) {
-        if (existing) return existing;
-        return reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC)
-        });
-      });
-    });
-  }
-
-  function beiOneSignalAnmelden(OneSignal, subscription) {
-    if (!subscription) return Promise.resolve();
-    var j = subscription.toJSON ? subscription.toJSON() : {};
-    var body = {
-      subscriptions: [{
-        type: "ChromePush",
-        token: j.endpoint || "",
-        web_auth: (j.keys && j.keys.auth) || "",
-        web_p256: (j.keys && j.keys.p256dh) || "",
-        enabled: true,
-        notification_types: 1
-      }]
-    };
-    return fetch("https://api.onesignal.com/apps/" + APP + "/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    }).then(function (r) { return r.json(); }).then(function (data) {
-      diagnose.fehler = "API: " + JSON.stringify(data).slice(0, 300);
-      if (data && data.subscriptions && data.subscriptions[0] && data.subscriptions[0].id) {
-        diagnose.id = data.subscriptions[0].id;
-        abonniert = true;
-        diagnose.optedIn = true;
-        try { localStorage.setItem("ff-push-id", diagnose.id); } catch (e) {}
-      }
-      debugZeichnen();
-      return data;
-    }).catch(function (fehler) {
-      diagnose.fehler = "API: " + String(fehler && fehler.message || fehler);
-      return null;
-    });
-  }
   function weiterNachErlaubnis(status) {
     if (!diagnose.schritte.erlaubnis) diagnose.schritte.erlaubnis = zeit();
     if (!diagnose.permissionNachPrompt) {
@@ -503,23 +458,8 @@
       var direkt = true; // immer direkt optIn, OneSignal.requestPermission hängt auf iOS
       diagnose.schritte.optInStart = zeit() + " (direkt optIn)";
       debugZeichnen();
-      var arbeit;
-      if (!abo) arbeit = Promise.reject(new Error("PushSubscription fehlt"));
-      arbeit = abo.optIn();
-      return Promise.race([
-        Promise.resolve(arbeit),
-        new Promise(function (_, reject) { setTimeout(function () { reject(new Error("optIn Timeout")); }, 8000); })
-      ]).catch(function (fehler) {
-        diagnose.fehler = String(fehler && fehler.message || fehler);
-        if (ios()) return manuellAbonnieren().then(function () { return "manuell"; });
-        throw fehler;
-      }).then(function (ergebnis) {
-        diagnose.schritte.optInFertig = zeit() + (ergebnis === "manuell" ? " (manuell)" : "");
-        if (ergebnis === "manuell") {
-          return manuellAbonnieren().then(function (sub) {
-            return beiOneSignalAnmelden(OneSignal, sub);
-          }).then(function () { aboLesen(OneSignal); });
-        }
+      return abo.optIn().then(function () {
+        diagnose.schritte.optInFertig = zeit();
         aboLesen(OneSignal);
       });
     }, "OneSignal optIn");
@@ -547,16 +487,20 @@
       return;
     }
     if (typeof Notification !== "undefined" && Notification.permission === "default") {
-      var erlaubnis = Notification.requestPermission(function (status) { weiterNachErlaubnis(status); });
+      nachOneSignal(function (OneSignal) {
+        if (OneSignal.Notifications && OneSignal.Notifications.requestPermission) {
+          return OneSignal.Notifications.requestPermission();
+        }
+        return Notification.requestPermission();
+      }, "requestPermission").then(function (status) {
+        weiterNachErlaubnis(status || Notification.permission);
+      }).catch(function (fehler) {
+        fehlgeschlagen(fehler, "requestPermission");
+      });
       if (!abschluss()) boxNachZehn();
       if (!erlaubnisLaeuft) {
         wartet = true;
         setze("Bitte erlauben …");
-      }
-      if (erlaubnis && typeof erlaubnis.then === "function") {
-        erlaubnis.then(weiterNachErlaubnis).catch(function (fehler) {
-          fehlgeschlagen(fehler, "Notification.requestPermission");
-        });
       }
       return;
     }
