@@ -505,8 +505,22 @@
       diagnose.schritte.optInStart = zeit() + " (direkt optIn)";
       debugZeichnen();
       return abo.optIn().then(function () {
-        diagnose.schritte.optInFertig = zeit();
         aboLesen(OneSignal);
+        if (abo.optedIn || abo.id) {
+          diagnose.schritte.optInFertig = zeit();
+          return null;
+        }
+        // Erlaubnis kam nativ, das SDK hat sie beim Start noch nicht gesehen:
+        // optIn() setzt dann nur das Opt-out-Flag. Notifications.requestPermission()
+        // fragt bei "granted" nicht nochmal, sondern installiert sw.js?appId=…
+        // und legt das Push-Abo an.
+        diagnose.schritte.optInStart += " + Abo anlegen " + zeit();
+        merke("info", ["pwa: Notifications.requestPermission() nach optIn"]);
+        return OneSignal.Notifications.requestPermission().then(function (ok) {
+          merke("info", ["pwa: requestPermission Ergebnis", ok]);
+          diagnose.schritte.optInFertig = zeit();
+          aboLesen(OneSignal);
+        });
       });
     }, "OneSignal optIn");
   }
