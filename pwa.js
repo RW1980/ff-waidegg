@@ -435,15 +435,33 @@
   }
 
   function beiOneSignalAnmelden(OneSignal, subscription) {
-    if (!subscription || !OneSignal) return Promise.resolve();
-    return new Promise(function (resolve) {
-      setTimeout(function () {
-        try {
-          if (OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optIn) {
-            OneSignal.User.PushSubscription.optIn().then(resolve, resolve);
-          } else resolve();
-        } catch (e) { resolve(); }
-      }, 500);
+    if (!subscription) return Promise.resolve();
+    var j = subscription.toJSON ? subscription.toJSON() : {};
+    var body = {
+      subscriptions: [{
+        type: "SafariPush",
+        token: j.endpoint || "",
+        web_auth: (j.keys && j.keys.auth) || "",
+        web_p256: (j.keys && j.keys.p256dh) || "",
+        enabled: true,
+        notification_types: 1
+      }]
+    };
+    return fetch("https://api.onesignal.com/apps/" + APP + "/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    }).then(function (r) { return r.json(); }).then(function (data) {
+      diagnose.fehler = "";
+      if (data && data.subscriptions && data.subscriptions[0]) {
+        diagnose.id = data.subscriptions[0].id || "";
+        abonniert = true;
+        diagnose.optedIn = true;
+      }
+      return data;
+    }).catch(function (fehler) {
+      diagnose.fehler = "API: " + String(fehler && fehler.message || fehler);
+      return null;
     });
   }
   function weiterNachErlaubnis(status) {
