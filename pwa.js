@@ -629,11 +629,10 @@
       location.reload();
       return;
     }
-    if (ios()) {
-      swRegistrieren().then(function () { oneSignalStarten(); });
-    } else {
-      oneSignalStarten();
-    }
+    // Kein eigenes register("/sw.js") mehr: OneSignal registriert sw.js?appId=…
+    // selbst und wartet bei optIn genau auf diese URL. Eine Registrierung ohne
+    // appId ließ optIn auf iOS/macOS-Safari hängen.
+    oneSignalStarten();
   }).catch(function (fehler) {
     console.warn("Service Worker", fehler);
     oneSignalStarten();
