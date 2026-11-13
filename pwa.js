@@ -487,29 +487,27 @@
       return;
     }
     if (typeof Notification !== "undefined" && Notification.permission === "default") {
-      // Über OneSignalDeferred, damit das SDK fertig ist
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      window.OneSignalDeferred.push(function (OneSignal) {
-        diagnose.geladen = true;
-        if (OneSignal.Notifications && OneSignal.Notifications.requestPermission) {
-          OneSignal.Notifications.requestPermission().then(function (status) {
-            weiterNachErlaubnis(status || Notification.permission);
-          }).catch(function (fehler) {
-            fehlgeschlagen(fehler, "requestPermission");
-          });
-        } else if (OneSignal.Slidedown && OneSignal.Slidedown.promptPush) {
-          OneSignal.Slidedown.promptPush();
-        } else {
-          Notification.requestPermission().then(weiterNachErlaubnis).catch(function (fehler) {
-            fehlgeschlagen(fehler, "Notification.requestPermission");
-          });
-        }
-      });
-      if (!abschluss()) boxNachZehn();
-      if (!erlaubnisLaeuft) {
-        wartet = true;
-        setze("Bitte erlauben …");
+      // Safari/WebKit: Systemabfrage synchron im Klick, ohne SDK-Umweg.
+      // Danach übernimmt weiterNachErlaubnis() das OneSignal-optIn.
+      wartet = true;
+      setze("Bitte erlauben …");
+      var antwort;
+      try {
+        antwort = Notification.requestPermission(function (status) {
+          weiterNachErlaubnis(status || Notification.permission);
+        });
+      } catch (fehler) {
+        fehlgeschlagen(fehler, "Notification.requestPermission");
+        return;
       }
+      if (antwort && typeof antwort.then === "function") {
+        antwort.then(function (status) {
+          weiterNachErlaubnis(status || Notification.permission);
+        }).catch(function (fehler) {
+          fehlgeschlagen(fehler, "Notification.requestPermission");
+        });
+      }
+      if (!abschluss()) boxNachZehn();
       return;
     }
     wartet = true;
