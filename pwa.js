@@ -452,7 +452,7 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     }).then(function (r) { return r.json(); }).then(function (data) {
-      diagnose.fehler = "";
+      diagnose.fehler = "API: " + JSON.stringify(data).slice(0, 180);
       if (data && data.subscriptions && data.subscriptions[0]) {
         diagnose.id = data.subscriptions[0].id || "";
         abonniert = true;
