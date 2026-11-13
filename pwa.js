@@ -436,12 +436,15 @@
 
   function beiOneSignalAnmelden(OneSignal, subscription) {
     if (!subscription || !OneSignal) return Promise.resolve();
-    try {
-      if (OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optIn) {
-        return OneSignal.User.PushSubscription.optIn().catch(function () {});
-      }
-    } catch (e) {}
-    return Promise.resolve();
+    return new Promise(function (resolve) {
+      setTimeout(function () {
+        try {
+          if (OneSignal.User && OneSignal.User.PushSubscription && OneSignal.User.PushSubscription.optIn) {
+            OneSignal.User.PushSubscription.optIn().then(resolve, resolve);
+          } else resolve();
+        } catch (e) { resolve(); }
+      }, 500);
+    });
   }
   function weiterNachErlaubnis(status) {
     if (!diagnose.schritte.erlaubnis) diagnose.schritte.erlaubnis = zeit();
