@@ -322,11 +322,14 @@
     });
     beobachter.observe(document.documentElement, { attributes: true, childList: true, subtree: true });
   }
+  var hinweisGezeigt = false;
   function hinweisZeigen() {
+    if (hinweisGezeigt) return;
     if (!hinweisErlaubt()) {
       if (hinweisErzwingen && (willkommenSichtbar() || willkommenKommt())) hinweisWarten();
       return;
     }
+    hinweisGezeigt = true;
     var feld = document.createElement("div");
     feld.className = "push-frage";
     feld.setAttribute("role", "dialog");
