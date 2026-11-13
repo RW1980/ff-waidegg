@@ -411,6 +411,28 @@
     });
   }
 
+
+  var VAPID_PUBLIC = "BK7buPTNb5-mOXIB0zhVRc7yLwGrosM3gAQPXY9nKvMoN97sDVpIpYM0QPExh2RkBGr9so4bGB4Z1nhkO-EW0EM";
+  function urlBase64ToUint8Array(base64String) {
+    var padding = "=".repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+    var rawData = atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+    for (var i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
+    return outputArray;
+  }
+  function manuellAbonnieren() {
+    if (!navigator.serviceWorker) return Promise.reject(new Error("kein Service Worker"));
+    return navigator.serviceWorker.ready.then(function (reg) {
+      return reg.pushManager.getSubscription().then(function (existing) {
+        if (existing) return existing;
+        return reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC)
+        });
+      });
+    });
+  }
   function weiterNachErlaubnis(status) {
     if (!diagnose.schritte.erlaubnis) diagnose.schritte.erlaubnis = zeit();
     if (!diagnose.permissionNachPrompt) {
@@ -448,8 +470,15 @@
       var arbeit;
       if (!abo) arbeit = Promise.reject(new Error("PushSubscription fehlt"));
       arbeit = abo.optIn();
-      return Promise.resolve(arbeit).then(function () {
-        diagnose.schritte.optInFertig = zeit();
+      return Promise.race([
+        Promise.resolve(arbeit),
+        new Promise(function (_, reject) { setTimeout(function () { reject(new Error("optIn Timeout")); }, 8000); })
+      ]).catch(function (fehler) {
+        diagnose.fehler = String(fehler && fehler.message || fehler);
+        if (ios()) return manuellAbonnieren().then(function () { return "manuell"; });
+        throw fehler;
+      }).then(function (ergebnis) {
+        diagnose.schritte.optInFertig = zeit() + (ergebnis === "manuell" ? " (manuell)" : "");
         aboLesen(OneSignal);
       });
     }, "OneSignal optIn");
@@ -548,7 +577,7 @@
 
   function swRegistrieren() {
     if (!navigator.serviceWorker) return Promise.resolve(null);
-    return navigator.serviceWorker.register("/push/onesignal/OneSignalSDKWorker.js", { scope: "/push/onesignal/" })
+    return navigator.serviceWorker.register("/sw.js", { scope: "/" })
       .then(function (reg) {
         diagnose.swFehler = "";
         return reg;
@@ -569,8 +598,8 @@
     debugZeichnen();
     return mitTimeout(OneSignal.init({
       appId: APP,
-      serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
-      serviceWorkerParam: { scope: "/push/onesignal/" },
+      serviceWorkerPath: "sw.js",
+      serviceWorkerParam: { scope: "/" },
       notifyButton: { enable: false },
       welcomeNotification: { disable: true },
       promptOptions: { slidedown: { prompts: [{ type: "push", autoPrompt: false }] } }
