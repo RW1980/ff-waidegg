@@ -548,7 +548,7 @@
 
   function swRegistrieren() {
     if (!navigator.serviceWorker) return Promise.resolve(null);
-    return navigator.serviceWorker.register("/sw.js", { scope: "/" })
+    return navigator.serviceWorker.register("/push/onesignal/OneSignalSDKWorker.js", { scope: "/push/onesignal/" })
       .then(function (reg) {
         diagnose.swFehler = "";
         return reg;
@@ -569,8 +569,8 @@
     debugZeichnen();
     return mitTimeout(OneSignal.init({
       appId: APP,
-      serviceWorkerPath: "sw.js",
-      serviceWorkerParam: { scope: "/" },
+      serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "/push/onesignal/" },
       notifyButton: { enable: false },
       welcomeNotification: { disable: true },
       promptOptions: { slidedown: { prompts: [{ type: "push", autoPrompt: false }] } }
