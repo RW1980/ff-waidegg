@@ -698,4 +698,27 @@
     console.warn("Service Worker", fehler);
     oneSignalStarten();
   });
+
+  /* Einmaliger Hinweis auf die App-Installation */
+  function installHinweis() {
+    if (localStorage.getItem("ffw-app-hinweis")) return;
+    var banner = document.createElement("div");
+    banner.id = "app-hinweis";
+    banner.innerHTML = '<div style="position:fixed;bottom:0;left:0;right:0;background:#a4161a;color:#fff;padding:.9rem 1rem;text-align:center;z-index:9999;font-family:Oswald,sans-serif;letter-spacing:.02em;box-shadow:0 -2px 12px rgba(0,0,0,.15);"><span style="margin-right:.8rem;">App auf dem Startbildschirm installieren</span><a href="/app.html" style="background:#fff;color:#a4161a;padding:.35rem .8rem;border-radius:6px;text-decoration:none;font-weight:600;margin-right:.6rem;">Anleitung</a><button id="app-hinweis-weg" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);padding:.35rem .7rem;border-radius:6px;cursor:pointer;">Später</button></div>';
+    document.body.appendChild(banner);
+    document.getElementById("app-hinweis-weg").onclick = function() {
+      localStorage.setItem("ffw-app-hinweis", "1");
+      banner.remove();
+    };
+    // Also hide after clicking the link
+    banner.querySelector("a").addEventListener("click", function() {
+      localStorage.setItem("ffw-app-hinweis", "1");
+    });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", installHinweis);
+  } else {
+    installHinweis();
+  }
+
 })();
