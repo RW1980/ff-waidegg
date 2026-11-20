@@ -12,6 +12,10 @@
   gap: .9rem;
 }
 .ka-steuerung[hidden], .ka-regler[hidden], .ka-karte[hidden], .ka-kartenzeile[hidden] { display: none; }
+/* Platz freihalten, solange JavaScript Steuerung und Kartenfläche noch einblendet (kein Verspringen der Liste).
+   Ohne JavaScript (kein .js an <html>) bleibt alles wie bisher ausgeblendet. */
+.js .ka-steuerung[hidden] { display: grid; visibility: hidden; }
+.js .ka-karte[hidden] { display: block; visibility: hidden; }
 .ka-steuerung fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .ka-steuerung legend, .ka-regler-titel {
   font-family: var(--display);

@@ -1,4 +1,7 @@
 /* OneSignal (Web SDK v16): ein Service Worker (sw.js), keine Glocke, kein Popup von selbst.
+   Das SDK steht NICHT mehr im HTML. Es wird erst geladen, wenn der Besucher auf „Einschalten“
+   bzw. den Knopf tippt (sdkLaden) oder wenn der Browser die Erlaubnis schon hat
+   (Notification.permission === "granted", z. B. bestehende Abonnenten): dann lädt es wie bisher.
    Der Knopf [data-push] ist sofort klickbar. Safari/WebKit verlangt, dass
    Notification.requestPermission() noch im Klick selbst aufgerufen wird.
    Die Diagnose erscheint mit ?pushdebug=1, nach einem Fehler und wenn der
@@ -67,9 +70,30 @@
   var initWatch = 0;
   var optWatch = 0;
   var boxTimer = 0;
-  var initBekannt = false;
+  var initBekannt = !sdkSofort(); // ohne SDK-Start gibt es nichts abzuwarten
+  var sdkGeladen = false;
+  var oneSignalGestartet = false;
+  var SDK_URL = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
   var hinweisErzwingen = /(?:^|[?&])pushhinweis=1(?:&|$)/.test(location.search);
   var HINWEIS = "ffw-push-hinweis";
+
+  /* Bestehende Abonnenten (Erlaubnis schon erteilt) und ?pushdebug=1: SDK sofort wie bisher. */
+  function sdkSofort() {
+    if (debug) return true;
+    try { return typeof Notification !== "undefined" && Notification.permission === "granted"; }
+    catch (fehler) { return false; }
+  }
+  /* Lädt das OneSignal-SDK (einmal) und startet die Initialisierung. */
+  function sdkLaden() {
+    if (sdkGeladen) return;
+    sdkGeladen = true;
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    var skript = document.createElement("script");
+    skript.src = SDK_URL;
+    skript.defer = true;
+    (document.head || document.documentElement).appendChild(skript);
+    oneSignalStarten();
+  }
 
   function zeit() {
     var d = new Date();
@@ -546,6 +570,9 @@
       setze("Benachrichtigungen im Browser blockiert – in den Einstellungen erlauben", "blockiert");
       return;
     }
+    // Erst jetzt (nach dem Klick) das OneSignal-SDK laden; die Warteschlange OneSignalDeferred
+    // arbeitet es ab. Notification.requestPermission() unten bleibt synchron im Klick (Safari).
+    sdkLaden();
     if (typeof Notification !== "undefined" && Notification.permission === "default") {
       // Safari/WebKit: Systemabfrage synchron im Klick, ohne SDK-Umweg.
       // Danach übernimmt weiterNachErlaubnis() das OneSignal-optIn.
@@ -640,6 +667,8 @@
       });
   }
   function oneSignalStarten() {
+    if (oneSignalGestartet) return;
+    oneSignalGestartet = true;
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     initBegrenzen();
     window.OneSignalDeferred.push(function (OneSignal) {
@@ -693,27 +722,46 @@
     // Kein eigenes register("/sw.js") mehr: OneSignal registriert sw.js?appId=…
     // selbst und wartet bei optIn genau auf diese URL. Eine Registrierung ohne
     // appId ließ optIn auf iOS/macOS-Safari hängen.
-    oneSignalStarten();
+    if (sdkSofort()) sdkLaden();
   }).catch(function (fehler) {
     console.warn("Service Worker", fehler);
-    oneSignalStarten();
+    if (sdkSofort()) sdkLaden();
   });
 
-  /* Einmaliger Hinweis auf die App-Installation */
-  function installHinweis() {
-    if (localStorage.getItem("ffw-app-hinweis")) return;
+  /* Einmaliger Hinweis auf die App-Installation.
+     Erscheint erst, wenn kein anderes Fenster offen ist: nicht über dem Willkommensfenster und
+     erst nach dem Push-Dialog (geschlossen oder gar nicht gezeigt). */
+  var APP_HINWEIS = "ffw-app-hinweis";
+  function installHinweisZeigen() {
     var banner = document.createElement("div");
     banner.id = "app-hinweis";
     banner.innerHTML = '<div style="position:fixed;bottom:0;left:0;right:0;background:#a4161a;color:#fff;padding:.9rem 1rem;text-align:center;z-index:9999;font-family:Oswald,sans-serif;letter-spacing:.02em;box-shadow:0 -2px 12px rgba(0,0,0,.15);"><span style="margin-right:.8rem;">App auf dem Startbildschirm installieren</span><a href="/app.html" style="background:#fff;color:#a4161a;padding:.35rem .8rem;border-radius:6px;text-decoration:none;font-weight:600;margin-right:.6rem;">Anleitung</a><button id="app-hinweis-weg" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);padding:.35rem .7rem;border-radius:6px;cursor:pointer;">Später</button></div>';
     document.body.appendChild(banner);
     document.getElementById("app-hinweis-weg").onclick = function() {
-      localStorage.setItem("ffw-app-hinweis", "1");
+      speicherSchreiben(APP_HINWEIS, "1");
       banner.remove();
     };
     // Also hide after clicking the link
     banner.querySelector("a").addEventListener("click", function() {
-      localStorage.setItem("ffw-app-hinweis", "1");
+      speicherSchreiben(APP_HINWEIS, "1");
     });
+  }
+  function installHinweis() {
+    if (speicherLesen(APP_HINWEIS)) return;
+    var wartetSeit = 0;
+    var takt = setInterval(function () {
+      if (speicherLesen(APP_HINWEIS)) { clearInterval(takt); return; }
+      if (!document.body || !initBekannt) { wartetSeit = 0; return; }
+      if (document.querySelector(".push-frage") || willkommenSichtbar() || willkommenKommt()) { wartetSeit = 0; return; }
+      // Push-Dialog steht noch aus (z. B. nach dem Willkommensfenster, ohne dass ihn jemand zeigt):
+      // 2 s Gnadenfrist, dann gilt er für diese Seite als erledigt.
+      if (!hinweisGezeigt && hinweisErlaubt()) {
+        wartetSeit = wartetSeit || Date.now();
+        if (Date.now() - wartetSeit < 2000) return;
+      }
+      clearInterval(takt);
+      if (!document.getElementById("app-hinweis")) installHinweisZeigen();
+    }, 500);
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", installHinweis);
