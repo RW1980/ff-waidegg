@@ -11,7 +11,6 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
   <link rel="manifest" href="/manifest.webmanifest">
   <script src="/pwa.js"></script>
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <meta name="theme-color" content="#f3eee4">
   <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="/style.css">
@@ -72,8 +71,11 @@
 <li><code>ffw-willkommen</code> = <code>gesehen</code>: Das Begrüßungs-Fenster auf der Startseite erscheint nicht noch einmal.</li>
 <li><code>ffw-karte-laden</code> = <code>1</code>: Die Karte wird beim nächsten Besuch gleich geladen. Nur wenn du „Karte künftig automatisch laden“ wählst (siehe <a href="#karte">Karte</a>).</li>
 <li><code>ffw-maskottchen</code> = <code>gesehen</code>: Die kurze Tour mit der Figur auf der Startseite erscheint nicht noch einmal. Die Tour ist derzeit ausgeschaltet.</li>
+<li><code>ffw-push-hinweis</code> = <code>spaeter</code>: Du hast beim Hinweis zu den Benachrichtigungen „Später“ gewählt. Der Hinweis erscheint nicht noch einmal.</li>
+<li><code>ffw-app-hinweis</code> = <code>1</code>: Du hast den Hinweis zur App-Installation mit „Später“ oder „Anleitung“ beantwortet. Er erscheint nicht noch einmal.</li>
 </ul>
 <p>Löschen kannst du die Merker jederzeit, indem du in deinem Browser die Websitedaten von ff-waidegg.at löschst.</p>
+<p>Schaltest du Push-Benachrichtigungen ein (siehe <a href="#push">Push-Benachrichtigungen</a>) oder hast du sie im Browser schon erlaubt, legt der Dienst OneSignal zusätzlich Einträge an: im lokalen Speicher (<code>os_jwt_required</code>, <code>os_feature_flags</code>, <code>os_pageViews</code>, <code>os_optedOut</code>, <code>userConsent</code>, <code>loglevel</code>), im Sitzungsspeicher (<code>onesignal-pageview-count</code>) und in einer Browser-Datenbank (IndexedDB <code>ONE_SIGNAL_SDK_DB</code>). Ohne Einschalten und ohne bereits erteilte Erlaubnis entstehen diese Einträge nicht.</p>
 <h2 id="inhalte">Schriften und externe Links</h2>
 <p>Die Schriften werden von diesem Server ausgeliefert, nicht von Google oder einem anderen Dritten. Links zu Facebook, Instagram, YouTube oder WhatsApp sind einfache Links. Daten fließen an diese Anbieter erst, wenn du sie anklickst. Dann gilt die Datenschutzerklärung des jeweiligen Anbieters.</p>
 <h2 id="karte">Karte (OpenStreetMap)</h2>
@@ -92,14 +94,15 @@
 <p>Rechtsgrundlage ist unser berechtigtes Interesse, die Nutzung unserer Website zu verstehen (Art. 6 Abs. 1 lit. f DSGVO). Du kannst dem jederzeit widersprechen (Art. 21 DSGVO), zum Beispiel indem du das Skript mit einem Inhaltsblocker sperrst, oder uns unter <a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a> schreiben.</p>
 <p>Quelle: <a href="https://www.goatcounter.com/help/privacy">Datenschutzerklärung von GoatCounter</a> (Stand 8. Juni 2025, abgerufen am 12.11.2026).</p>
 <h2 id="push">Push-Benachrichtigungen (OneSignal)</h2>
-<p>Wenn du auf „Benachrichtigungen bei neuen Berichten“ klickst und zustimmst, können wir dir eine Nachricht schicken, sobald ein neuer Bericht freigegeben ist. Das ist freiwillig. Ohne diesen Klick fragen wir nicht. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).</p>
+<p>Beim ersten Besuch zeigen wir dir einen Hinweis mit den Knöpfen „Einschalten“ und „Später“. Wenn du auf „Einschalten“ oder auf „Benachrichtigungen bei neuen Berichten“ klickst und der Browser-Abfrage zustimmst, können wir dir eine Nachricht schicken, sobald ein neuer Bericht freigegeben ist. Das ist freiwillig. Ohne diesen Klick fragen wir den Browser nicht. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).</p>
+<p>Das Programm von OneSignal (cdn.onesignal.com) wird erst nach deinem Klick auf „Einschalten“ bzw. auf den Knopf geladen. Vorher besteht keine Verbindung zu OneSignal. Ausnahme: Hast du Benachrichtigungen im Browser schon erlaubt (zum Beispiel ein bestehendes Abo), lädt das Programm bei jedem Seitenaufruf, damit dein Abo funktioniert. Dabei übermittelt dein Browser technisch seine IP-Adresse und die Browserkennung an OneSignal (cdn.onesignal.com und api.onesignal.com).</p>
 <p>Dafür nutzen wir den Dienst OneSignal der OneSignal, Inc., 201 S. B Street, San Mateo, CA 94401, USA. Verarbeitet werden das Push-Token bzw. eine Geräte-ID, Angaben zu Browser, Sprache und Zeitzone sowie ob du eine Nachricht öffnest oder schließt. Die Daten werden in die USA übermittelt. OneSignal gibt in der eigenen Datenschutzerklärung an, nach dem EU-US Data Privacy Framework zertifiziert zu sein (<a href="https://onesignal.com/privacy_policy/">Datenschutzerklärung von OneSignal</a>, Abschnitt „Data Privacy Framework“, abgerufen am 09.11.2026).</p>
 <p>Die Einwilligung kannst du jederzeit widerrufen: über denselben Knopf („Abbestellen“) oder in den Benachrichtigungseinstellungen deines Browsers bzw. Geräts. Auf dem iPhone funktioniert der Versand nur, wenn du diese Website als App zum Home-Bildschirm hinzugefügt hast.</p>
 <h2 id="rechte">Deine Rechte</h2>
 <p>Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21). Eine erteilte Einwilligung kannst du jederzeit für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Schreib dazu an <a href="mailto:feuerwehrwaidegg@gmail.com">feuerwehrwaidegg@gmail.com</a>.</p>
 <h2 id="beschwerde">Beschwerde</h2>
 <p>Meinst du, dass wir deine Daten nicht rechtmäßig verarbeiten, kannst du dich bei der österreichischen Datenschutzbehörde beschweren: <a href="https://www.dsb.gv.at/">www.dsb.gv.at</a>.</p>
-<p><small>Stand: November 2026</small></p>
+<p><small>Stand: 20. November 2026</small></p>
 </div>
 </main>
   <footer class="site-foot">
