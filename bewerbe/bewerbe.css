@@ -17,9 +17,15 @@
 @media (max-width:599px){.bw-zahlen{grid-template-columns:repeat(2,1fr);gap:1.2rem .5rem}}
 @media (prefers-reduced-motion:reduce){.bw-kachel{transition:none}.bw-kachel:hover{transform:none}}
 
-.bw-arena .gallery { margin-top: .6rem; }
-.bw-arena .gallery a:first-child { grid-column: 1 / -1; background: transparent; }
-.bw-arena .gallery a:first-child img { height: auto; object-fit: contain; background: transparent; }
-@media (min-width: 700px) {
-  .bw-arena .gallery { grid-template-columns: 1fr 1fr; }
+.bw-arena .gallery {
+  margin-top: .6rem;
+  grid-template-columns: 1fr;
+  gap: .8rem;
+}
+.bw-arena .gallery a { background: transparent; }
+.bw-arena .gallery img,
+.bw-arena .gallery a:first-child img {
+  height: auto;
+  object-fit: contain;
+  background: transparent;
 }
