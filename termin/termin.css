@@ -84,6 +84,7 @@
 .tf-liste p:has(picture.tl-mini) { display: flow-root; }
 .tl-eintrag .tl-countdown { margin-bottom: .6rem; }
 .tl-text { margin: -.2rem 0 .6rem; }
+.tl-text a { color: var(--ember-deep); }
 .tl-plakat { display: block; width: fit-content; max-width: 100%; margin: 0 auto .6rem; text-align: center; text-decoration: none; color: var(--ember-deep); }
 .tl-plakat img { display: block; max-width: 100%; max-height: 13rem; width: auto; height: auto; margin: 0 auto; border: 1px solid var(--line); }
 .tl-plakat-hinweis { display: block; margin-top: .25rem; font-family: var(--display); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
