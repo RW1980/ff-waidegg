@@ -44,7 +44,7 @@
     var bis = /^\d{4}-\d{2}-\d{2}$/.test(d.bis || "") ? Date.parse(d.bis + "T00:00:00" + start.off) : ende.ms;
     return {
       titel: d.titel || "", zusatz: d.zusatz || "", ort: d.ort || "", start: start, ende: ende, bis: bis,
-      text: d.text || "", ab: d.ab === "ja", plakat: d.plakat || "", plakatAlt: d.plakatAlt || "", plakatB: d.plakatBreite || "", plakatH: d.plakatHoehe || "",
+      text: d.text || "", tel: d.tel || "", ab: d.ab === "ja", plakat: d.plakat || "", plakatAlt: d.plakatAlt || "", plakatB: d.plakatBreite || "", plakatH: d.plakatHoehe || "",
       uid: d.uid || ("termin-" + wand(start) + "@ff-waidegg.at"),
       link: d.link || "https://ff-waidegg.at/", datei: d.datei || "termin.ics", ics: d.ics || ""
     };
@@ -105,6 +105,20 @@
   function alle(root, sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
   function setze(root, feld, txt) { alle(root, '[data-feld="' + feld + '"]').forEach(function (e) { e.textContent = txt; }); }
   function el(tag, cls, txt) { var e = d.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  /* Telefonnummer im Text als tel:-Link (sichtbare Schreibweise bleibt, z. B. 0650 71 63 006). */
+  function fuelleText(p, text, tel) {
+    var sicht = "";
+    if (tel && tel.indexOf("+43") === 0) {
+      var m = text.match(/0\d{3}(?:\s\d{2}){2}\s\d{3}/);
+      if (m) sicht = m[0];
+    }
+    if (!sicht) { p.textContent = text; return; }
+    var pos = text.indexOf(sicht);
+    if (pos > 0) p.appendChild(d.createTextNode(text.slice(0, pos)));
+    var a = el("a"); a.href = "tel:" + tel; a.textContent = sicht;
+    p.appendChild(a);
+    p.appendChild(d.createTextNode(text.slice(pos + sicht.length)));
+  }
   var SVG_KAL = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5M12 13v5M9.5 15.5h5"/></svg>';
   var SVG_WA = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path fill="currentColor" d="M9 8.5c0 3.5 3 6.5 6.5 6.5l.9-1.6-2-.9-.8.8a4 4 0 0 1-2.5-2.5l.8-.8-.9-2z"/></svg>';
 
@@ -159,7 +173,7 @@
             p.appendChild(knoten);
             p.appendChild(d.createTextNode(c.text.slice(pos)));
           }
-        } else p.textContent = c.text;
+        } else fuelleText(p, c.text, c.tel);
         li.appendChild(p);
       }
       var cd = el("p", "tl-countdown"); li.appendChild(cd); countdowns.push({ e: cd, c: c });
