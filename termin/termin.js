@@ -10,7 +10,9 @@
      picture.tl-mini: Laternenfoto klein im Text, vor „Jeder Waidegger Haushalt“, nicht groß über dem Plakat,
      data-start / data-ende im Format JJJJ-MM-TTTHH:MM+01:00 (ohne data-ende: data-dauer Stunden, Standard 3),
      data-bis = JJJJ-MM-TT, erster Tag, an dem der Hinweis automatisch verschwindet,
-     data-uid, data-link, data-ics (statische .ics; fehlt sie, wird die Datei im Browser erzeugt), data-datei. */
+     data-uid, data-link (kanonische Terminseite, absolut oder pfadrelativ, z. B. /termine/preiswatten-2026/;
+       Pflicht für „Per WhatsApp teilen“ und die URL im Kalender; ohne data-link kein Startseiten-Fallback),
+     data-ics (statische .ics; fehlt sie, wird die Datei im Browser erzeugt), data-datei. */
 (function (w) {
   "use strict";
   var WTAG = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
@@ -46,7 +48,7 @@
       titel: d.titel || "", zusatz: d.zusatz || "", ort: d.ort || "", start: start, ende: ende, bis: bis,
       text: d.text || "", tel: d.tel || "", ab: d.ab === "ja", plakat: d.plakat || "", plakatAlt: d.plakatAlt || "", plakatB: d.plakatBreite || "", plakatH: d.plakatHoehe || "",
       uid: d.uid || ("termin-" + wand(start) + "@ff-waidegg.at"),
-      link: d.link || "https://ff-waidegg.at/", datei: d.datei || "termin.ics", ics: d.ics || ""
+      link: seitenUrl(d.link), datei: d.datei || "termin.ics", ics: d.ics || ""
     };
   }
 
@@ -54,6 +56,19 @@
   function uhr(z) { return zwei(z.h) + ":" + zwei(z.mi) + " Uhr"; }
   function zeitText(c) { return ((c.ab ? "ab " : "") + uhr(c.start)).replace(/ /g, "\u00a0"); } /* ohne Umbruch in „ab 17:00 Uhr“ */
   function volltitel(c) { return (c.titel + " " + c.zusatz).trim(); }
+
+  /* Kanonische Terminseite; nie stillschweigend die Startseite. Relativpfade werden absolut. */
+  function seitenUrl(link) {
+    var l = (link || "").trim();
+    if (!l || l === "https://ff-waidegg.at" || l === "https://ff-waidegg.at/") return "";
+    if (l.indexOf("https://") === 0 || l.indexOf("http://") === 0) return l;
+    if (l.charAt(0) === "/") return "https://ff-waidegg.at" + l;
+    return "";
+  }
+  /* text ohne URL (für navigator.share); wa.me braucht die URL zusätzlich im Text, weil es kein url-Feld hat. */
+  function teilText(c) {
+    return "\uD83D\uDE92 " + volltitel(c) + "\n" + datumLang(c.start) + ", " + zeitText(c) + "\n" + c.ort;
+  }
 
   /* ---------- .ics (RFC 5545) ---------- */
   function esc(s) { return String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n"); }
@@ -86,8 +101,13 @@
   }
 
   function whatsapp(c) {
-    var text = "\uD83D\uDE92 " + volltitel(c) + "\n" + datumLang(c.start) + ", " + zeitText(c) + "\n" + c.ort + "\n" + c.link;
+    var text = teilText(c);
+    if (c.link) text += "\n" + c.link;
     return "https://wa.me/?text=" + encodeURIComponent(text);
+  }
+  function nativTeilen(c) {
+    if (!c.link || !navigator.share) return Promise.resolve();
+    return navigator.share({ title: volltitel(c), text: teilText(c), url: c.link });
   }
 
   function restText(c, jetzt) {
@@ -98,7 +118,7 @@
     return "Noch " + std + " Std. und " + (min % 60) + " Min.";
   }
 
-  w.FFTermin = { lesen: lesen, ics: ics, whatsapp: whatsapp, restText: restText };
+  w.FFTermin = { lesen: lesen, ics: ics, whatsapp: whatsapp, nativTeilen: nativTeilen, restText: restText, seitenUrl: seitenUrl };
   if (!w.document) return; /* z. B. Node: nur die reinen Funktionen (Erzeugen der statischen .ics) */
 
   var d = w.document;
@@ -182,10 +202,22 @@
       a.setAttribute("aria-label", c.titel + " in den Kalender (.ics)");
       if (c.ics) a.href = c.ics;
       else { a.href = URL.createObjectURL(new Blob([ics(c, Date.now())], { type: "text/calendar;charset=utf-8" })); a.setAttribute("download", c.datei); }
-      var wa = el("a", "tl-btn tl-btn--ruhig"); wa.innerHTML = SVG_WA; wa.appendChild(d.createTextNode("Per WhatsApp teilen"));
-      wa.setAttribute("aria-label", c.titel + " per WhatsApp teilen");
-      wa.href = whatsapp(c); wa.target = "_blank"; wa.rel = "noopener noreferrer";
-      akt.appendChild(a); akt.appendChild(wa); li.appendChild(akt);
+      var wa, teilen;
+      if (c.link) {
+        wa = el("a", "tl-btn tl-btn--ruhig"); wa.innerHTML = SVG_WA; wa.appendChild(d.createTextNode("Per WhatsApp teilen"));
+        wa.setAttribute("aria-label", c.titel + " per WhatsApp teilen");
+        wa.href = whatsapp(c); wa.target = "_blank"; wa.rel = "noopener noreferrer";
+        if (navigator.share) {
+          teilen = el("button", "tl-btn tl-btn--ruhig"); teilen.type = "button";
+          teilen.appendChild(d.createTextNode("Teilen"));
+          teilen.setAttribute("aria-label", c.titel + " teilen");
+          teilen.addEventListener("click", function () { nativTeilen(c).catch(function () {}); });
+        }
+      }
+      akt.appendChild(a);
+      if (teilen) akt.appendChild(teilen);
+      if (wa) akt.appendChild(wa);
+      li.appendChild(akt);
       return li;
     }
 
