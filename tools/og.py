@@ -4,15 +4,15 @@ Setzt auf jeder Seite mit canonical und ohne noindex einen Block zwischen <!-- O
 og:type (Berichte article, sonst website), og:locale de_AT, og:site_name, og:title (<title> ohne „ – FF Waidegg“, sonst h1),
 og:description (= meta description), og:url (= canonical), og:image absolut (Berichte: Titelbild bzw. erstes Berichtsfoto,
 also genau die Datei, die auf der Seite steht – damit auch die weichgezeichneten Fassungen; bei AVIF/WebP die daraus
-erzeugte JPG-Fassung <name>-og.jpg, falls vorhanden; sonst /og.jpg) samt Maßen,
-und twitter:card summary_large_image. Seiten, die schon eigene og:-Tags haben (Berichte 2026), bleiben unverändert.
+erzeugte JPG-Fassung <name>-og.jpg, falls vorhanden; sonst /og-standard-2026.jpg) samt Maßen,
+und twitter:card summary_large_image sowie twitter:image (gleiche URL wie og:image). Seiten, die schon eigene og:-Tags haben (Berichte 2026), bleiben unverändert.
 Mehrfach ausführbar; ändert nichts, was schon passt. Mit --check: Exit 1, wenn etwas fehlt oder veraltet ist."""
 import re, os, glob, sys, html
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 BASIS = 'https://ff-waidegg.at'
 SITE = 'Freiwillige Feuerwehr Waidegg'
-STANDARD_BILD = '/og.jpg'
+STANDARD_BILD = '/og-standard-2026.jpg'
 AUSLASSEN = {'bewerbe/ergebnisse/vorlage.html'}
 BLOCK = re.compile(r'  <!-- OG START -->\n.*?<!-- OG ENDE -->\n', re.S)
 try:
@@ -47,6 +47,20 @@ def bild(p, t):
                     if not src.lower().endswith(('.jpg', '.jpeg', '.png')) and os.path.isfile(og.lstrip('/')): src = og
                     alt = re.search(r'\balt="([^"]*)"', a)
                     return src, html.unescape(alt.group(1)) if alt else ''
+    if p.startswith('termine/') and '/index.html' in p.replace('\\', '/'):
+        main = t.split('<main', 1)[-1] if '<main' in t else t
+        for a in re.findall(r'<img ([^>]*)>', main):
+            sm = re.search(r'\bsrc="([^"]+)"', a)
+            if not sm: continue
+            src = html.unescape(sm.group(1))
+            if not src.startswith('/'): continue
+            alt_m = re.search(r'\balt="([^"]*)"', a)
+            alt = html.unescape(alt_m.group(1)) if alt_m else ''
+            if src.lower().endswith(('.jpg', '.jpeg', '.png')) and os.path.isfile(src.lstrip('/')):
+                return src, alt
+            als_jpg = src.rsplit('.', 1)[0] + '.jpg'
+            if os.path.isfile(als_jpg.lstrip('/')):
+                return als_jpg, alt
     return STANDARD_BILD, ''
 
 def block(p, t):
@@ -70,7 +84,9 @@ def block(p, t):
     gr = masse(src)
     if gr: z += [f'  <meta property="og:image:width" content="{gr[0]}">', f'  <meta property="og:image:height" content="{gr[1]}">']
     if alt: z.append(f'  <meta property="og:image:alt" content="{attr(alt)}">')
-    z += ['  <meta name="twitter:card" content="summary_large_image">', '  <!-- OG ENDE -->']
+    z += ['  <meta name="twitter:card" content="summary_large_image">',
+         f'  <meta name="twitter:image" content="{attr(url)}">',
+         '  <!-- OG ENDE -->']
     return '\n'.join(z) + '\n', src
 
 def main():
