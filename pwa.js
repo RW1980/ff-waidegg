@@ -316,7 +316,12 @@
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   }
   function standalone() {
-    return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+    try {
+      if (window.matchMedia("(display-mode: standalone)").matches) return true;
+      if (window.matchMedia("(display-mode: fullscreen)").matches) return true;
+      if (window.matchMedia("(display-mode: minimal-ui)").matches) return true;
+    } catch (fehler) {}
+    return navigator.standalone === true;
   }
   function knoepfe() {
     return document.querySelectorAll("[data-push]");
@@ -375,6 +380,8 @@
     if (document.querySelector(".push-frage")) return false;
     if (willkommenSichtbar()) return false;
     if (hinweisErzwingen) return !willkommenKommt();
+    /* Nur in der installierten PWA, nicht im normalen Browserfenster. */
+    if (!standalone()) return false;
     if (!initBekannt || abonniert) return false;
     if (speicherLesen(HINWEIS)) return false;
     if (typeof Notification !== "undefined" && Notification.permission === "denied") return false;
